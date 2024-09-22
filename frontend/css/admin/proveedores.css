@@ -1,0 +1,36 @@
+#sidebar .side-menu  li .btn_proveedores {
+	background: var(--blue);
+	color: #fff;
+}
+
+#exampleModal .modal-header{
+    font-family: sans-serif;
+    background-color: rgb(70, 153, 70) ;
+}
+
+#exampleModal  .form-control-sm{
+    font-size: 1rem ;
+}
+
+
+#exampleModal .modal-editar{
+    font-family: sans-serif;
+    background-color: rgb(243, 200, 59) ;
+}
+
+#exampleModal .modal-ver{
+    font-family: sans-serif;
+    background-color: rgb(59, 200, 243) ;
+}
+
+tbody tr{
+    text-align: center;
+}
+
+#exampleModal .alerta-documento{
+    position: absolute;
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+    font-style: italic;
+}
