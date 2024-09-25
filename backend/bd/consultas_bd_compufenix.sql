@@ -441,121 +441,6 @@ CALL agregar_detalle_venta(1,1,1,3500);
 
 
 -- ===================================================
-
--- 3.4 Trigger para mandar alerta si el stock se encuentra por debajo de un limite establecido.
-DELIMITER $$
-DROP TRIGGER IF EXISTS alerta_stock_minimo$$
-CREATE TRIGGER alerta_stock_minimo
-AFTER UPDATE ON producto FOR EACH ROW 
-BEGIN
-	DECLARE var_stock_minimo INT;
-	DECLARE mensaje_alerta TEXT;
-
-	-- Obtenemos el stock minimo del producto y lo guardamos en la variable var_stock_minimo
-	SELECT stock_minimo INTO var_stock_minimo
-	FROM producto
-	WHERE id_producto = NEW.id_producto;
-
-	-- Comparamos el nuevo stock con el stock_minimo del producto
-	IF NEW.stock < var_stock_minimo THEN
-		SET mensaje_alerta = CONCAT('El stock del producto ', NEW.nombre_producto, ' está por debajo del límite mínimo. Stock actual: ', NEW.stock);
-		INSERT INTO alerta_stock (id_producto, mensaje) VALUES (NEW.id_producto, mensaje_alerta);
-	ELSE
-	-- Si el stock aumenta por encima del minimo, eliminamos la alerta
-		DELETE FROM alerta_stock WHERE id_producto = NEW.id_producto;
-	END IF;
-END;
-$$
-
--- ===================================================
-
-
-
--- CALL agregar_detalle_venta(2,1,1,1200);
-
--- ===================================================
-
--- 3.6 Trigger para actualizar el stock del Producto al editar un detalle_venta
-DELIMITER //
-DROP TRIGGER IF EXISTS trigger_actualizar_stock_producto //
-CREATE TRIGGER trigger_actualizar_stock_producto
-AFTER UPDATE ON detalle_venta
-FOR EACH ROW
-BEGIN
-	IF NEW.id_producto <> OLD.id_producto THEN
-		-- Restamos la cantidad al producto anterior
-		UPDATE producto
-        SET stock = stock + OLD.cantidad_ordenada
-        WHERE id_producto = OLD.id_producto;
-        UPDATE venta
-        SET pago_total = pago_total - OLD.subtotal
-        WHERE id_venta = OLD.id_venta;
-        -- Aumentamos la cantidad al nuevo producto
-        UPDATE producto
-        SET stock = stock - NEW.cantidad_ordenada
-        WHERE id_producto = NEW.id_producto;
-        UPDATE venta
-        SET pago_total = pago_total + NEW.subtotal
-        WHERE id_venta = NEW.id_venta;
-	ELSE 
-		-- Actualizamos el mismo producto con la nueva cantidad_compra
-		UPDATE producto
-        SET stock = stock + OLD.cantidad_ordenada - NEW.cantidad_ordenada
-        WHERE id_producto = NEW.id_producto;
-        UPDATE venta
-        SET pago_total = pago_total - OLD.subtotal + NEW.subtotal
-        WHERE id_venta = NEW.id_venta;
-    END IF;
-END
-// 
-DELIMITER ;
-
--- ===================================================
--- 3.7 Trigger para actualizar el stock del Producto al borrar un detalle_venta
-DELIMITER //
-DROP TRIGGER IF EXISTS trigger_borrar_stock_producto //
-CREATE TRIGGER trigger_borrar_stock_producto
-AFTER DELETE ON detalle_venta
-FOR EACH ROW
-BEGIN
-	-- Actualizamos el mismo producto con la nueva cantidad_compra
-	UPDATE producto
-	SET stock = stock + OLD.cantidad_ordenada
-	WHERE id_producto = OLD.id_producto;
-    UPDATE venta
-	SET pago_total = pago_total - OLD.subtotal
-	WHERE id_venta = OLD.id_venta;
-END
-// 
-DELIMITER ;
-
--- 3.5 Trigger para actualizar el stock del Producto al realizar una venta
-DELIMITER //
-DROP TRIGGER IF EXISTS trigger_disminuir_stock_producto//
-CREATE TRIGGER trigger_disminuir_stock_producto
-AFTER INSERT ON detalle_venta
-FOR EACH ROW
-BEGIN
-	IF NEW.cantidad_ordenada > 0 THEN
-		UPDATE producto
-		SET stock = stock - NEW.cantidad_ordenada
-		WHERE id_producto = NEW.id_producto;
-        UPDATE venta
-        SET pago_total = pago_total + NEW.subtotal
-        WHERE id_venta = NEW.id_venta;
-	END IF;
-END //
-DELIMITER ;
-
-
-
-
-
-
-
-
--- ================================================================================================================================================================================
--- ERRORES
 -- 3.1 Trigger para aumentar el stock del producto al agregar una compra
 DELIMITER //
 DROP TRIGGER IF EXISTS trigger_aumentar_stock_producto//
@@ -617,7 +502,121 @@ END
 // 
 DELIMITER ;
 
-SELECT MAX(id_compra) FROM compra;
+-- SELECT MAX(id_compra) FROM compra;
+
+
+-- 3.4 Trigger para mandar alerta si el stock se encuentra por debajo de un limite establecido.
+DELIMITER $$
+DROP TRIGGER IF EXISTS alerta_stock_minimo$$
+CREATE TRIGGER alerta_stock_minimo
+AFTER UPDATE ON producto FOR EACH ROW 
+BEGIN
+	DECLARE var_stock_minimo INT;
+	DECLARE mensaje_alerta TEXT;
+
+	-- Obtenemos el stock minimo del producto y lo guardamos en la variable var_stock_minimo
+	SELECT stock_minimo INTO var_stock_minimo
+	FROM producto
+	WHERE id_producto = NEW.id_producto;
+
+	-- Comparamos el nuevo stock con el stock_minimo del producto
+	IF NEW.stock < var_stock_minimo THEN
+		SET mensaje_alerta = CONCAT('El stock del producto ', NEW.nombre_producto, ' está por debajo del límite mínimo. Stock actual: ', NEW.stock);
+		INSERT INTO alerta_stock (id_producto, mensaje) VALUES (NEW.id_producto, mensaje_alerta);
+	ELSE
+	-- Si el stock aumenta por encima del minimo, eliminamos la alerta
+		DELETE FROM alerta_stock WHERE id_producto = NEW.id_producto;
+	END IF;
+END;
+$$
+
+-- ===================================================
+
+-- 3.5 Trigger para actualizar el stock del Producto al realizar una venta
+DELIMITER //
+DROP TRIGGER IF EXISTS trigger_disminuir_stock_producto//
+CREATE TRIGGER trigger_disminuir_stock_producto
+AFTER INSERT ON detalle_venta
+FOR EACH ROW
+BEGIN
+	IF NEW.cantidad_ordenada > 0 THEN
+		UPDATE producto
+		SET stock = stock - NEW.cantidad_ordenada
+		WHERE id_producto = NEW.id_producto;
+        UPDATE venta
+        SET pago_total = pago_total + NEW.subtotal
+        WHERE id_venta = NEW.id_venta;
+	END IF;
+END //
+DELIMITER ;
+
+-- ===================================================
+
+-- 3.6 Trigger para actualizar el stock del Producto al editar un detalle_venta
+DELIMITER //
+DROP TRIGGER IF EXISTS trigger_actualizar_stock_producto //
+CREATE TRIGGER trigger_actualizar_stock_producto
+AFTER UPDATE ON detalle_venta
+FOR EACH ROW
+BEGIN
+	IF NEW.id_producto <> OLD.id_producto THEN
+		-- Restamos la cantidad al producto anterior
+		UPDATE producto
+        SET stock = stock + OLD.cantidad_ordenada
+        WHERE id_producto = OLD.id_producto;
+        UPDATE venta
+        SET pago_total = pago_total - OLD.subtotal
+        WHERE id_venta = OLD.id_venta;
+        -- Aumentamos la cantidad al nuevo producto
+        UPDATE producto
+        SET stock = stock - NEW.cantidad_ordenada
+        WHERE id_producto = NEW.id_producto;
+        UPDATE venta
+        SET pago_total = pago_total + NEW.subtotal
+        WHERE id_venta = NEW.id_venta;
+	ELSE 
+		-- Actualizamos el mismo producto con la nueva cantidad_compra
+		UPDATE producto
+        SET stock = stock + OLD.cantidad_ordenada - NEW.cantidad_ordenada
+        WHERE id_producto = NEW.id_producto;
+        UPDATE venta
+        SET pago_total = pago_total - OLD.subtotal + NEW.subtotal
+        WHERE id_venta = NEW.id_venta;
+    END IF;
+END
+// 
+DELIMITER ;
+
+-- ===================================================
+-- 3.7 Trigger para actualizar el stock del Producto al borrar un detalle_venta
+DELIMITER //
+DROP TRIGGER IF EXISTS trigger_borrar_stock_producto //
+CREATE TRIGGER trigger_borrar_stock_producto
+AFTER DELETE ON detalle_venta
+FOR EACH ROW
+BEGIN
+	-- Actualizamos el mismo producto con la nueva cantidad_compra
+	UPDATE producto
+	SET stock = stock + OLD.cantidad_ordenada
+	WHERE id_producto = OLD.id_producto;
+    UPDATE venta
+	SET pago_total = pago_total - OLD.subtotal
+	WHERE id_venta = OLD.id_venta;
+END
+// 
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+-- ================================================================================================================================================================================
+-- ERRORES
+
 
 -- 22/08
 
