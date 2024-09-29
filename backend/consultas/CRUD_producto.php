@@ -2,6 +2,29 @@
 
 include("../config/conexion.php");
 
+
+// Asegúrate de que Cloudinary esté correctamente incluido
+// require __DIR__ . '../../vendor/autoload.php'; // Ajusta la ruta según sea necesario
+
+// use Cloudinary\Api\Upload\UploadApi;
+// use Cloudinary\Configuration\Configuration;
+
+// // Configura Cloudinary
+// Configuration::instance([
+//     'cloud' => [
+//         'cloud_name' => 'div5zconf', // Tu nombre de Cloudinary
+//         'api_key'    => '224466925556896',    // Tu API Key
+//         'api_secret' => 'og70Z8GXhZl2TsOykOz1vB0ndzs', // Tu API Secret
+//     ],
+// ]);
+
+// $upload = new UploadApi();
+//             $result = $upload->upload('https://www.compartirpalabramaestra.org/sites/default/files/field/image/infografia-lo-que-hay-que-saber-del-aprendizaje-en-linea.jpg', [
+//                 'use_filename' => true,
+//                 'overwrite' => true,
+//                 'folder' => 'compufenix' // Aquí especificas el folder
+//             ]);
+
 function subir_imagen(){
     if(isset($_FILES["imagen_producto"])){
         $extension = explode('.',$_FILES["imagen_producto"]['name']);
@@ -11,6 +34,7 @@ function subir_imagen(){
         return $nuevo_nombre;
     }
 }
+
 
 function obtener_nombre_imagen($id_usuario){
     include('../config/conexion.php');
@@ -28,8 +52,54 @@ if($_POST["operacion"] == "Crear"){
     
     $imagen = '';
     if ($_FILES["imagen_producto"]["name"] != ''){
-        $imagen = subir_imagen();
+        error_log("Subiendo imagen local: ");
+        
+        error_log("imagen subida localmente: ");
+
+        $cloud_name = 'div5zconf'; // Tu nombre de Cloudinary
+        $api_key = '224466925556896'; // Tu API Key
+        $api_secret = 'og70Z8GXhZl2TsOykOz1vB0ndzs'; // Tu API Secret
+
+        // URL de carga de Cloudinary
+        $url = "https://api.cloudinary.com/v1_1/$cloud_name/image/upload";
+
+        $ubicacion = $_FILES["imagen_producto"]["tmp_name"];
+
+        // Los parámetros a enviar
+        $params = [
+            'file' => new CURLFile($ubicacion), // archivo a subir
+            'api_key' => $api_key,
+            'upload_preset' => 'my_upload_preset', // Asegúrate de que este sea el nombre de tu upload preset
+            'folder' => 'compufenix' // Carpeta en Cloudinary (opcional si lo defines en el preset)
+        ];
+
+        // Iniciar la sesión de cURL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Ejecutar la solicitud
+        $response = curl_exec($ch);
+
+        curl_close($ch);
+
+        // Convertir la respuesta JSON en un array
+        $result = json_decode($response, true);
+
+        // Verificar si la subida fue exitosa
+        if (isset($result['secure_url'])) {
+            $imagen = $result['secure_url']; // Obtener la URL segura de la imagen subida
+            error_log("Imagen subida correctamente: $imagen");
+        } else {
+            error_log("Error al subir la imagen a Cloudinary: " . $result['error']);
+            echo "Error al subir la imagen a Cloudinary: " . $result['error'];
+            exit; // Salir si hay un error en la subida
+        }
+        
     }
+
     // Datos del producto
     $codigo_producto = $_POST['codigo_producto'];
     $nombre_producto = $_POST['nombre_producto'];

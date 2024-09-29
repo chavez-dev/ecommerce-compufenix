@@ -51,7 +51,7 @@ $filtered_rows = $stmt->rowCount();
 foreach($resultado as $fila){
     $imagen = '';
     if($fila["imagen"] != ''){
-        $imagen = '<img src="../../assets/img/' . $fila["imagen"] . '" class="img-thumbnail" width="90" height="70" /> ';
+        $imagen = '<img src="' . $fila["imagen"] . '" class="img-thumbnail" width="90" height="70" /> ';
     }else{
         $imagen = '';
     }

@@ -49,7 +49,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btnClose"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="" id="formulario-empleado">
+                <form method="post" action="" id="formulario-empleado" >
                     <div class="row">
                         <h5>Datos del Producto</h5>
 

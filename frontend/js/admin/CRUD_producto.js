@@ -64,7 +64,7 @@ $(document).ready(function(){
         event.preventDefault();
         var extension = $("#imagen_producto").val().split('.').pop().toLowerCase();
         if (extension != '') {
-            if (jQuery.inArray(extension, ['png','jpg','jpeg','gif']) == -1) {
+            if (jQuery.inArray(extension, ['png','jpg','jpeg','gif','webp','avif']) == -1) {
                 alert("Formato de imagen invalido");
                 $('#imagen_producto').val('');
                 return false;
@@ -78,6 +78,7 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
             success:function(data){
+                console.log(data); // Verifica qué datos devuelve el servidor
                 $('#formulario-empleado')[0].reset();
                 btnReload.click(); // Para Cerrar el modal
                 if(tipoOperacion.value == "Crear"){
@@ -103,6 +104,9 @@ $(document).ready(function(){
                 // table.ajax.reload(function(){
                 //     table.columns.adjust().draw();
                 // });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error en la llamada AJAX: ", textStatus, errorThrown);
             }
         });
     });
