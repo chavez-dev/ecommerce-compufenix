@@ -50,9 +50,9 @@ foreach($resultado as $fila){
     $sub_array[] = $fila['id_categoria_producto'];
     $sub_array[] = $fila['nombre_categoria'];
     $sub_array[] = $fila['descripcion'];
-    $sub_array[] = '<button type="button" name="editar" class="btn btn-warning btn-sm editar text-center" id="'.$fila["id_categoria_producto"].'" > Editar</button>
-    <button type="button" name="borrar" class="btn btn-danger btn-sm borrar" id="'.$fila["id_categoria_producto"].'" > Borrar</button>
-    <button type="button" name="ver" class="btn btn-info btn-sm ver" id="'.$fila["id_categoria_producto"].'" > Ver</button>';
+    $sub_array[] = '<button type="button" name="editar" class="btn btn-warning btn-sm editar text-center" id="'.$fila["id_categoria_producto"].'" > <i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
+    <button type="button" name="borrar" class="btn btn-danger btn-sm borrar" id="'.$fila["id_categoria_producto"].'" > <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></button>
+    <button type="button" name="ver" class="btn btn-info btn-sm ver" id="'.$fila["id_categoria_producto"].'" > <i class="fa-solid fa-eye" style="color: #ffffff;"></i></button>';
     $datos[] = $sub_array;
 }
 

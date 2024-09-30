@@ -52,9 +52,6 @@ if($_POST["operacion"] == "Crear"){
     
     $imagen = '';
     if ($_FILES["imagen_producto"]["name"] != ''){
-        error_log("Subiendo imagen local: ");
-        
-        error_log("imagen subida localmente: ");
 
         $cloud_name = 'div5zconf'; // Tu nombre de Cloudinary
         $api_key = '224466925556896'; // Tu API Key

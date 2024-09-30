@@ -9,7 +9,7 @@
     <!-- CONTENIDO PRINCIPAL -->
     <main class="main-principal">
         <div class="container-fluid">
-            <button type="button" class="btn btn-success empleado-boton-agregar" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat" id="agregarEmpleado">Agregar Cliente</button>
+            <button type="button" class="btn btn-success empleado-boton-agregar" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat" id="agregarEmpleado"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Agregar Cliente</button>
         </div>
         
         <div class="container-fluid" style="margin-top:20px">
