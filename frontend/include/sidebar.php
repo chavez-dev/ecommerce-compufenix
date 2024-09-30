@@ -5,7 +5,7 @@
     <section id="sidebar">
         <a href="../admin/dashboard.php" class="brand"><i class="fa-solid fa-store icon"></i>COMPUFENIX</a>
         <ul class="side-menu">
-            <li class="divider" data-text="main">Main</li>
+            <li class="divider" data-text="MENU">MENU</li>
             <li>
                 <a href="../admin/dashboard.php" class="btn_dashboard">
                     <i class="fa-solid fa-square-poll-horizontal icon"></i>Dashboard
@@ -25,15 +25,15 @@
                 </a>
             </li>
 
-            <li>
+            <!-- <li>
                 <a href="../admin/POS.php" class="btn_POS">
                     <i class="fa-solid fa-desktop icon"></i>POS
                 </a>
-            </li>
+            </li> -->
 
             <li>
                 <a href="#" class="btn_producto">
-                    <i class="fa-solid fa-box-archive icon"></i>Producto
+                    <i class="fa-solid fa-box-archive icon"></i>Productos
                     <i class="fa-solid fa-chevron-down icon-right"></i>
                 </a>
                 <ul class="side-dropdown list-productos">
@@ -81,32 +81,8 @@
             </li>
 
 
-            <li class="divider" data-text="Table and forms">Table and forms</li>
-
-            
-            <!-- <li>
-                <a href="#">
-                    <i class='bx bxs-notepad icon'></i>Forms
-                    <i class='bx bx-chevron-right icon-right'></i>
-                </a>
-                <ul class="side-dropdown">
-                    <li><a href="#">Basic</a></li>
-                    <li><a href="#">Select</a></li>
-                    <li><a href="#">checkbox</a></li>
-                    <li><a href="#">Radio</a></li>
-                </ul>
-            </li> -->
-            <li>
-                <a href="../admin/caja.php" class="btn_caja">
-                    <i class="fa-solid fa-sack-dollar icon"></i>Caja
-                    <i class="fa-solid fa-chevron-down icon-right"></i>
-                </a>
-                <ul class="side-dropdown">
-                    <li><a href="#">Lista de Productos</a></li>
-                    <li><a href="#">Gastos e Ingresos</a></li>
-                    <li><a href="#">ingresos Diarios</a></li>
-                </ul>
-            </li>
+            <!-- <li class="divider" data-text="Table and forms">Table and forms</li> -->
+           
 
             <li>
                 <a href="../admin/reportes.php" class="btn_reportes">
