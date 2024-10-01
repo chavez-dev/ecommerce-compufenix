@@ -100,6 +100,7 @@
 -- 2.1 Agregar Contacto
 -- 2.2 Agregar Empleado
 -- 2.3 Editar Empleado
+-- 2.3.1 Editar Empleado sin Contraseña
 -- 2.4 Agregar Proveedor
 -- 2.5 Editar Proveedor
 -- 2.6 Agregar Cliente
@@ -167,7 +168,7 @@ CREATE PROCEDURE editar_empleado (
     IN new_nombre VARCHAR(45),
     IN new_apellido VARCHAR(45),
     IN new_estatus TINYINT,
-    IN new_password VARCHAR(45),
+    IN new_password VARCHAR(255),
     IN new_fecha_nacimiento DATE,
     IN new_id_cargo INT,
 	-- Datos contacto
@@ -190,6 +191,54 @@ BEGIN
     WHERE id_empleado = new_id_empleado;
 END // 
 DELIMITER ;
+
+-- ===================================================
+-- 2.3.1 Editar Empleado sin password
+DELIMITER //
+DROP PROCEDURE IF EXISTS editar_empleado_sin_password//
+CREATE PROCEDURE editar_empleado_sin_password (
+    -- Datos empleado
+    IN new_id_empleado INT,
+    IN new_DNI VARCHAR(12),
+    IN new_nombre VARCHAR(45),
+    IN new_apellido VARCHAR(45),
+    IN new_estatus TINYINT,
+    IN new_fecha_nacimiento DATE,
+    IN new_id_cargo INT,
+    -- Datos contacto
+    IN new_email VARCHAR(45),
+    IN new_celular VARCHAR(15),
+    IN new_direccion VARCHAR(45),
+    IN new_nacionalidad CHAR(3)
+)
+BEGIN
+    DECLARE var_id_contacto INT;
+
+    -- Buscamos el id_contacto del empleado
+    SELECT e.id_contacto INTO var_id_contacto 
+    FROM empleado e
+    WHERE id_empleado = new_id_empleado; 
+
+    -- Actualizamos datos de contacto
+    UPDATE contacto 
+    SET email = new_email, 
+        nro_celular = new_celular, 
+        direccion = new_direccion, 
+        nacionalidad = new_nacionalidad 
+    WHERE id_contacto = var_id_contacto;
+
+    -- Actualizamos datos del empleado sin modificar la contraseña
+    UPDATE empleado 
+    SET DNI = new_DNI, 
+        nombre = new_nombre, 
+        apellido = new_apellido, 
+        status = new_estatus, 
+        id_cargo = new_id_cargo, 
+        fecha_nacimiento = new_fecha_nacimiento 
+    WHERE id_empleado = new_id_empleado;
+END //
+DELIMITER ;
+
 
 -- ===================================================
 

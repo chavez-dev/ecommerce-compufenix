@@ -200,7 +200,7 @@
                         <div class="col-md-4">
                             <div class="form-group text-center">
                                 <label for="password" class="col-form-label">Password:</label>
-                                <input type="text" class="form-control form-control-sm text-center" id="password" name="password" required>
+                                <input type="text" class="form-control form-control-sm text-center" placeholder="*********" id="password" name="password">
                             </div>
                         </div>
                     </div>

@@ -88,6 +88,7 @@ $(document).ready(function(){
         }
     });
 
+
     // ! AGREGAR VENTA
     $(document).on('submit','#formulario-empleado',function(event){
         event.preventDefault();

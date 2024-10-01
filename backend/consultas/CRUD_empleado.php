@@ -10,12 +10,13 @@ if($_POST["operacion"] == "Crear"){
     $nombre = strtoupper($_POST['nombre']);
     $apellido = strtoupper($_POST['apellido']);
     $estatus = $_POST['estado'];
-    if($estatus == 'on'){
-        $estatus = 1;
-    }else{
-        $estatus = 0;
-    }
-    $password = $_POST['password'];
+    $estatus = ($estatus == 'on') ? 1 : 0;
+
+    // Encriptando contraseña del empleado
+    $password_usuario = $_POST['password'];
+    $password = password_hash($password_usuario, PASSWORD_BCRYPT);
+
+    
     $fecha_nacimiento = $_POST['fecha_nac']; // El campo de fecha de nacimiento
     $cargo = $_POST['area'];
     
@@ -59,13 +60,18 @@ if($_POST["operacion"] == "Editar"){
     $dni = $_POST['dni'];
     $nombre = strtoupper($_POST['nombre']);
     $apellido = strtoupper($_POST['apellido']);
+
     $estatus = $_POST['estado'];
-    if($estatus == 'on'){
-        $estatus = 1;
-    }else{
-        $estatus = 0;
+    $estatus = ($estatus == 'on') ? 1 : 0;
+
+
+    $password_usuario = $_POST['password'];
+    $password = null;
+    if (!empty($password_usuario)) {
+        // Solo hasheamos si se ingresa una nueva contraseña
+        $password = password_hash($password_usuario, PASSWORD_BCRYPT);
     }
-    $password = $_POST['password'];
+
     $fecha_nacimiento = $_POST['fecha_nac']; // El campo de fecha de nacimiento
     $cargo = $_POST['area'];
     
@@ -79,8 +85,21 @@ if($_POST["operacion"] == "Editar"){
     $codigo_empleado = $_POST['id_usuario'];
 
 
-    $stmt = $conexion->prepare( " CALL editar_empleado ( :id_empleado, :dni, :nombre, :apellido, :status,
-    :password, :fecha_nacimiento, :id_cargo, :email, :celular, :direccion, :nacionalidad)"); 
+    // Verificamos si hay una nueva contraseña para actualizarla
+    if (!empty($password)) {
+        // Actualizamos la contraseña junto con los demás datos
+        $stmt = $conexion->prepare("CALL editar_empleado (
+            :id_empleado, :dni, :nombre, :apellido, :status, :password, 
+            :fecha_nacimiento, :id_cargo, :email, :celular, :direccion, :nacionalidad)"
+        );
+        $stmt->bindParam(':password', $password);
+    } else {
+        // Si no hay nueva contraseña, actualizamos sin tocar el campo password
+        $stmt = $conexion->prepare("CALL editar_empleado_sin_password (
+            :id_empleado, :dni, :nombre, :apellido, :status, 
+            :fecha_nacimiento, :id_cargo, :email, :celular, :direccion, :nacionalidad)"
+        );
+    } 
     
     $resultado = $stmt->execute(
         array(
@@ -89,13 +108,12 @@ if($_POST["operacion"] == "Editar"){
             ':nombre' => $nombre,
             ':apellido' => $apellido,
             ':status' => $estatus,
-            ':password' => $password,
             ':fecha_nacimiento' => $fecha_nacimiento,
             ':id_cargo' => $cargo,
             ':email' => $email,
             ':celular' => $nro_celular,
             ':direccion' => $direccion,
-            ':nacionalidad' => $nacionalidad,
+            ':nacionalidad' => $nacionalidad
         )
     );
 
@@ -107,23 +125,34 @@ if($_POST["operacion"] == "Editar"){
 // ! EDITAR: TRAEMOS LOS DATOS PARA EDITAR
 if( isset($_POST["id_usuario"]) && ($_POST["operacion"])=='actualizar'){
     $salida = array();
-    $stmt = $conexion->prepare("SELECT * FROM empleado e INNER JOIN contacto c ON e.id_contacto=c.id_contacto WHERE id_empleado = '".$_POST["id_usuario"]."' LIMIT 1");
+    $stmt = $conexion->prepare("
+        SELECT e.DNI, e.nombre, e.apellido, e.status, e.fecha_nacimiento, e.id_cargo, 
+               c.email, c.nro_celular, c.direccion, c.nacionalidad 
+        FROM empleado e 
+        INNER JOIN contacto c ON e.id_contacto = c.id_contacto 
+        WHERE id_empleado = :id_usuario 
+        LIMIT 1
+    ");
+    
+    $stmt->bindParam(':id_usuario', $_POST["id_usuario"], PDO::PARAM_INT);
     $stmt->execute();
-    $resultado = $stmt->fetchAll();
+    $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    foreach($resultado as $fila){
-        $salida["dni"] = $fila["DNI"];
-        $salida["nombre"] = $fila["nombre"];
-        $salida["apellido"] = $fila["apellido"];
-        $salida["status"] = $fila["status"];
-        $salida["password"] = $fila["password"];
-        $salida["fecha_nacimiento"] = $fila["fecha_nacimiento"];
-        $salida["nombre_cargo"] = $fila["id_cargo"];
-        $salida["email"] = $fila["email"];
-        $salida["celular"] = $fila["nro_celular"];
-        $salida["direccion"] = $fila["direccion"];
-        $salida["nacionalidad"] = $fila["nacionalidad"];
+    if (!empty($resultado)) {
+        foreach ($resultado as $fila) {
+            $salida["dni"] = $fila["DNI"];
+            $salida["nombre"] = $fila["nombre"];
+            $salida["apellido"] = $fila["apellido"];
+            $salida["status"] = $fila["status"];
+            $salida["fecha_nacimiento"] = $fila["fecha_nacimiento"];
+            $salida["nombre_cargo"] = $fila["id_cargo"];
+            $salida["email"] = $fila["email"];
+            $salida["celular"] = $fila["nro_celular"];
+            $salida["direccion"] = $fila["direccion"];
+            $salida["nacionalidad"] = $fila["nacionalidad"];
+        }
     }
+    
     echo json_encode($salida);
 }
 
