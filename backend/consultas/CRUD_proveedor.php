@@ -16,6 +16,7 @@ if($_POST["operacion"] == "Crear"){
     $nro_celular = $_POST['celular'];
     $direccion = $_POST['direccion'];
     $nacionalidad = $_POST['nacionalidad']; 
+    
 
     // Agregar Proveedor en la BD
     $stmt = $conexion->prepare( " CALL agregar_proveedor ( :tipo_proveedor, :nro_documento, :nombre, :departamento,
@@ -64,6 +65,7 @@ if($_POST["operacion"] == "Crear"){
 
     }else {
         echo 'Error al crear el registro';
+        error_log("Error al insertar proveedor en la BD.", 3, "ruta_de_tu_log/errores.log");
     }
 }
 

@@ -2,11 +2,11 @@
 
 // $servername = "localhost:3307";
 $username = "root";
-$password = "tefxIjtYkBlrFgJfxpcnWRSSEujoJTHY";
+$password = "root";
 //$namebd = "compufenix";
 
 // $conexion = mysqli_connect($servername, $username, $password, $namebd);
-$conexion = new PDO('mysql:host=junction.proxy.rlwy.net:55803;dbname=railway', $username, $password);
+$conexion = new PDO('mysql:host=localhost;dbname=prueba', $username, $password);
 
 // Verificamos si la conexion se ha establecido
 // if (!$conexion) {
