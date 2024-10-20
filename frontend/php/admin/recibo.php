@@ -1,6 +1,6 @@
 <?php include("../../include/cabecera.php"); ?>
     
-    <title>Recibo - Compufenix</title>
+    <title>Recibos - Compufenix</title>
     <link rel="stylesheet" href="../../css/admin/recibo.css">
 
 <?php include("../../include/sidebar.php"); ?>

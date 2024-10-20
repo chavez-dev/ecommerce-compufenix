@@ -116,7 +116,7 @@ $(document).ready(function(){
                 $('#nombre_categoria').val(data.nombre_categoria);
                 $('#descripcion').val(data.descripcion);
                 $('.modal-title').text("EDITAR CATEGORIA");
-                $('#id_usuario').val(id_usuario);
+                $('#id_categoria_producto').val(id_usuario);
                 $('#registrar-empleado').val("Editar");
                 $('#operacion').val("Editar");
                 

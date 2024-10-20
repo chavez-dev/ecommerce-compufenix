@@ -1,6 +1,6 @@
 <?php include("../../include/cabecera.php"); ?>
     
-<title>Método Pago - Compufenix</title>
+<title>Estado - Compufenix</title>
 <link rel="stylesheet" href="../../css/admin/estado.css">
 
 <?php include("../../include/sidebar.php"); ?>

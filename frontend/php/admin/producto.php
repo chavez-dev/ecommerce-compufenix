@@ -1,6 +1,6 @@
 <?php include("../../include/cabecera.php"); ?>
 
-<title>Clientes - Compufenix</title>
+<title>Productos - Compufenix</title>
 <link rel="stylesheet" href="../../css/admin/producto.css">
 
 <?php include("../../include/sidebar.php"); ?>

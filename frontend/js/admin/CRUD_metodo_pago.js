@@ -116,7 +116,7 @@ $(document).ready(function(){
                 $('#nombre_metodo').val(data.nombre_metodo);
                 $('#descripcion').val(data.descripcion);
                 $('.modal-title').text("EDITAR METODO DE PAGO");
-                $('#id_usuario').val(id_usuario);
+                $('#id_metodo_pago').val(id_usuario);
                 $('#registrar-empleado').val("Editar");
                 $('#operacion').val("Editar");
                 

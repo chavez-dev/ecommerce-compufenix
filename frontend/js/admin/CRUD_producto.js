@@ -166,13 +166,13 @@ $(document).ready(function(){
         operacion= 'borrar';
         console.log(id_usuario);
         Swal.fire({
-            title: "Borrar Registro?",
-            text: "Estas seguro de borrar este Producto!",
+            title: "Deshabilitar Producto?",
+            text: "Estás seguro de que deseas deshabilitar este producto!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#d33",
             cancelButtonColor: "#bbb",
-            confirmButtonText: "Si, Borrar!"
+            confirmButtonText: "Si, Deshabilitar!"
             }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
@@ -181,10 +181,10 @@ $(document).ready(function(){
                     data:{id_usuario:id_usuario,operacion: operacion},
                     success:function(data){
                         dataTable.ajax.reload();
-                        // Mensaje de eliminacion
+                        // Mensaje de Deshabiliotacion
                         Swal.fire({
-                            title: "Eliminado!",
-                            text: "El registro fue eliminado.",
+                            title: "Deshabilitado!",
+                            text: "El producto fue deshabilitado.",
                             icon: "success"
                         });
                     },

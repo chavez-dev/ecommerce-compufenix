@@ -2,98 +2,112 @@
 
 include("../config/conexion.php");
 
+function subir_imagen() {
+    $cloud_name = 'div5zconf'; // Tu nombre de Cloudinary
+    $api_key = '224466925556896'; // Tu API Key
+    $api_secret = 'og70Z8GXhZl2TsOykOz1vB0ndzs'; // Tu API Secret
 
-// Asegúrate de que Cloudinary esté correctamente incluido
-// require __DIR__ . '../../vendor/autoload.php'; // Ajusta la ruta según sea necesario
+    // URL de carga de Cloudinary
+    $url = "https://api.cloudinary.com/v1_1/$cloud_name/image/upload";
 
-// use Cloudinary\Api\Upload\UploadApi;
-// use Cloudinary\Configuration\Configuration;
+    // Generar un nombre único para la imagen
+    $nombre_unico = uniqid('imagen_', true); // Prefijo "imagen_" seguido de un ID único
 
-// // Configura Cloudinary
-// Configuration::instance([
-//     'cloud' => [
-//         'cloud_name' => 'div5zconf', // Tu nombre de Cloudinary
-//         'api_key'    => '224466925556896',    // Tu API Key
-//         'api_secret' => 'og70Z8GXhZl2TsOykOz1vB0ndzs', // Tu API Secret
-//     ],
-// ]);
+    // Asignar la ubicación temporal del archivo
+    $ubicacion = $_FILES["imagen_producto"]["tmp_name"];
 
-// $upload = new UploadApi();
-//             $result = $upload->upload('https://www.compartirpalabramaestra.org/sites/default/files/field/image/infografia-lo-que-hay-que-saber-del-aprendizaje-en-linea.jpg', [
-//                 'use_filename' => true,
-//                 'overwrite' => true,
-//                 'folder' => 'compufenix' // Aquí especificas el folder
-//             ]);
+    // Los parámetros a enviar
+    $params = [
+        'file' => new CURLFile($ubicacion), // archivo a subir
+        'api_key' => $api_key,
+        'upload_preset' => 'my_upload_preset', // Asegúrate de que este sea el nombre de tu upload preset
+        'public_id' => $nombre_unico, // Nombre único para evitar colisiones
+        'folder' => 'compufenix' // Carpeta en Cloudinary (opcional si lo defines en el preset)
+    ];
 
-function subir_imagen(){
-    if(isset($_FILES["imagen_producto"])){
-        $extension = explode('.',$_FILES["imagen_producto"]['name']);
-        $nuevo_nombre = rand() . '.' . $extension[1];
-        $ubicacion = '../../frontend/assets/img/'. $nuevo_nombre;
-        move_uploaded_file($_FILES["imagen_producto"]['tmp_name'], $ubicacion);
-        return $nuevo_nombre;
+    // Iniciar la sesión de cURL
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    // Ejecutar la solicitud
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    // Convertir la respuesta JSON en un array
+    $result = json_decode($response, true);
+
+    // Verificar si la subida fue exitosa
+    if (isset($result['secure_url'])) {
+        return $result['secure_url']; // Obtener la URL segura de la imagen subida
+    } else {
+        error_log("Error al subir la imagen a Cloudinary: " . $result['error']);
+        echo "Error al subir la imagen a Cloudinary: " . $result['error'];
+        exit; // Salir si hay un error en la subida
     }
 }
 
 
-function obtener_nombre_imagen($id_usuario){
-    include('../config/conexion.php');
-    $stmt = $conexion->prepare("SELECT imagen FROM producto WHERE id_producto = '$id_usuario'"); 
+
+function obtener_nombre_imagen($codigo_producto) {
+    global $conexion; // Asegúrate de que la conexión a la base de datos esté disponible
+
+    $stmt = $conexion->prepare("SELECT imagen FROM producto WHERE id_producto = :codigo_producto");
+    $stmt->bindParam(':codigo_producto', $codigo_producto);
     $stmt->execute();
-    $resultado = $stmt->fetchAll();
+    $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    foreach($resultado as $fila){
-        return $fila["imagen"];
+    // Devuelve el public_id (nombre) de la imagen o un string vacío si no existe
+    return $resultado ? $resultado['imagen'] : '';
+}
+
+// Función para eliminar imagen de Cloudinary
+function eliminar_imagen_cloudinary($public_id) {
+    $cloud_name = 'div5zconf'; // Tu nombre de Cloudinary
+    $api_key = '224466925556896'; // Tu API Key
+    $api_secret = 'og70Z8GXhZl2TsOykOz1vB0ndzs'; // Tu API Secret
+
+    // URL para eliminar imagen
+    $url = "https://api.cloudinary.com/v1_1/$cloud_name/image/destroy";
+
+    $params = [
+        'public_id' => $public_id,
+        'api_key' => $api_key,
+        'api_secret' => $api_secret,
+    ];
+
+    // Iniciar la sesión de cURL
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    // Ejecutar la solicitud
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    // Convertir la respuesta JSON en un array
+    $result = json_decode($response, true);
+
+    if (isset($result['result']) && $result['result'] == 'ok') {
+        error_log("Imagen eliminada correctamente de Cloudinary.");
+    } else {
+        error_log("Error al eliminar la imagen de Cloudinary: " . $result['error']);
     }
 }
 
-// ! AGREGAR: INSERTAMOS UN NUEVO PROVEEDOR
+
+// ! AGREGAR: INSERTAMOS UN NUEVO PRODUCTO
 if($_POST["operacion"] == "Crear"){
     
     $imagen = '';
     if ($_FILES["imagen_producto"]["name"] != ''){
 
-        $cloud_name = 'div5zconf'; // Tu nombre de Cloudinary
-        $api_key = '224466925556896'; // Tu API Key
-        $api_secret = 'og70Z8GXhZl2TsOykOz1vB0ndzs'; // Tu API Secret
-
-        // URL de carga de Cloudinary
-        $url = "https://api.cloudinary.com/v1_1/$cloud_name/image/upload";
-
-        $ubicacion = $_FILES["imagen_producto"]["tmp_name"];
-
-        // Los parámetros a enviar
-        $params = [
-            'file' => new CURLFile($ubicacion), // archivo a subir
-            'api_key' => $api_key,
-            'upload_preset' => 'my_upload_preset', // Asegúrate de que este sea el nombre de tu upload preset
-            'folder' => 'compufenix' // Carpeta en Cloudinary (opcional si lo defines en el preset)
-        ];
-
-        // Iniciar la sesión de cURL
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        // Ejecutar la solicitud
-        $response = curl_exec($ch);
-
-        curl_close($ch);
-
-        // Convertir la respuesta JSON en un array
-        $result = json_decode($response, true);
-
-        // Verificar si la subida fue exitosa
-        if (isset($result['secure_url'])) {
-            $imagen = $result['secure_url']; // Obtener la URL segura de la imagen subida
-            error_log("Imagen subida correctamente: $imagen");
-        } else {
-            error_log("Error al subir la imagen a Cloudinary: " . $result['error']);
-            echo "Error al subir la imagen a Cloudinary: " . $result['error'];
-            exit; // Salir si hay un error en la subida
-        }
+        // Llama a la función para subir la imagen
+        $imagen = subir_imagen();
         
     }
 
@@ -144,8 +158,10 @@ if($_POST["operacion"] == "Editar"){
 
     $imagen = '';
     if ($_FILES["imagen_producto"]["name"] != ''){
-            $imagen = subir_imagen();
-            unlink("../../frontend/assets/img/" . $imagen_antes);
+            // Subir nueva imagen a Cloudinary
+            $imagen = subir_imagen(); // Asume que este es tu método para subir a Cloudinary
+            // Si quieres eliminar la imagen anterior, también puedes hacerlo aquí
+            eliminar_imagen_cloudinary($imagen_antes); // Llamada a función para eliminar imagen
     }else{
         $imagen = $_POST["imagen_producto_oculta"];
     }
@@ -202,7 +218,7 @@ if( isset($_POST["id_usuario"]) && ($_POST["operacion"])=='actualizar'){
         $salida["nombre_producto"] = $fila["nombre_producto"];
         // $salida["imagen_producto"] = $fila["imagen"];
         if ($fila["imagen"] != '') {
-            $salida["imagen_producto"] = '<img src="../../assets/img/' . $fila["imagen"] . '" class="img-thumbnail" width="90" height="70" /><input type="hidden" name="imagen_producto_oculta" value="'.$fila["imagen"].'" />';
+            $salida["imagen_producto"] = '<img src="' . $fila["imagen"] . '" class="img-thumbnail" width="90" height="70" /><input type="hidden" name="imagen_producto_oculta" value="'.$fila["imagen"].'" />';
         }else{
             $salida["imagen_producto"] = '<input type="hidden" name="imagen_producto_oculta" value="" />';
         }
@@ -221,15 +237,20 @@ if( isset($_POST["id_usuario"]) && ($_POST["operacion"])=='actualizar'){
  // !BORRAR: ELIMINACION DE LA BD
     if(isset($_POST["id_usuario"]) && ($_POST["operacion"])=='borrar' ){
         
-        $imagen = obtener_nombre_imagen($_POST["id_usuario"]);
+        // $imagen = obtener_nombre_imagen($_POST["id_usuario"]);
 
-        if ($imagen != ''){
-            unlink("../../frontend/assets/img/" . $imagen);
-        }
-        
-        // Borrar de la tabla cliente
-        $sql_borrar_producto = $conexion->prepare( "DELETE FROM producto WHERE id_producto = '".$_POST["id_usuario"]."' "); 
+        // if ($imagen != ''){
+        //     unlink("../../frontend/assets/img/" . $imagen);
+        // }
+        // Borrar de la tabla alerta_stock
+        $sql_borrar_alerta = $conexion->prepare( "DELETE FROM alerta_stock WHERE id_producto = '".$_POST["id_usuario"]."' "); 
+        $resultado = $sql_borrar_alerta->execute();
+
+        // Borrar de la tabla producto
+        $sql_borrar_producto = $conexion->prepare( "UPDATE producto SET status = 0 WHERE id_producto = '".$_POST["id_usuario"]."' "); 
         $resultado = $sql_borrar_producto->execute();
+
+        
 
         // Actualizar AUTO_INCREMENT de la tabla producto
         $sql_increment_producto = $conexion->prepare( "ALTER TABLE producto AUTO_INCREMENT = 1");
@@ -237,7 +258,7 @@ if( isset($_POST["id_usuario"]) && ($_POST["operacion"])=='actualizar'){
 
 
         if (!empty($resultado)) {
-            echo 'Registro Eliminado';
+            echo 'Producto Deshabilitado';
         }
     }
 

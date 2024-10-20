@@ -1,6 +1,6 @@
 <?php include("../../include/cabecera.php"); ?>
     
-    <title>Empleado -Compufenix</title>
+    <title>Reportes -Compufenix</title>
     <link rel="stylesheet" href="../../css/admin/reportes.css">
 
 <?php include("../../include/sidebar.php"); ?>
