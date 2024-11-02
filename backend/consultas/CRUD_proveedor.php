@@ -35,106 +35,103 @@ if($_POST["operacion"] == "Crear"){
         )
     );
 
-    if (!empty($resultado)) {
+    if ($resultado) {
 
-        // Insertamos las Categorias Seleccionadas en el modal
-        $sqlNextId = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'proveedor'";
-        $stmtNextId = $conexion->query($sqlNextId);
-        $id_proveedor = ($stmtNextId->fetchColumn())-1;
+        // Obtener el ID del proveedor recién insertado usando el `nro_documento`
+        $sqlGetId = "SELECT id_proveedor FROM proveedor WHERE nro_documento = :nro_documento LIMIT 1";
+        $stmtGetId = $conexion->prepare($sqlGetId);
+        $stmtGetId->bindParam(':nro_documento', $nro_documento, PDO::PARAM_STR);
+        $stmtGetId->execute();
+        $id_proveedor = $stmtGetId->fetchColumn();
 
-        // Iterar sobre las categorías
-        $sql7 = "SELECT id_categoria_producto, nombre_categoria FROM categoria_producto";
-        $stmt7 = $conexion->query($sql7);
+    // Verificar y agregar las categorías seleccionadas en la tabla proveedor_has_categoria_producto
+    if (isset($_POST['categorias']) && is_array($_POST['categorias'])) {
 
-        while ($fila7 = $stmt7->fetch(PDO::FETCH_ASSOC)) {
-            $nombreCategoria = $fila7['nombre_categoria'];
+        foreach ($_POST['categorias'] as $id_categoria) {
 
-            // Verificar si el checkbox está marcado
-            if (isset($_POST[$nombreCategoria])) {
-                // El checkbox está marcado, registrar en proveedor_has_categoria_producto
-                $id_categoria = $fila7['id_categoria_producto'];
-                $sqlInsert = "INSERT INTO proveedor_has_categoria_producto (id_proveedor, id_categoria_producto) VALUES (:id_proveedor, :id_categoria_producto)";
-                $stmtInsert = $conexion->prepare($sqlInsert);
-                $stmtInsert->bindParam(':id_proveedor', $id_proveedor);
-                $stmtInsert->bindParam(':id_categoria_producto', $id_categoria);
-                $stmtInsert->execute();
+
+            // Insertar la relación entre proveedor y categoría
+            $sqlInsert = "INSERT INTO proveedor_has_categoria_producto (id_proveedor, id_categoria_producto) VALUES (:id_proveedor, :id_categoria_producto)";
+            $stmtInsert = $conexion->prepare($sqlInsert);
+            $stmtInsert->bindParam(':id_proveedor', $id_proveedor, PDO::PARAM_INT);
+            $stmtInsert->bindParam(':id_categoria_producto', $id_categoria, PDO::PARAM_INT);
+            
+            // Ejecutar el insert y verificar el resultado
+            if ($stmtInsert->execute()) {
+                error_log("Registro de relación exitoso - ID Proveedor: $id_proveedor, ID Categoría: $id_categoria", 3, "ruta_de_tu_log/errores.log");
+            } else {
+                error_log("Error al registrar relación - ID Proveedor: $id_proveedor, ID Categoría: $id_categoria", 3, "ruta_de_tu_log/errores.log");
             }
         }
-
-        echo 'Registro Creado. ID del proveedor: ' . $id_proveedor;
-
-    }else {
-        echo 'Error al crear el registro';
-        error_log("Error al insertar proveedor en la BD.", 3, "ruta_de_tu_log/errores.log");
+    } else {
+        error_log("No se seleccionaron categorías o el formato es incorrecto", 3, "ruta_de_tu_log/errores.log");
     }
+
+    echo 'Registro Creado. ID del proveedor: ' . $id_proveedor;
+} else {
+    echo 'Error al crear el registro';
+    error_log("Error al insertar proveedor en la BD.", 3, "ruta_de_tu_log/errores.log");
+}
+
 }
 
 // ! EDITAR: ACTUALIZAMOS LOS DATOS EN LA BD
-if($_POST["operacion"] == "Editar"){
+if ($_POST["operacion"] == "Editar") {
     // Datos del proveedor
     $tipo_documento = $_POST['tipo_documento'];
     $nro_documento = $_POST['nro_documento'];
-    $departamento = $_POST['departamento'];
     $nombre = strtoupper($_POST['nombre']);
     $departamento = $_POST['departamento'];
+    
     // Contacto
     $email = strtolower($_POST['email']);
     $nro_celular = $_POST['celular'];
     $direccion = $_POST['direccion'];
     $nacionalidad = $_POST['nacionalidad'];
 
-    // Empleado
+    // ID del proveedor a editar
     $codigo_proveedor = $_POST['id_usuario'];
 
-    $stmt = $conexion->prepare( " CALL editar_proveedor ( :id_proveedor, :tipo_proveedor, :nro_documento, :nombre, :departamento,
-    :email, :celular, :direccion, :nacionalidad)"); 
-    
-    $resultado = $stmt->execute(
-        array(
-            ':id_proveedor' => $codigo_proveedor,
-            ':tipo_proveedor' => $tipo_documento,
-            ':nro_documento' => $nro_documento,
-            ':nombre' => $nombre,
-            ':departamento' => $departamento,
-            ':email' => $email,
-            ':celular' => $nro_celular,
-            ':direccion' => $direccion,
-            ':nacionalidad' => $nacionalidad,
-        )
-    );
+    // Llamar al procedimiento almacenado para editar el proveedor
+    $stmt = $conexion->prepare("CALL editar_proveedor(:id_proveedor, :tipo_proveedor, :nro_documento, :nombre, :departamento, :email, :celular, :direccion, :nacionalidad)");
 
-    if (!empty($resultado)) {
-        
+    $resultado = $stmt->execute(array(
+        ':id_proveedor' => $codigo_proveedor,
+        ':tipo_proveedor' => $tipo_documento,
+        ':nro_documento' => $nro_documento,
+        ':nombre' => $nombre,
+        ':departamento' => $departamento,
+        ':email' => $email,
+        ':celular' => $nro_celular,
+        ':direccion' => $direccion,
+        ':nacionalidad' => $nacionalidad
+    ));
+
+    if ($resultado) {
         // Eliminar todas las categorías asociadas al proveedor
         $sqlDelete = "DELETE FROM proveedor_has_categoria_producto WHERE id_proveedor = :id_proveedor";
         $stmtDelete = $conexion->prepare($sqlDelete);
-        $stmtDelete->bindParam(':id_proveedor', $codigo_proveedor);
+        $stmtDelete->bindParam(':id_proveedor', $codigo_proveedor, PDO::PARAM_INT);
         $stmtDelete->execute();
 
-        // Iterar sobre las categorías
-        $sql7 = "SELECT id_categoria_producto, nombre_categoria FROM categoria_producto";
-        $stmt7 = $conexion->query($sql7);
-
-        while ($fila7 = $stmt7->fetch(PDO::FETCH_ASSOC)) {
-            $nombreCategoria = $fila7['nombre_categoria'];
-
-            // Verificar si el checkbox está marcado
-            if (isset($_POST[$nombreCategoria])) {
-                // El checkbox está marcado, registrar en proveedor_has_categoria_producto
-                $id_categoria = $fila7['id_categoria_producto'];
-
-                // Verificar si ya existe una entrada para este proveedor y categoría
+        // Insertar las categorías seleccionadas en el formulario
+        if (isset($_POST['categorias']) && is_array($_POST['categorias'])) {
+            foreach ($_POST['categorias'] as $id_categoria) {
                 $sqlInsert = "INSERT INTO proveedor_has_categoria_producto (id_proveedor, id_categoria_producto) VALUES (:id_proveedor, :id_categoria_producto)";
                 $stmtInsert = $conexion->prepare($sqlInsert);
-                $stmtInsert->bindParam(':id_proveedor', $codigo_proveedor);
-                $stmtInsert->bindParam(':id_categoria_producto', $id_categoria);
+                $stmtInsert->bindParam(':id_proveedor', $codigo_proveedor, PDO::PARAM_INT);
+                $stmtInsert->bindParam(':id_categoria_producto', $id_categoria, PDO::PARAM_INT);
                 $stmtInsert->execute();
             }
         }
 
-        echo 'Registro Creado. ID del proveedor: ' . $id_proveedor;
+        echo 'Registro Actualizado. ID del proveedor: ' . $codigo_proveedor;
+    } else {
+        echo 'Error al actualizar el registro';
+        error_log("Error al actualizar proveedor en la BD.", 3, "C:/wamp64/www/ecommerce-compufenix/backend/logs/errores.log");
     }
 }
+
 
 // ! EDITAR: TRAEMOS LOS DATOS PARA EDITAR
 if( isset($_POST["id_usuario"]) && ($_POST["operacion"])=='actualizar'){
@@ -163,11 +160,11 @@ if( isset($_POST["id_usuario"]) && ($_POST["operacion"])=='actualizar'){
 
         $categorias = array(); // Array para guardar los nombres de las categorías seleccionadas
 
-        foreach($resultado10 as $fila10){
+        foreach ($resultado10 as $fila10) {
             // Comprobamos si la categoría pertenece al proveedor actual
-            if($fila["id_proveedor"] == $fila10["id_proveedor"]) {
-                // Agregamos el nombre de la categoría al array de categorías
-                $categorias[] = $fila10["nombre_categoria"];
+            if ($fila["id_proveedor"] == $fila10["id_proveedor"]) {
+                // Agregamos el ID de la categoría al array de categorías
+                $categorias[] = $fila10["id_categoria_producto"];
             }
         }
 

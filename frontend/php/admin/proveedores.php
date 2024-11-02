@@ -123,8 +123,8 @@
                                     while ($fila5 = $stmt5->fetch(PDO::FETCH_ASSOC)) {
                                         echo '<div class="col-md-6">'.
                                         '<div class="form-check">'.
-                                        '<input name="'.$fila5['nombre_categoria'].'" class="form-check-input" type="checkbox" id="' . $fila5['nombre_categoria'] . '">'.
-                                        '<label class="form-check-label" for="'.$fila5['nombre_categoria'].'">'. $fila5['nombre_categoria'].'</label>'.
+                                        '<input name="categorias[]" value="' . $fila5['id_categoria_producto'] . '" class="form-check-input" type="checkbox" id="categoria_' . $fila5['id_categoria_producto'] . '">'.
+                                        '<label class="form-check-label" for="categoria_' . $fila5['id_categoria_producto'] . '">' . $fila5['nombre_categoria'] . '</label>'.
                                         '</div></div>';
                                     }
                                 ?>

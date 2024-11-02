@@ -132,8 +132,13 @@ $(document).ready(function(){
                 $('input[type=checkbox]').prop('checked', false);
 
                 // Marcamos los checkboxes correspondientes a las categorías de productos asociadas al proveedor
-                data.categorias_productos.forEach(function(categoria) {
-                    $('#' + categoria).prop('checked', true);
+                // data.categorias_productos.forEach(function(categoria) {
+                //     $('#' + categoria).prop('checked', true);
+                // });
+
+                data.categorias_productos.forEach(function(id_categoria) {
+                    // Seleccionar el checkbox cuyo id es "categoria_ID"
+                    $('#categoria_' + id_categoria).prop('checked', true);
                 });
             },
             error: function(jqXHR, textStatus, errorThrown){
@@ -209,8 +214,9 @@ $(document).ready(function(){
                 $('input[type=checkbox]').prop('checked', false);
 
                 // Marcamos los checkboxes correspondientes a las categorías de productos asociadas al proveedor
-                data.categorias_productos.forEach(function(categoria) {
-                    $('#' + categoria).prop('checked', true);
+                data.categorias_productos.forEach(function(id_categoria) {
+                    // Seleccionar el checkbox cuyo id es "categoria_ID"
+                    $('#categoria_' + id_categoria).prop('checked', true);
                 });
 
                 bloquearCamposYBotones();

@@ -135,7 +135,7 @@
                                     <label for="precio_unitario" class="col-form-label">Precio:</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">$</span>
-                                        <input type="number" class="form-control text-center input-number-hide-arrows" aria-label="Amount (to the nearest dollar)" id="precio_unitario" name="precio_unitario" required>
+                                        <input type="number" class="form-control text-center input-number-hide-arrows" aria-label="Amount (to the nearest dollar)" id="precio_unitario" name="precio_unitario" required step="0.01">
                                         <span class="input-group-text">.00</span>
                                     </div>
                                 </div>
