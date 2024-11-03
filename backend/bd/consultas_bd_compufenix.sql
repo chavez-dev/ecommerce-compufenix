@@ -62,8 +62,8 @@
 -- 1.5 Lista de Compras
 	DROP VIEW IF EXISTS lista_compras;
 	CREATE VIEW lista_compras AS
-	SELECT id_compra, DATE_FORMAT(registro_compra, '%b %d, %Y, %H:%i') AS fecha_hora_registro, 
-    nombre_producto, pr.nombre AS nombre_proveedor ,cantidad_compra, c.precio_unitario, pago_total, numero_factura
+	SELECT id_compra, DATE_FORMAT(registro_compra, '%b %d, %Y, %H:%i') AS fecha_hora_registro, pr.nombre AS nombre_proveedor ,
+    nombre_producto, c.estado ,cantidad_compra, pago_total, numero_factura
 	FROM compra c
 	INNER JOIN producto USING (id_producto)
     INNER JOIN proveedor pr USING (id_proveedor);
@@ -76,7 +76,7 @@
 	DROP VIEW IF EXISTS lista_producto_item;
 	CREATE VIEW lista_producto_item AS
     SELECT id_producto_item, DATE_FORMAT(fecha_registro, '%b %d, %Y, %H:%i') AS fecha_hora_registro ,
-    nombre_producto, id_compra, serie, tipo_estado FROM producto_item
+    nombre_producto, id_compra, serie, pi.id_estado FROM producto_item pi
 	INNER JOIN estado USING (id_estado)
 	INNER JOIN producto USING (id_producto);
     -- Llamando Vista lista_inventario
@@ -418,6 +418,7 @@ CREATE PROCEDURE agregar_compra (
     IN new_id_proveedor INT,
     IN new_id_empleado INT,
     IN new_descripcion TEXT,
+    IN new_estado TINYINT(1),
     IN new_cantidad_compra SMALLINT UNSIGNED,
     IN new_precio_unitario DECIMAL(10,2),
     IN new_pago_total DECIMAL(10,2),
@@ -426,9 +427,9 @@ CREATE PROCEDURE agregar_compra (
 )
 BEGIN
     -- Agregar una nueva Compra
-	INSERT INTO compra (id_producto, id_proveedor, id_empleado, descripcion, cantidad_compra, precio_unitario, pago_total, 
+	INSERT INTO compra (id_producto, id_proveedor, id_empleado, descripcion, estado ,cantidad_compra, precio_unitario, pago_total, 
     id_metodo_pago, numero_factura)
-    VALUES (new_id_producto, new_id_proveedor, new_id_empleado, new_descripcion, new_cantidad_compra, new_precio_unitario ,new_pago_total, 
+    VALUES (new_id_producto, new_id_proveedor, new_id_empleado, new_descripcion, new_estado, new_cantidad_compra, new_precio_unitario ,new_pago_total, 
     new_id_metodo_pago, new_numero_factura);
 END // 
 DELIMITER ;

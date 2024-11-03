@@ -9,6 +9,14 @@ if ($_POST["operacion"] == "Crear") {
     $id_producto = $_POST['producto'];
     $id_proveedor = $_POST['proveedor'];
     $id_empleado = $_POST['empleado'];
+    
+    $estado = $_POST['estado'];
+    if($estado == 'on'){
+        $estado = 1;
+    }else{
+        $estado = 0;
+    }
+
     $cantidad_compra = $_POST['cantidad_compra'];
     $precio_unitario = $_POST['precio_unitario'];
     $factura = $_POST['factura'];
@@ -16,16 +24,19 @@ if ($_POST["operacion"] == "Crear") {
     $pago_total = $_POST['pago_total'];
     $descripcion = $_POST['descripcion'];
 
+    // Registrar en error.log para ver los datos recibidos
+    error_log("Datos recibidos: producto=$id_producto, proveedor=$id_proveedor, empleado=$id_empleado, estado=$estado,cantidad=$cantidad_compra, precio=$precio_unitario, factura=$factura, metodo_pago=$metodo_pago, total=$pago_total, descripcion=$descripcion");
 
-    $stmt = $conexion->prepare(" CALL agregar_compra ( :id_producto, :id_proveedor, :id_empleado, :descripcion, :cantidad_compra, :precio_unitario, :pago_total, 
-    :id_metodo_pago, :numero_factura)");
+    $stmt = $conexion->prepare("CALL agregar_compra(:id_producto, :id_proveedor, :id_empleado, :descripcion, :estado, :cantidad_compra, :precio_unitario, :pago_total, :id_metodo_pago, :numero_factura)");
 
+    // Ejecutar y registrar el resultado
     $resultado = $stmt->execute(
         array(
             ':id_producto' => $id_producto,
             ':id_proveedor' => $id_proveedor,
             ':id_empleado' => $id_empleado,
             ':descripcion' => $descripcion,
+            ':estado' => $estado,
             ':cantidad_compra' => $cantidad_compra,
             ':precio_unitario' => $precio_unitario,
             ':pago_total' => $pago_total,
@@ -34,36 +45,51 @@ if ($_POST["operacion"] == "Crear") {
         )
     );
 
-    if (!empty($resultado)) {
+    // Verificar si la ejecución fue exitosa y registrar el resultado
+    if ($resultado) {
+        error_log("Registro de compra creado exitosamente.");
         echo 'Registro Creado';
+    } else {
+        $errorInfo = $stmt->errorInfo();
+        error_log("Error al ejecutar la consulta: {$errorInfo[2]}");
     }
 
+    // Obtener el ID de la compra recién creada
     $sqlNextId = $conexion->prepare("SELECT MAX(id_compra) FROM compra");
     $sqlNextId->execute();
     $id_compra = $sqlNextId->fetchColumn();
+    error_log("ID de compra creado: $id_compra");
 
     // Recorrer los campos de serie
     for ($i = 1; $i <= $cantidad_compra; $i++) {
         $nombre_campo = 'serie' . $i;
         // Verificar si el campo existe
         if (isset($_POST[$nombre_campo])) {
-            // B
-
-            // Agregar el valor al array
             $valor_serie = $_POST[$nombre_campo];
-            $sql_inventario = $conexion->prepare("INSERT INTO producto_item (id_producto, id_compra, serie, id_estado) 
-                                                    VALUES ( :id_producto, :id_compra, :serie, :id_estado ) ");
+            error_log("Procesando serie $i: $valor_serie");
+
+            // Insertar en producto_item
+            $sql_inventario = $conexion->prepare("INSERT INTO producto_item (id_producto, id_compra, serie, id_estado) VALUES (:id_producto, :id_compra, :serie, :id_estado)");
             $sql_inventario->execute(
                 array(
                     ':id_producto' => $id_producto,
-                    ':id_compra' => $id_compra ,
+                    ':id_compra' => $id_compra,
                     ':serie' => $valor_serie,
                     ':id_estado' => 1,
                 )
             );
+
+            // Verificar si la ejecución fue exitosa y registrar el resultado
+            if ($sql_inventario->rowCount() > 0) {
+                error_log("Serie $valor_serie registrada correctamente en producto_item.");
+            } else {
+                $errorInfo = $sql_inventario->errorInfo();
+                error_log("Error al registrar la serie $valor_serie: {$errorInfo[2]}");
+            }
         }
     }
 }
+
 
 // ! EDITAR: ACTUALIZAMOS LOS DATOS EN LA BD
 if ($_POST["operacion"] == "Editar") {
@@ -72,6 +98,14 @@ if ($_POST["operacion"] == "Editar") {
     $id_producto = $_POST['producto'];
     $id_proveedor = $_POST['proveedor'];
     $id_empleado = $_POST['empleado'];
+
+    $estado = $_POST['estado'];
+    if($estado == 'on'){
+        $estado = 1;
+    }else{
+        $estado = 0;
+    }
+
     $cantidad_compra = $_POST['cantidad_compra'];
     $precio_unitario = $_POST['precio_unitario'];
     $factura = $_POST['factura'];
@@ -79,7 +113,7 @@ if ($_POST["operacion"] == "Editar") {
     $pago_total = $_POST['pago_total'];
     $descripcion = $_POST['descripcion'];
 
-    $stmt = $conexion->prepare(" UPDATE compra SET id_producto = :id_producto, id_proveedor = :id_proveedor, cantidad_compra = :cantidad_compra,
+    $stmt = $conexion->prepare(" UPDATE compra SET id_producto = :id_producto, id_proveedor = :id_proveedor, estado = :estado, cantidad_compra = :cantidad_compra,
                                 precio_unitario = :precio_unitario, numero_factura = :numero_factura, id_metodo_pago = :id_metodo_pago, pago_total = :pago_total, descripcion = :descripcion
                                 WHERE id_compra = '" . $_POST["id_usuario"] . "' ");
 
@@ -87,6 +121,7 @@ if ($_POST["operacion"] == "Editar") {
         array(
             ':id_producto' => $id_producto,
             ':id_proveedor' => $id_proveedor,
+            ':estado' => $estado,
             ':cantidad_compra' => $cantidad_compra,
             ':precio_unitario' => $precio_unitario,
             ':numero_factura' => $factura,
@@ -96,8 +131,33 @@ if ($_POST["operacion"] == "Editar") {
         )
     );
 
-    if (!empty($resultado)) {
-        echo 'Registro Creado';
+    if ($resultado) {
+        echo 'Compra actualizada correctamente';
+
+        // Si la compra cambió a estado "Disponible" (1), actualizar también los productos en el inventario que están en estado "Anulado" (0)
+        if ($estado == 1) {
+            $stmt_update_inventario = $conexion->prepare("UPDATE producto_item SET id_estado = 1 WHERE id_compra = :id_compra AND id_estado = 4");
+            $stmt_update_inventario->bindParam(':id_compra', $id_compra, PDO::PARAM_INT);
+            $resultado_inventario = $stmt_update_inventario->execute();
+
+            if ($resultado_inventario) {
+                echo ' y productos anulados en inventario actualizados a "Disponible".';
+            } else {
+                echo ' pero ocurrió un error al actualizar los productos en inventario.';
+            }
+        }else{
+            // Cambiar el estado de los productos en inventario a "Anulado" solo si están en estado "Disponible" (1)
+            $sql_anular_inventario = $conexion->prepare("UPDATE producto_item SET id_estado = 4 WHERE id_compra = :id_compra AND id_estado = 1");
+            $sql_anular_inventario->bindParam(':id_compra', $_POST["id_usuario"], PDO::PARAM_INT);
+            $resultado_inventario = $sql_anular_inventario->execute();
+
+            // Cambiar el estado de la compra a "Anulado" (estado = 0)
+            $sql_anular_compra = $conexion->prepare("UPDATE compra SET estado = 0 WHERE id_compra = :id_compra");
+            $sql_anular_compra->bindParam(':id_compra', $_POST["id_usuario"], PDO::PARAM_INT);
+            $resultado_compra = $sql_anular_compra->execute();
+        }
+    } else {
+        echo 'Error al actualizar la compra.';
     }
 }
 
@@ -112,6 +172,7 @@ if (isset($_POST["id_usuario"]) && ($_POST["operacion"]) == 'actualizar') {
         $salida["id_producto"] = $fila["id_producto"];
         $salida["id_proveedor"] = $fila["id_proveedor"];
         $salida["descripcion"] = $fila["descripcion"];
+        $salida["estado"] = $fila["estado"];
         $salida["cantidad_compra"] = $fila["cantidad_compra"];
         $salida["precio_unitario"] = $fila["precio_unitario"];
         $salida["pago_total"] = $fila["pago_total"];
@@ -135,19 +196,24 @@ if (isset($_POST["id_usuario"]) && ($_POST["operacion"]) == 'actualizar') {
 // !BORRAR: ELIMINACION DE LA BD
 if (isset($_POST["id_usuario"]) && ($_POST["operacion"]) == 'borrar') {
 
-    // Borrar de la tabla empleado
-    $sql_borrar_inventario = $conexion->prepare("DELETE FROM producto_item WHERE id_compra = '" . $_POST["id_usuario"] . "' ");
-    $resultado = $sql_borrar_inventario->execute();
+    // Cambiar el estado de los productos en inventario a "Anulado" solo si están en estado "Disponible" (1)
+    $sql_anular_inventario = $conexion->prepare("UPDATE producto_item SET id_estado = 4 WHERE id_compra = :id_compra AND id_estado = 1");
+    $sql_anular_inventario->bindParam(':id_compra', $_POST["id_usuario"], PDO::PARAM_INT);
+    $resultado_inventario = $sql_anular_inventario->execute();
 
-    $sql_borrar_empleado = $conexion->prepare("DELETE FROM compra WHERE id_compra = '" . $_POST["id_usuario"] . "' ");
-    $resultado = $sql_borrar_empleado->execute();
+    if ($resultado_inventario) {
+        // Cambiar el estado de la compra a "Anulado" (estado = 0)
+        $sql_anular_compra = $conexion->prepare("UPDATE compra SET estado = 0 WHERE id_compra = :id_compra");
+        $sql_anular_compra->bindParam(':id_compra', $_POST["id_usuario"], PDO::PARAM_INT);
+        $resultado_compra = $sql_anular_compra->execute();
 
-
-    // Actualizar AUTO_INCREMENT de la tabla compra
-    $sql_increment_compra = $conexion->prepare("ALTER TABLE compra AUTO_INCREMENT = 1");
-    $sql_increment_compra->execute();
-
-    if (!empty($resultado)) {
-        echo 'Registro Eliminado';
+        if ($resultado_compra) {
+            echo 'Compra y productos disponibles en inventario anulados correctamente.';
+        } else {
+            echo 'Error al anular la compra.';
+        }
+    } else {
+        echo 'Error al actualizar el estado de los productos en el inventario.';
     }
+
 }

@@ -50,14 +50,18 @@ foreach($resultado as $fila){
     $sub_array = array();
     $sub_array[] = $fila['id_compra'];
     $sub_array[] = $fila['fecha_hora_registro'];
-    $sub_array[] = $fila['nombre_producto'];
     $sub_array[] = $fila['nombre_proveedor'];
+    $sub_array[] = $fila['nombre_producto'];
+    if ($fila['estado'] == 1) {
+        $sub_array[] = '<button type="button" class="btn btn-success btn-sm status-btn">Completado</button>';
+    } else {
+        $sub_array[] = '<button type="button" class="btn btn-danger btn-sm status-btn">Anulado</button>';
+    }
     $sub_array[] = $fila['cantidad_compra'];
-    $sub_array[] = $fila['precio_unitario'];
     $sub_array[] = $fila['pago_total'];
     $sub_array[] = $fila['numero_factura'];
     $sub_array[] = '<button type="button" name="editar" class="btn btn-warning btn-sm editar text-center" id="'.$fila["id_compra"].'" > <i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
-    <button type="button" name="borrar" class="btn btn-danger btn-sm borrar" id="'.$fila["id_compra"].'" > <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></button>
+    <button type="button" name="borrar" class="btn btn-danger btn-sm borrar" id="'.$fila["id_compra"].'" > <i class="fa-solid fa-ban" style="color: #ffffff;"></i></button>
     <button type="button" name="ver" class="btn btn-info btn-sm ver" id="'.$fila["id_compra"].'" > <i class="fa-solid fa-eye" style="color: #ffffff;"></i></button>';
     $datos[] = $sub_array;
 }

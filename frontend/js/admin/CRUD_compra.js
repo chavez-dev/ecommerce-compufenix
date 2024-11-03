@@ -139,8 +139,19 @@ $(document).ready(function(){
             success:function(data){
                 $('#exampleModal').modal('show');
                 desbloquearCamposYBotones();
-                $('#producto').val(data.id_producto);
+                // Configurar el proveedor y cargar sus productos
                 $('#proveedor').val(data.id_proveedor);
+                cargarProductosPorProveedor(data.id_proveedor); // Cargar los productos
+
+                // Esperar a que los productos se carguen y luego asignar el valor
+                setTimeout(() => {
+                    $('#producto').val(data.id_producto);
+                }, 800); // Ajusta el tiempo si es necesario
+                if(data.estado == 1){
+                    checkbox.checked = true;
+                }else{
+                    checkbox.checked = false;
+                }
                 $('#cantidad_compra').val(data.cantidad_compra);
                 $('#precio_unitario').val(data.precio_unitario);
                 $('#factura').val(data.factura);
@@ -221,8 +232,19 @@ $(document).ready(function(){
             dataType: "json",
             success:function(data){
                 $('#exampleModal').modal('show');
-                $('#producto').val(data.id_producto);
+                // Configurar el proveedor y cargar sus productos
                 $('#proveedor').val(data.id_proveedor);
+                cargarProductosPorProveedor(data.id_proveedor); // Cargar los productos
+
+                // Esperar a que los productos se carguen y luego asignar el valor
+                setTimeout(() => {
+                    $('#producto').val(data.id_producto);
+                }, 800); // Ajusta el tiempo si es necesario
+                if(data.estado == 1){
+                    checkbox.checked = true;
+                }else{
+                    checkbox.checked = false;
+                }
                 $('#cantidad_compra').val(data.cantidad_compra);
                 $('#precio_unitario').val(data.precio_unitario);
                 $('#factura').val(data.factura);
@@ -251,7 +273,7 @@ $(document).ready(function(){
 
 // Función para bloquear los campos y ocultar los botones
 function bloquearCamposYBotones() {
-    $('#producto, #proveedor, #empleado, #cantidad_compra, #precio_unitario, #factura, #metodo_pago, #pago_total, #descripcion')
+    $('#producto, #proveedor, #empleado, #estado, #cantidad_compra, #precio_unitario, #factura, #metodo_pago, #pago_total, #descripcion')
         .prop('disabled', true);
     $('#registrar-empleado').hide();
     $('#inputSeries input').prop('disabled', true);
@@ -259,7 +281,7 @@ function bloquearCamposYBotones() {
 
 // Función para desbloquear los campos y mostrar los botones
 function desbloquearCamposYBotones() {
-    $('#producto, #proveedor, #empleado, #cantidad_compra, #precio_unitario, #factura, #metodo_pago, #pago_total, #descripcion')
+    $('#producto, #proveedor, #empleado, #estado, #cantidad_compra, #precio_unitario, #factura, #metodo_pago, #pago_total, #descripcion')
         .prop('disabled', false);
     $('#registrar-empleado').show();
 }

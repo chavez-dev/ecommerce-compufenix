@@ -15,14 +15,14 @@
         <div class="row ">
             <div class="col-lg-12 ">
                 <table id="tablaUsuarios" class=" table table-striped table-bordered " style="width:100%;">
-                    <thead class="text-center" >
+                    <thead class="text-center">
                         <!-- <tr> -->
                         <th class="text-center bg-info-subtle">ID</th>
                         <th class="text-center bg-info-subtle">Fecha</th>
-                        <th class="text-center bg-info-subtle">Producto</th>
                         <th class="text-center bg-info-subtle">Proveedor</th>
+                        <th class="text-center bg-info-subtle">Producto</th>
+                        <th class="text-center bg-info-subtle">Estado</th>
                         <th class="text-center bg-info-subtle">Cantidad</th>
-                        <th class="text-center bg-info-subtle">Precio Und.</th>
                         <th class="text-center bg-info-subtle">Total</th>
                         <th class="text-center bg-info-subtle">Factura</th>
                         <th class="text-center bg-info-subtle">Opciones</th>
@@ -56,30 +56,9 @@
 
                     <div class="col-md-6 ">
                         <div class="form-group text-center">
-                            <label for="producto" class="col-form-label">Producto:</label>
-                            <select class="form-control  form-select" id="producto" name="producto" required>
-                                <option value="" disabled selected hidden>Seleccione</option>
-                                <!-- <option value="Administrador">Administrador</option>
-                                    <option value="Atencion al Cliente">Atencion al Cliente</option>
-                                    <option value="Inventario">Inventario</option> -->
-                                <?php
-                                $sql = "SELECT id_producto, nombre_producto FROM producto";
-                                $stmt = $conexion->query($sql);
-                                while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                    echo '<option value="' . $fila['id_producto'] . '">' . $fila['id_producto'] . ' - ' . $fila['nombre_producto'] . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6 ">
-                        <div class="form-group text-center">
                             <label for="proveedor" class="col-form-label">Proveedor:</label>
-                            <select class="form-control form-select" id="proveedor" name="proveedor" required>
+                            <select class="form-control form-select" id="proveedor" name="proveedor" required onchange="cargarProductosPorProveedor(this.value)">
                                 <option value="" disabled selected hidden>Seleccione</option>
-                                <!-- <option value="Administrador">Administrador</option>
-                                    <option value="Atencion al Cliente">Atencion al Cliente</option>
-                                    <option value="Inventario">Inventario</option> -->
                                 <?php
                                 $sql = "SELECT id_proveedor, nombre FROM proveedor";
                                 $stmt = $conexion->query($sql);
@@ -91,21 +70,29 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-6 ">
                         <div class="form-group text-center">
-                            <label for="empleado" class="col-form-label ">ID Emp:</label>
-                            <?php
-
-                            $sql_id_empleado = $conexion->prepare("SELECT id_empleado FROM empleado WHERE DNI = '" . $_SESSION["usuario"] . "' LIMIT 1 ");
-                            $sql_id_empleado->execute();
-                            $id_empleado = $sql_id_empleado->fetchColumn();
-
-                            ?>
-                            <input type="number" class="form-control text-center input-number-hide-arrows" id="empleado" name="empleado" value="<?php echo $id_empleado ?>">
+                            <label for="producto" class="col-form-label">Producto:</label>
+                            <select class="form-control form-select" id="producto" name="producto" required>
+                                <option value="" disabled selected hidden>Seleccione</option>
+                                <!-- Las opciones se llenarán dinámicamente mediante JavaScript -->
+                            </select>
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+
+                    
+                    <?php
+
+                    $sql_id_empleado = $conexion->prepare("SELECT id_empleado FROM empleado WHERE DNI = '" . $_SESSION["usuario"] . "' LIMIT 1 ");
+                    $sql_id_empleado->execute();
+                    $id_empleado = $sql_id_empleado->fetchColumn();
+
+                    ?>
+                    <input type="hidden" class="form-control text-center input-number-hide-arrows" id="empleado" name="empleado" value="<?php echo $id_empleado ?>" readonly  >
+                    
+
+                    <div class="col-md-2">
                         <div class="form-group text-center">
                             <label for="cantidad_compra" class="col-form-label ">Cantidad:</label>
                             <input type="number" class="form-control text-center input-number-hide-arrows" id="cantidad_compra" name="cantidad_compra">
@@ -113,11 +100,22 @@
                     </div>
 
                     <div class="col-md-5">
-                        <div class="form-group ">
+                        <div class="form-group text-center ">
                             <label for="precio_unitario" class="col-form-label">Precio Und.:</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">$</span>
                                 <input type="number" class="form-control text-center input-number-hide-arrows" aria-label="Amount (to the nearest dollar)" id="precio_unitario" name="precio_unitario" required>
+                                <span class="input-group-text">.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="form-group text-center ">
+                            <label for="pago_total" class="col-form-label">Total:</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control text-center input-number-hide-arrows" aria-label="Amount (to the nearest dollar)" id="pago_total" name="pago_total" required>
                                 <span class="input-group-text">.00</span>
                             </div>
                         </div>
@@ -147,16 +145,16 @@
                         </div>
                     </div>
 
-                    <div class="col-md-5">
-                        <div class="form-group text-center">
-                            <label for="pago_total" class="col-pago_total-label">Total:</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control text-center input-number-hide-arrows" aria-label="Amount (to the nearest dollar)" id="pago_total" name="pago_total" required>
-                                <span class="input-group-text">.00</span>
+                    <div class="col-md-2">
+                        <div class="form-group justify-content-center text-center">
+                            <label for="status" class="col-form-label">Estado:</label>
+                            <div class="form-check form-switch justify-content-center text-center box-estado">
+                                <input class="form-check-input text-center" type="checkbox" role="switch" id="estado" name="estado">
                             </div>
                         </div>
                     </div>
+
+                    
 
                     <div class="col-md-12">
                         <div class="input-group">
@@ -221,7 +219,7 @@
     inputCantidad.addEventListener("input", actualizarPrecioTotal);
     inputPrecioUnitario.addEventListener("input", actualizarPrecioTotal);
 
-    inputCantidad.addEventListener("input", function(){
+    inputCantidad.addEventListener("input", function() {
         var cantidad = parseInt(this.value);
         agregarInputsSeries(cantidad);
     })
@@ -266,6 +264,29 @@
         }
     }
 
+    function cargarProductosPorProveedor(proveedorId) {
+        // Verificar que se ha seleccionado un proveedor válido
+        if (proveedorId) {
+            // Hacer la solicitud AJAX al servidor
+            fetch(`../../../backend/consultas/obtener_productos.php?proveedor_id=${proveedorId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Limpiar las opciones actuales del select de productos
+                    const productoSelect = document.getElementById('producto');
+                    productoSelect.innerHTML = '<option value="" disabled selected hidden>Seleccione</option>';
+
+                    // Agregar las opciones recibidas
+                    data.forEach(producto => {
+                        const option = document.createElement('option');
+                        option.value = producto.id_producto;
+                        // Mostrar el ID, nombre del producto y precio formateado
+                        option.textContent = `${producto.id_producto} - ${producto.nombre_producto} - S./ ${producto.precio_unitario}`;
+                        productoSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error al cargar productos:', error));
+        }
+    }
 </script>
 
 </body>
