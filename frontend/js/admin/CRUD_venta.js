@@ -35,21 +35,19 @@ $(document).ready(function(){
     
 
     var btnReload = document.getElementById('btnReload');
-    var btnAgregarEmpleado = document.getElementById('agregarEmpleado');
-    var checkbox = document.getElementById("estado");
+    var btnAgregarCompra = document.getElementById('agregar_compra');
     var modalHeader = document.getElementById("modal-form-header");
-    var btnRegistrarEmpleado = document.getElementById("registrar-empleado");
+    var btnRegistrarCompra = document.getElementById("registrar_compra");
     var tipoOperacion = document.getElementById("operacion");
-    var operacion
     
-    $("#agregarEmpleado").click(function(){
+    $("#agregar_compra").click(function(){
         $('#formulario-empleado')[0].reset();
         $('.modal-title').text("REGISTRO DE COMPRA");
-        $('#registrar-empleado').val("Crear");
+        $('#registrar_compra').val("Crear");
         $('#operacion').val("Crear");
         modalHeader.classList.remove("modal-editar");
-        btnRegistrarEmpleado.classList.remove('btn-warning');
-        btnRegistrarEmpleado.innerText= "Registrar";
+        btnRegistrarCompra.classList.remove('btn-warning');
+        btnRegistrarCompra.innerText= "Registrar";
     })
     
     // ! FUNCIONALIDAD DE DATATABLES
@@ -89,47 +87,47 @@ $(document).ready(function(){
     });
 
 
-    // ! AGREGAR VENTA
-    $(document).on('submit','#formulario-empleado',function(event){
-        event.preventDefault();
+    // // ! AGREGAR VENTA
+    // $(document).on('submit','#formulario-empleado',function(event){
+    //     event.preventDefault();
         
-        $.ajax({
-            url: "../../../backend/consultas/CRUD_compra.php",
-            method: "POST",
-            data: new FormData(this), // Para la imagenes
-            contentType: false,
-            processData: false,
-            success:function(data){
-                $('#formulario-empleado')[0].reset();
-                btnReload.click(); // Para Cerrar el modal
-                if(tipoOperacion.value == "Crear"){
-                    Swal.fire({
-                        icon: "success",
-                        title: "Registro Exitoso!",
-                        text: "Se ha registrado correctamente!",
-                        timer: 1500,
-                    });
-                }
-                if(tipoOperacion.value == "Editar"){
-                    Swal.fire({
-                        icon: "success",
-                        title: "Cambios Guardados!",
-                        text: "Se guardaron los cambios correctamente!",
-                        timer: 1500,
-                    });
-                }
-                dataTable.ajax.reload(); // Recargar la tabla
-            }
-        });
+    //     $.ajax({
+    //         url: "../../../backend/consultas/CRUD_compra.php",
+    //         method: "POST",
+    //         data: new FormData(this), // Para la imagenes
+    //         contentType: false,
+    //         processData: false,
+    //         success:function(data){
+    //             $('#formulario-empleado')[0].reset();
+    //             btnReload.click(); // Para Cerrar el modal
+    //             if(tipoOperacion.value == "Crear"){
+    //                 Swal.fire({
+    //                     icon: "success",
+    //                     title: "Registro Exitoso!",
+    //                     text: "Se ha registrado correctamente!",
+    //                     timer: 1500,
+    //                 });
+    //             }
+    //             if(tipoOperacion.value == "Editar"){
+    //                 Swal.fire({
+    //                     icon: "success",
+    //                     title: "Cambios Guardados!",
+    //                     text: "Se guardaron los cambios correctamente!",
+    //                     timer: 1500,
+    //                 });
+    //             }
+    //             dataTable.ajax.reload(); // Recargar la tabla
+    //         }
+    //     });
         
-    });
+    // });
 
     // // ! EDITAR: TRAER DATOS DE LA BD
     // $(document).on('click', '.editar', function(){
     //     modalHeader.classList.remove("modal-ver");
     //     modalHeader.classList.add("modal-editar"); // Cambiamos el color del header del modal 
-    //     btnRegistrarEmpleado.innerText= "Editar"; // Cambiamos el texto del boton
-    //     btnRegistrarEmpleado.classList.add('btn-warning'); // Agregamos una clase para cambiar el color del boton
+    //     btnRegistrarCompra.innerText= "Editar"; // Cambiamos el texto del boton
+    //     btnRegistrarCompra.classList.add('btn-warning'); // Agregamos una clase para cambiar el color del boton
     //     var id_usuario = $(this).attr("id"); // Obtenemos el id_empleado de la clase .editar
     //     operacion= 'actualizar';
     //     $('#id_usuario').val(id_usuario);
@@ -252,17 +250,17 @@ $(document).ready(function(){
 
 });
 
-// Función para bloquear los campos y ocultar los botones
-function bloquearCamposYBotones() {
-    $('#producto, #proveedor, #empleado, #cantidad_compra, #precio_unitario, #factura, #metodo_pago, #pago_total, #descripcion')
-        .prop('disabled', true);
-    $('#registrar-empleado').hide();
-    $('#inputSeries input').prop('disabled', true);
-}
+// // Función para bloquear los campos y ocultar los botones
+// function bloquearCamposYBotones() {
+//     $('#producto, #proveedor, #empleado, #cantidad_compra, #precio_unitario, #factura, #metodo_pago, #pago_total, #descripcion')
+//         .prop('disabled', true);
+//     $('#registrar-empleado').hide();
+//     $('#inputSeries input').prop('disabled', true);
+// }
 
-// Función para desbloquear los campos y mostrar los botones
-function desbloquearCamposYBotones() {
-    $('#producto, #proveedor, #empleado, #cantidad_compra, #precio_unitario, #factura, #metodo_pago, #pago_total, #descripcion')
-        .prop('disabled', false);
-    $('#registrar-empleado').show();
-}
+// // Función para desbloquear los campos y mostrar los botones
+// function desbloquearCamposYBotones() {
+//     $('#producto, #proveedor, #empleado, #cantidad_compra, #precio_unitario, #factura, #metodo_pago, #pago_total, #descripcion')
+//         .prop('disabled', false);
+//     $('#registrar-empleado').show();
+// }

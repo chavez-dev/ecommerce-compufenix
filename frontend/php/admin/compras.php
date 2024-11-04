@@ -123,7 +123,7 @@
 
                     <div class="col-md-3">
                         <div class="form-group text-center">
-                            <label for="factura" class="col-form-label ">Factura:</label>
+                            <label for="factura" class="col-form-label ">Nro Boleta:</label>
                             <input type="number" class="form-control text-center input-number-hide-arrows" id="factura" name="factura">
                         </div>
                     </div>

@@ -3,3 +3,33 @@
 	color: #fff;
 }
 
+
+#exampleModal .modal-header{
+    font-family: sans-serif;
+    background-color: rgb(70, 153, 70) ;
+}
+
+#exampleModal  .form-control-sm{
+    font-size: 1rem ;
+}
+
+
+#exampleModal .modal-editar{
+    font-family: sans-serif;
+    background-color: rgb(243, 200, 59) ;
+}
+
+#exampleModal .modal-ver{
+    font-family: sans-serif;
+    background-color: rgb(59, 200, 243) ;
+}
+
+tbody tr{
+    text-align: center;
+}
+
+.input-number-hide-arrows::-webkit-inner-spin-button,
+.input-number-hide-arrows::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
