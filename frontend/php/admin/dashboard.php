@@ -28,32 +28,35 @@
             <p id="total-clientes"></p> <!-- Este valor se actualizará dinámicamente -->
             <span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="green" viewBox="0 0 24 24"><path d="M12 2l10 9h-7v11h-6v-11h-7z"/></svg> 8.5% Up from yesterday</span>
         </div>
+    
+        <!-- Total de productos -->
 
-    <!-- Total de órdenes -->
         <div class="stat-item">
-            <div class="dashboard-icon">
-                <!-- Ícono SVG de caja -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 24 24">
-                    <path d="M21 8h-18v14h18v-14zm-9 10h-6v-6h6v6zm2-6h6v6h-6v-6zm-5-8h4l1.2 4h-6.4l1.2-4zm8.56 1l-.56-1h-14l-.56 1h-3.44v2h22v-2h-3.44z"/>
-                </svg>
-            </div>
-            <h2>Total Order</h2>
-            <p>10,293</p>
-            <span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="green" viewBox="0 0 24 24"><path d="M12 2l10 9h-7v11h-6v-11h-7z"/></svg> 1.3% Up from past week</span>
-        </div>
+    <div class="dashboard-icon">
+        <!-- Ícono SVG de caja para representar productos -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 24 24">
+            <path d="M21 8h-18v14h18v-14zm-9 10h-6v-6h6v6zm2-6h6v6h-6v-6zm-5-8h4l1.2 4h-6.4l1.2-4zm8.56 1l-.56-1h-14l-.56 1h-3.44v2h22v-2h-3.44z"/>
+        </svg>
+    </div>
+    <h2>Total Productos</h2>
+    <p id="total-productos"></p> <!-- Este valor se actualizará dinámicamente -->
+    <span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="green" viewBox="0 0 24 24"><path d="M12 2l10 9h-7v11h-6v-11h-7z"/></svg> Up from yesterday</span>
+</div>
 
-    <!-- Total de ganancias -->
-        <div class="stat-item">
-            <div class="dashboard-icon">
-                <!-- Ícono SVG de gráfico -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 24 24">
-                    <path d="M12 3l7.76 7.76-1.41 1.42L12 6.84l-6.35 6.34-1.41-1.41L12 3zm0 6.92l6.36 6.36-1.41 1.41L12 11.75 7.05 16.7 5.64 15.29 12 9.92zm0 6.92l5.65 5.65-1.41 1.41L12 16.25 6.76 21.5l-1.41-1.41L12 16.84z"/>
-                </svg>
-            </div>
-            <h2>Total Ganancias</h2>
-            <p>$89,000</p>
-            <span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="red" viewBox="0 0 24 24"><path d="M12 22l-10-9h7v-11h6v11h7z"/></svg> 4.3% Down from yesterday</span>
-        </div>
+
+
+   <!-- Total de ganancias -->
+<div class="stat-item">
+    <div class="dashboard-icon">
+        <!-- Ícono SVG de gráfico -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 24 24">
+            <path d="M12 3l7.76 7.76-1.41 1.42L12 6.84l-6.35 6.34-1.41-1.41L12 3zm0 6.92l6.36 6.36-1.41 1.41L12 11.75 7.05 16.7 5.64 15.29 12 9.92zm0 6.92l5.65 5.65-1.41 1.41L12 16.25 6.76 21.5l-1.41-1.41L12 16.84z"/>
+        </svg>
+    </div>
+    <h2>Total Ganancias</h2>
+    <p id="total-ganancias"></p> <!-- Este valor se actualizará dinámicamente -->
+    <span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="red" viewBox="0 0 24 24"><path d="M12 22l-10-9h7v-11h6v11h7z"/></svg> 4.3% Down from yesterday</span>
+</div>
 
     <!-- Total de pedidos -->
         <div class="stat-item">
@@ -131,9 +134,10 @@
 <!-- Llamada AJAX para actualizar estadísticas -->
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    fetch('/ecommerce-compufenix/backend/consultas/obtener_cliente.php')
+    //Obterner total de usuarios
 
+document.addEventListener("DOMContentLoaded", function() {
+    fetch('http://localhost/ecommerce-compufenix/backend/consultas/obtener_cliente.php')
     .then(response => {
         console.log("Estado de la respuesta:", response.status);
         if (!response.ok) {
@@ -150,8 +154,54 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     })
     .catch(error => console.error("Error al obtener el total de clientes:", error));
-
 });
+
+   // obtener ganancias totales
+   document.addEventListener("DOMContentLoaded", function() {
+    // Actualizar total de clientes
+    fetch('http://localhost/ecommerce-compufenix/backend/consultas/obtener_cliente.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.totalClientes !== undefined) {
+                document.querySelector("#total-clientes").innerText = data.totalClientes;
+            }
+        })
+        .catch(error => console.error("Error al obtener el total de clientes:", error));
+
+    // Actualizar total de ganancias
+    fetch('http://localhost/ecommerce-compufenix/backend/consultas/obtener_ganancias.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.totalGanancias !== undefined) {
+                document.querySelector("#total-ganancias").innerText = `$${data.totalGanancias}`;
+            }
+        })
+        .catch(error => console.error("Error al obtener el total de ganancias:", error));
+});
+
+// obtener productos
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Llamada AJAX para obtener el total de productos
+    fetch('http://localhost/ecommerce-compufenix/backend/consultas/obtener_productos.php')
+    .then(response => {
+        console.log("Estado de la respuesta:", response.status);
+        if (!response.ok) {
+            throw new Error('Error en la respuesta de la red');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Datos recibidos:", data);
+        if (data.totalProductos !== undefined) {
+            document.querySelector("#total-productos").innerText = data.totalProductos;
+        } else {
+            console.error("Error en los datos recibidos:", data);
+        }
+    })
+    .catch(error => console.error("Error al obtener el total de productos:", error));
+});
+
 </script>
 
 <!-- Llamada AJAX para actualizar estadísticas -->
