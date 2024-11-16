@@ -251,18 +251,18 @@
                         <div class="col-md-3 border border-danger">
                             <div class="row">
                                 <div class="input-group mb-2">
-                                    <span class="input-group-text" id="basic-addon1">Total</span>
-                                    <input type="text" class="form-control"">
+                                    <span class="input-group-text" >Total</span>
+                                    <input type="text" class="form-control" id="total_input">
                                 </div>
                                 
                                 <div class="input-group mb-2">
-                                    <span class="input-group-text" id="basic-addon1">Recibido</span>
-                                    <input type="text" class="form-control"">
+                                    <span class="input-group-text" >Recibido</span>
+                                    <input type="text" class="form-control" id="recibido_input">
                                 </div>
                                 
                                 <div class="input-group mb-2">
-                                    <span class="input-group-text" id="basic-addon1">Pagado</span>
-                                    <input type="text" class="form-control"">
+                                    <span class="input-group-text" >Vuelto</span>
+                                    <input type="text" class="form-control" id="vuelto_input">
                                 </div>
                             </div>
                         </div>
@@ -343,6 +343,8 @@ $(document).ready(function() {
 
 
     document.addEventListener("DOMContentLoaded", function() {
+        
+
         const fechaEmisionInput = document.getElementById("fecha_emision");
         if (fechaEmisionInput) {
             const peruDate = new Date().toLocaleDateString('en-CA', { // Formato ISO (YYYY-MM-DD)
@@ -356,6 +358,72 @@ $(document).ready(function() {
         if (seleccionarTipo.value === 'SIN_DOC') {
             deshabilitarCampos();
         }
+
+        document.getElementById("registrar_producto").addEventListener("click", function() {
+            // Obtener los valores de los campos
+            const producto = document.getElementById("producto");
+            const nombreProducto = producto.options[producto.selectedIndex].text;
+            const cantidad = parseInt(document.getElementById("cantidad").value);
+            const precio = parseFloat(document.getElementById("precio").value);
+            
+            // Validación de datos
+            if (!producto.value || isNaN(cantidad) || cantidad <= 0 || isNaN(precio) || precio <= 0) {
+                alert("Por favor, complete los campos correctamente.");
+                return;
+            }
+            
+            // Calcular el importe
+            const importe = cantidad * precio;
+            
+            // Crear una nueva fila en la tabla
+            const tableBody = document.querySelector("#tabla_detalle_venta tbody");
+            const newRow = document.createElement("tr");
+            
+            // Añadir las celdas a la fila
+            newRow.innerHTML = `
+                <td>${nombreProducto}</td>
+                <td>${cantidad}</td>
+                <td>${precio.toFixed(2)}</td>
+                <td>${importe.toFixed(2)}</td>
+            `;
+            
+            // Añadir la fila a la tabla
+            tableBody.appendChild(newRow);
+
+             // Recalcular el total después de añadir el nuevo producto
+            calcularTotal();
+
+            // Limpiar los campos después de agregar el producto
+            document.getElementById("producto").selectedIndex = 0;
+            document.getElementById("cantidad").value = "";
+            document.getElementById("precio").value = "";
+
+        });
+
+        // Función para calcular el total sumando todos los importes de la tabla
+        function calcularTotal() {
+            let totalAmount = 0;
+            const tableBody = document.querySelector("#tabla_detalle_venta tbody");
+            
+            // Sumar cada importe de las filas de la tabla
+            Array.from(tableBody.querySelectorAll("tr")).forEach(row => {
+                const importe = parseFloat(row.cells[3].innerText);
+                totalAmount += importe;
+            });
+
+            // Actualizar el campo de total
+            document.getElementById("total_input").value = totalAmount.toFixed(2);
+        }
+
+        // Calcular el vuelto automáticamente al ingresar el monto recibido
+        document.getElementById("recibido_input").addEventListener("input", function() {
+            const recibido = parseFloat(this.value);
+            const total = parseFloat(document.getElementById("total_input").value);
+            const vuelto = recibido - total;
+            document.getElementById("vuelto_input").value = vuelto.toFixed(2);
+        });
+
+        
     });
 
 
