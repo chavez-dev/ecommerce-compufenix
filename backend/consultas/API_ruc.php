@@ -23,7 +23,39 @@ $resultado = $stmt->fetchAll();
 
 if (count($resultado) > 0){
   // Si el DNI ya está registrado, enviamos un mensaje y no realizamos la consulta a la API
-  echo json_encode(array("status" => "error", "message" => "El RUC ya está registrado."));
+  // echo json_encode(array("status" => "error", "message" => "El RUC ya está registrado."));
+
+  error_log("RUC ya registrado, obteniendo datos del cliente...");
+            
+  $stmt = $conexion->prepare("
+      SELECT 
+          c.nombre, 
+          co.direccion, 
+          co.email, 
+          co.nro_celular 
+      FROM 
+          cliente c
+      INNER JOIN 
+          contacto co 
+      ON 
+          c.id_contacto = co.id_contacto
+      WHERE 
+          c.nro_documento = :ruc
+      LIMIT 1
+  ");
+  $stmt->bindParam(':ruc', $ruc, PDO::PARAM_STR);
+  $stmt->execute();
+  $clienteData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  error_log("Datos del cliente: " . json_encode($clienteData));
+
+  if ($clienteData) {
+      echo json_encode(array("status" => "success", "cliente" => $clienteData));
+  } else {
+      error_log("Error: Cliente no encontrado en tabla relacionada.");
+      echo json_encode(array("status" => "error", "message" => "No se pudo obtener la información del cliente."));
+  }
+  exit;
   
 } else {
   // Iniciar llamada a API

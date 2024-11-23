@@ -88,9 +88,9 @@
 	DROP VIEW IF EXISTS lista_ventas;
 	CREATE VIEW lista_ventas AS
     SELECT v.id_venta, DATE_FORMAT(registro_venta, '%b %d, %Y, %H:%i') AS fecha_hora_registro ,
-    c.nro_documento, c.nombre AS cliente, concat( f.serie , "-", f.numero ) AS "numero_factura", v.pago_total FROM venta v
+    c.nro_documento, c.nombre AS cliente, concat( cpb.serie , "-", cpb.numero ) AS "numero_comprobante", v.pago_total FROM venta v
 	INNER JOIN cliente c USING (id_cliente)
-    INNER JOIN factura f USING (id_venta);
+    INNER JOIN comprobante cpb USING (id_venta);
     -- Llamando Vista lista_ventas
 	SELECT * FROM lista_ventas;
 

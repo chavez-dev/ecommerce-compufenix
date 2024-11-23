@@ -1,39 +1,8 @@
 
 
-
-// function agregarInputsSeries(cantidad) {
-//     var inputSeriesDiv = document.getElementById('inputSeries');
-//     inputSeriesDiv.innerHTML = ''; // Limpiar los inputs anteriores
-
-//     for (var i = 1; i <= cantidad; i++) {
-//         var label = document.createElement('label');
-//         label.setAttribute('for', 'serie' + i);
-//         label.classList.add('col-form-label', 'col-sm-3');
-//         label.innerText = 'Producto ' + i;
-
-//         var div = document.createElement('div');
-//         div.classList.add('col-sm-9');
-
-//         var input = document.createElement('input');
-//         input.setAttribute('type', 'text');
-//         input.setAttribute('oninput', "this.value = this.value.toUpperCase()");
-//         input.classList.add('form-control', 'form-control-sm', 'text-center');
-//         input.setAttribute('id', 'serie' + i);
-//         input.setAttribute('name', 'serie' + i);
-//         input.setAttribute('placeholder', 'Número de serie ' + i);
-
-//         div.appendChild(input);
-//         inputSeriesDiv.appendChild(label);
-//         inputSeriesDiv.appendChild(div);
-//     }
-// }
-
-
-
-
 $(document).ready(function(){
     
-
+    
     var btnReload = document.getElementById('btnReload');
     var btnAgregarCompra = document.getElementById('agregar_compra');
     var modalHeader = document.getElementById("modal-form-header");
@@ -42,12 +11,26 @@ $(document).ready(function(){
     
     $("#agregar_compra").click(function(){
         $('#formulario-empleado')[0].reset();
-        $('.modal-title').text("REGISTRO DE COMPRA");
+        $('.modal-title').text("REGISTRO DE VENTA");
         $('#registrar_compra').val("Crear");
         $('#operacion').val("Crear");
-        modalHeader.classList.remove("modal-editar");
-        btnRegistrarCompra.classList.remove('btn-warning');
-        btnRegistrarCompra.innerText= "Registrar";
+        // modalHeader.classList.remove("modal-editar");
+        
+        // btnRegistrarCompra.classList.remove('btn-warning');
+        // btnRegistrarCompra.innerText= "Registrar";
+
+        const fechaEmisionInput = document.getElementById("fecha_emision");
+        if (fechaEmisionInput) {
+            const peruDate = new Date().toLocaleDateString('en-CA', { // Formato ISO (YYYY-MM-DD)
+                timeZone: 'America/Lima',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+            fechaEmisionInput.value = peruDate;
+        }
+
+        
     })
     
     // ! FUNCIONALIDAD DE DATATABLES
@@ -87,40 +70,91 @@ $(document).ready(function(){
     });
 
 
-    // // ! AGREGAR VENTA
-    // $(document).on('submit','#formulario-empleado',function(event){
-    //     event.preventDefault();
+    // ! AGREGAR VENTA
+    $(document).on('submit','#formulario-empleado',function(event){
+        event.preventDefault();
+
+        console.log("Entrando ajax");
         
-    //     $.ajax({
-    //         url: "../../../backend/consultas/CRUD_compra.php",
-    //         method: "POST",
-    //         data: new FormData(this), // Para la imagenes
-    //         contentType: false,
-    //         processData: false,
-    //         success:function(data){
-    //             $('#formulario-empleado')[0].reset();
-    //             btnReload.click(); // Para Cerrar el modal
-    //             if(tipoOperacion.value == "Crear"){
-    //                 Swal.fire({
-    //                     icon: "success",
-    //                     title: "Registro Exitoso!",
-    //                     text: "Se ha registrado correctamente!",
-    //                     timer: 1500,
-    //                 });
-    //             }
-    //             if(tipoOperacion.value == "Editar"){
-    //                 Swal.fire({
-    //                     icon: "success",
-    //                     title: "Cambios Guardados!",
-    //                     text: "Se guardaron los cambios correctamente!",
-    //                     timer: 1500,
-    //                 });
-    //             }
-    //             dataTable.ajax.reload(); // Recargar la tabla
-    //         }
-    //     });
         
-    // });
+        // Recopilar los datos de los detalles de venta desde la tabla
+        let detallesVenta = [];
+        $('#tabla_detalle_venta tbody tr').each(function () {
+            const producto = $(this).find('td').eq(0).text(); // Producto
+            const cantidad = $(this).find('td').eq(1).text(); // Cantidad
+            const precio = $(this).find('td').eq(2).text(); // Precio
+            const importe = $(this).find('td').eq(3).text(); // Importe
+
+            // Agregar a un array los detalles de la venta
+            detallesVenta.push({
+                producto: producto,
+                cantidad: parseInt(cantidad),
+                precio: parseFloat(precio),
+                importe: parseFloat(importe),
+            });
+        });
+
+        console.log(detallesVenta);
+        
+
+        // Convertir el array a JSON
+        const detallesVentaJSON = JSON.stringify(detallesVenta);
+
+        console.log(detallesVentaJSON);
+        
+
+        // Crear un objeto FormData para enviar datos al servidor
+        const formData = new FormData(this);
+        formData.append('detalles_venta', detallesVentaJSON); // Agregar los detalles de venta como JSON
+
+
+         $.ajax({
+            url: "../../../backend/consultas/CRUD_venta.php",
+            method: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('#formulario-empleado')[0].reset();
+                btnReload.click(); // Cerrar el modal
+
+                // Parsear la respuesta del backend (JSON)
+                var response = JSON.parse(data);
+        
+                if (tipoOperacion.value === "Crear") {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Registro Exitoso!",
+                        text: "Se ha registrado correctamente!",
+                        showConfirmButton: true, // Mostrar el botón
+                        confirmButtonText: 'Ver Comprobante',
+                        confirmButtonColor: '#3085d6',
+                        // Acción al hacer clic en el botón
+                        preConfirm: () => {
+                            const idVenta = response.id_venta; ; // Asegurarse de que el ID de la venta esté en la respuesta
+                            window.open(`../../../backend/consultas/comprobante/ticket.php?id_venta=${idVenta}`, '_blank'); // Redirigir al comprobante
+                        }
+                    });
+                }
+                if (tipoOperacion.value === "Editar") {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Cambios Guardados!",
+                        text: "Se guardaron los cambios correctamente!",
+                        timer: 1500,
+                    });
+                }
+                dataTable.ajax.reload(); // Recargar la tabla
+            }
+        });
+        
+    });
+
+    $(document).on('click', '.comprobante', function() {
+        var idVenta = $(this).attr('id'); // Obtener el id_venta del botón
+        // Abrir el comprobante en una nueva ventana
+        window.open(`../../../backend/consultas/comprobante/ticket.php?id_venta=${idVenta}`, '_blank');
+    });
 
     // // ! EDITAR: TRAER DATOS DE LA BD
     // $(document).on('click', '.editar', function(){

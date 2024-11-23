@@ -5,6 +5,9 @@ $dni = $_POST["dni"];
 $tipoUsuario = $_POST["tipoUsuario"]; 
 
 
+error_log("DNI recibido: $dni");
+error_log("Tipo de usuario: $tipoUsuario");
+
 
 // Verificamos la longitud del DNI
 if (strlen($dni) != 8){
@@ -27,10 +30,42 @@ $resultado = $stmt->fetchAll();
 
 if (count($resultado) > 0){
   // Si el DNI ya está registrado, enviamos un mensaje y no realizamos la consulta a la API
-  echo json_encode(array("status" => "error", "message" => "El DNI ya está registrado."));
+  error_log("DNI ya registrado, obteniendo datos del cliente...");
+
+  $stmt = $conexion->prepare("
+    SELECT 
+        c.nombre, 
+        co.direccion, 
+        co.email, 
+        co.nro_celular 
+    FROM 
+        cliente c
+    INNER JOIN 
+        contacto co 
+    ON 
+        c.id_contacto = co.id_contacto
+    WHERE 
+        c.nro_documento = :dni
+    LIMIT 1
+  ");
+
+  $stmt->bindParam(':dni', $dni, PDO::PARAM_STR);
+  $stmt->execute();
+  $clienteData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  error_log("Datos del cliente: " . json_encode($clienteData));
+
+  if ($clienteData) {
+      echo json_encode(array("status" => "success", "cliente" => $clienteData));
+  } else {
+      error_log("Error: Cliente no encontrado en tabla relacionada.");
+      echo json_encode(array("status" => "error", "message" => "No se pudo obtener la información del cliente."));
+  }
+  exit;
   
 } else {
   // Iniciar llamada a API
+  error_log("DNI no registrado, consultando API externa...");
   $curl = curl_init();
   
   // Buscar dni

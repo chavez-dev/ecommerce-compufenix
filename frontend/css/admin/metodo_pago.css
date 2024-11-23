@@ -1,11 +1,6 @@
-#sidebar .side-menu  li .btn_recibo {
+#sidebar .side-menu  li .btn_metodo_pago {
 	background: var(--blue);
 	color: #fff;
-}
-
-#sidebar .side-menu  li .side-dropdown .centrar-d a{
-    background: var(--blue);
-    color: #fff;
 }
 
 #exampleModal .modal-header{

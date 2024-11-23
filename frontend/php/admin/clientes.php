@@ -54,7 +54,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="tipo_documento" class="col-form-label">Tipo de Documento:</label>
-                                <select class="form-control text-center form-select" id="tipo_documento" name="tipo_documento" required>
+                                <select class="form-control text-center form-select border-dark-subtle" id="tipo_documento" name="tipo_documento" required>
                                     <option value="" disabled selected hidden>Seleccione</option>
                                     <option value="DNI">DNI</option>
                                     <option value="RUC">RUC</option>
@@ -66,7 +66,7 @@
                             <div class="form-group row">
                                 <label for="nro_documento" class="col-sm-12 col-form-label">Nro. Documento:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm text-center" id="nro_documento" name="nro_documento" required>
+                                    <input type="text" class="form-control form-control-sm text-center border-dark-subtle" id="nro_documento" name="nro_documento" required>
                                     <!-- Alerta cuando el cliente ya se encuentra registro en la BD -->
                                     <span class="alerta-documento" id="alertaClienteRegistrado" style="display: none;"></span>
                                 </div>
@@ -85,7 +85,7 @@
                             <div class="form-group row">
                                 <label for="nombre" class="col-form-label col-sm-2" style="margin-bottom: 2px;">Nombre:</label>
                                 <div class="col-sm-10">    
-                                    <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm text-center" id="nombre" name="nombre" required>
+                                    <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm text-center border-dark-subtle" id="nombre" name="nombre" required>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="nacionalidad" class="col-form-label">Nacionalidad:</label>
-                                <select class="form-control text-center form-select" id="nacionalidad" name="nacionalidad" required>
+                                <select class="form-control text-center form-select border-dark-subtle" id="nacionalidad" name="nacionalidad" required>
                                     <option value="" disabled selected hidden>Seleccione un pais</option>
                                     <option value="PER">Perú</option>
                                     <option value="ARG">Argentina</option>
@@ -121,20 +121,20 @@
                             <div class="form-group row">
                                 <label for="direccion" class="col-form-label col-sm-2">Dirección:</label>
                                 <div class="col-sm-10"> 
-                                    <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm text-center" id="direccion" name="direccion" required>
+                                    <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm text-center border-dark-subtle" id="direccion" name="direccion" required>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label for="email" class="col-form-label">Email:</label>
-                                <input type="email" class="form-control form-control-sm text-center" id="email" name="email" required>
+                                <input type="email" class="form-control form-control-sm text-center border-dark-subtle" id="email" name="email" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="celular" class="col-form-label">Celular:</label>
-                                <input type="tel" class="form-control form-control-sm text-center" id="celular" name="celular" required>
+                                <input type="tel" class="form-control form-control-sm text-center border-dark-subtle" id="celular" name="celular" required>
                             </div>
                         </div>
                         

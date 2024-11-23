@@ -49,20 +49,10 @@ if (window.location.pathname.includes('/admin/categoria.php')) {
     dropdown2.classList.add('show');
     listaProductosLink2.classList.add('active');
 }
-if (window.location.pathname.includes('/admin/recibo.php')) {
-	// Obtener el elemento del desplegable
-	const dropdown = document.querySelector('#sidebar .list-facturas');
-	const listaProductosLink = dropdown.querySelector('a[href="../admin/recibo.php"]');
-	dropdown.classList.add('show');
-	listaProductosLink.classList.add('active');
-}
-if (window.location.pathname.includes('/admin/metodo_pago.php')) {
-    // Obtener el elemento del desplegable
-    const dropdown = document.querySelector('#sidebar .list-facturas');
-    const listaProductosLink = dropdown.querySelector('a[href="../admin/metodo_pago.php"]');
-    dropdown.classList.add('show');
-    listaProductosLink.classList.add('active');
-}
+
+
+
+// LISTA DESPLESGABLE DE INVENTARIO
 if (window.location.pathname.includes('/admin/inventario.php')) {
 	// Obtener el elemento del desplegable
 	const dropdown = document.querySelector('#sidebar .list-inventario');
@@ -78,6 +68,28 @@ if (window.location.pathname.includes('/admin/estado.php')) {
     listaProductosLink.classList.add('active');
 }
 
+// LISTA DESPLEGABLE DE CONFIGURACION
+if (window.location.pathname.includes('/admin/tienda.php')) {
+    // Obtener el elemento del desplegable
+    const dropdown = document.querySelector('#sidebar .list-configuration');
+    const listaProductosLink = dropdown.querySelector('a[href="../admin/tienda.php"]');
+    dropdown.classList.add('show');
+    listaProductosLink.classList.add('active');
+}
+if (window.location.pathname.includes('/admin/permiso.php')) {
+    // Obtener el elemento del desplegable
+    const dropdown = document.querySelector('#sidebar .list-configuration');
+    const listaProductosLink = dropdown.querySelector('a[href="../admin/permiso.php"]');
+    dropdown.classList.add('show');
+    listaProductosLink.classList.add('active');
+}
+if (window.location.pathname.includes('/admin/serie.php')) {
+    // Obtener el elemento del desplegable
+    const dropdown = document.querySelector('#sidebar .list-configuration');
+    const listaProductosLink = dropdown.querySelector('a[href="../admin/serie.php"]');
+    dropdown.classList.add('show');
+    listaProductosLink.classList.add('active');
+}
 
 
 

@@ -8,6 +8,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+     <!-- Favicon -->
+     <link rel="icon" href="../include/logo.ico" type="image/x-icon">
+
     <!-- STYLE CSS -->
     <link rel="stylesheet" href="../../css/admin/sidebar_nav.css">
     <!-- ICONOS FONTAWESOME-->

@@ -59,14 +59,9 @@
             </li>
 
             <li>
-                <a href="#" class="btn_recibo">
-                    <i class="fa-solid fa-clipboard-list icon"></i>Facturas
-                    <i class="fa-solid fa-chevron-down icon-right"></i>
+                <a href="../admin/metodo_pago.php" class="btn_metodo_pago">
+                    <i class="fa-solid fa-dollar-sign icon"></i>Método de Pago
                 </a>
-                <ul class="side-dropdown list-facturas">
-                    <li class="centrar-c"><a href="../admin/recibo.php">Lista de Recibos</a></li>
-                    <li class="centrar-d"><a href="../admin/metodo_pago.php">Metodo de Pago</a></li>
-                </ul>
             </li>
 
             <li>
@@ -91,10 +86,22 @@
             </li>
 
             <li>
+                <a href="#" class="btn_configuracion">
+                    <i class="fa-solid fa-gears icon"></i>Configuracion
+                    <i class="fa-solid fa-chevron-down icon-right"></i>
+                </a>
+                <ul class="side-dropdown list-configuration">
+                    <li class="centrar-g"><a href="../admin/tienda.php">Tienda</a></li>
+                    <li class="centrar-h"><a href="../admin/serie.php">Series</a></li>
+                    <li class="centrar-i"><a href="../admin/permiso.php">Permisos</a></li>
+                </ul>
+            </li>
+
+            <!-- <li>
                 <a href="../admin/configuracion.php" class="btn_configuracion">
                     <i class="fa-solid fa-gears icon"></i>Configuracion
                 </a>
-            </li>
+            </li> -->
 
         </ul>
 
