@@ -51,7 +51,7 @@
 
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-6 border border-danger">
+                            <div class="col-md-6 border">
                                 
                                 <h5> Comprobante de pago</h5>
 
@@ -73,15 +73,17 @@
 
                                     <div class="col-md-3">
                                         <div class="form-group text-center">
-                                            <label for="serie" class="col-form-label ">Serie:</label>
-                                            <input type="text" class="form-control text-center input-number-hide-arrows border-dark-subtle" id="serie" name="serie" value="F100">
+                                            <label for="serie" class="col-form-label">Serie:</label>
+                                            <select class="form-control text-center form-select border-dark-subtle" id="serie" name="serie" required>
+                                                <option value="" disabled selected hidden>Seleccione</option>
+                                            </select>
                                         </div>
                                     </div>
 
                                     <div class="col-md-3">
                                         <div class="form-group text-center">
                                             <label for="correlativo" class="col-form-label ">Correlativo:</label>
-                                            <input type="number" class="form-control text-center input-number-hide-arrows border-dark-subtle" id="correlativo" name="correlativo" value="1">
+                                            <input type="number" class="form-control text-center input-number-hide-arrows border-dark-subtle" id="correlativo" name="correlativo" value="0" readonly>
                                         </div>
                                     </div>
 
@@ -105,7 +107,7 @@
                             </div>
 
 
-                            <div class="col-md-6 border border-danger">
+                            <div class="col-md-6 border">
 
                                 <h5> Datos del Cliente</h5>
 
@@ -113,7 +115,7 @@
                                     <div class="col-md-5">
                                         <div class="form-group">
                                             <label for="tipo_documento" class="col-form-label">Tipo de Documento:</label>
-                                            <select class="form-control text-center form-select" id="tipo_documento" name="tipo_documento" required>
+                                            <select class="form-control text-center form-select border-dark-subtle" id="tipo_documento" name="tipo_documento" required>
                                                 <!-- <option value="" disabled selected hidden>Seleccione</option> -->
                                                 <option value="SIN_DOC">SIN DOCUMENTO</option>
                                                 <option value="DNI">DNI</option>
@@ -126,7 +128,7 @@
                                         <div class="form-group row">
                                             <label for="nro_documento" class="col-sm-12 col-form-label">Nro. Documento:</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control form-control-sm text-center" id="nro_documento" name="nro_documento" >
+                                                <input type="text" class="form-control form-control-sm text-center border-dark-subtle" id="nro_documento" name="nro_documento" >
                                                 <!-- Alerta cuando el cliente ya se encuentra registro en la BD -->
                                                 <span class="alerta-documento" id="alertaClienteRegistrado" style="display: none;"></span>
                                             </div>
@@ -134,34 +136,34 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 mt-2">
                                         <div class="form-group row">
-                                            <label for="nombre" class="col-form-label col-sm-2" style="margin-bottom: 2px;">Nombre:</label>
+                                            <label for="nombre" class="col-form-label col-sm-2">Nombre:</label>
                                             <div class="col-sm-10">    
-                                                <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm text-center" id="nombre" name="nombre" >
+                                                <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm text-center border-dark-subtle" id="nombre" name="nombre" >
                                             </div>
                                         </div>
                                     </div>
 
                                     
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 mt-2">
                                         <div class="form-group row">
                                             <label for="direccion" class="col-form-label col-sm-2">Dirección:</label>
                                             <div class="col-sm-10"> 
-                                                <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm text-center" id="direccion" name="direccion" >
+                                                <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm text-center border-dark-subtle" id="direccion" name="direccion" >
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group ">
                                             <label for="email" class="col-form-label">Email:</label>
-                                            <input type="email" class="form-control form-control-sm text-center" id="email" name="email">
+                                            <input type="email" class="form-control form-control-sm text-center border-dark-subtle" id="email" name="email">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="celular" class="col-form-label">Celular:</label>
-                                            <input type="tel" class="form-control form-control-sm text-center" id="celular" name="celular">
+                                            <input type="tel" class="form-control form-control-sm text-center border-dark-subtle" id="celular" name="celular">
                                         </div>
                                     </div>
                                     
@@ -170,14 +172,14 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-12 border border-danger mt-2">
+                            <div class="col-12 border  mt-2">
                                 <!-- Contenido de la fila inferior que ocupa todo el ancho -->
                                 <h5> Detalle Venta</h5>
                                 <div class="row">
                                     <div class="col-md-3 ">
                                         <div class="form-group text-center">
                                             <label for="producto" class="col-form-label">Producto:</label>
-                                            <select class="form-control form-select" id="producto" name="producto" >
+                                            <select class="form-control form-select border-dark-subtle" id="producto" name="producto" >
                                                 <option value="" disabled selected hidden>Seleccione</option>
                                                 <?php
                                                 $sql = "SELECT id_producto, nombre_producto FROM producto";
@@ -193,14 +195,14 @@
                                     <div class="col-md-2">
                                         <div class="form-group text-center">
                                             <label for="cantidad" class="col-form-label ">Cantidad:</label>
-                                            <input type="number" class="form-control text-center input-number-hide-arrows" id="cantidad" name="cantidad">
+                                            <input type="number" class="form-control text-center input-number-hide-arrows border-dark-subtle" id="cantidad" name="cantidad">
                                         </div>
                                     </div>
 
                                     <div class="col-md-2">
                                         <div class="form-group text-center">
                                             <label for="stock" class="col-form-label ">Stock:</label>
-                                            <input type="number" class="form-control text-center input-number-hide-arrows" id="stock" name="stock">
+                                            <input type="number" class="form-control text-center input-number-hide-arrows border-dark-subtle" id="stock" name="stock" readonly>
                                         </div>
                                     </div>
 
@@ -209,7 +211,7 @@
                                             <label for="precio" class="col-form-label">Precio:</label>
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text">$</span>
-                                                <input type="number" class="form-control text-center input-number-hide-arrows" aria-label="Amount (to the nearest dollar)" id="precio" name="precio" >
+                                                <input type="number" class="form-control text-center input-number-hide-arrows border-dark-subtle" aria-label="Amount (to the nearest dollar)" id="precio" name="precio" >
                                                 <span class="input-group-text">.00</span>
                                             </div>
                                         </div>
@@ -231,15 +233,16 @@
 
 
                         <div class="row">
-                            <div class="col-md-9 border border-danger">
+                            <div class="col-md-9 border  ">
                                 <!-- Tabla para mostrar los detalles de la venta -->
-                                <table class="table mt-3" id="tabla_detalle_venta">
-                                    <thead>
+                                <table class="table table-striped table-bordered table-hover table-sm mt-3" id="tabla_detalle_venta">
+                                    <thead class="table-dark">
                                         <tr>
-                                            <th>Producto</th>
-                                            <th>Cantidad</th>
-                                            <th>Precio</th>
-                                            <th>Importe</th>
+                                            <th class="text-center">Producto</th>
+                                            <th class="text-center">Cantidad</th>
+                                            <th class="text-center">Precio</th>
+                                            <th class="text-center">Importe</th>
+                                            <th class="text-center">Opcion</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -248,21 +251,21 @@
                                 </table>
                             </div>
 
-                            <div class="col-md-3 border border-danger">
+                            <div class="col-md-3 border mt-2 ">
                                 <div class="row">
                                     <div class="input-group mb-2">
                                         <span class="input-group-text" >Total</span>
-                                        <input type="text" class="form-control" id="total_input" name="total_input">
+                                        <input type="text" class="form-control border-dark-subtle" id="total_input" name="total_input">
                                     </div>
                                     
                                     <div class="input-group mb-2">
                                         <span class="input-group-text" >Recibido</span>
-                                        <input type="text" class="form-control" id="recibido_input" name="recibido_input">
+                                        <input type="text" class="form-control border-dark-subtle" id="recibido_input" name="recibido_input">
                                     </div>
                                     
                                     <div class="input-group mb-2">
                                         <span class="input-group-text" >Vuelto</span>
-                                        <input type="text" class="form-control" id="vuelto_input" name="vuelto_input">
+                                        <input type="text" class="form-control border-dark-subtle" id="vuelto_input" name="vuelto_input">
                                     </div>
                                 </div>
                             </div>
@@ -342,9 +345,13 @@ $(document).ready(function() {
 
     document.addEventListener("DOMContentLoaded", function() {
         
-
+        const modal = document.getElementById("exampleModal");
+        const tableBody = document.querySelector("#tabla_detalle_venta tbody");
        
-
+        modal.addEventListener("hidden.bs.modal", function () {
+            // Limpiar la tabla de detalles de venta
+            tableBody.innerHTML = "";
+        });
 
         if (seleccionarTipo.value === 'SIN_DOC') {
             deshabilitarCampos();
@@ -367,7 +374,6 @@ $(document).ready(function() {
             const importe = cantidad * precio;
             
             // Crear una nueva fila en la tabla
-            const tableBody = document.querySelector("#tabla_detalle_venta tbody");
             const newRow = document.createElement("tr");
             
             // Añadir las celdas a la fila
@@ -376,10 +382,20 @@ $(document).ready(function() {
                 <td>${cantidad}</td>
                 <td>${precio.toFixed(2)}</td>
                 <td>${importe.toFixed(2)}</td>
+                <td class="text-center">
+                    <button class="btn btn-danger btn-sm eliminar-fila">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
             `;
             
             // Añadir la fila a la tabla
             tableBody.appendChild(newRow);
+
+            // Agregar evento al botón de eliminar
+            newRow.querySelector(".eliminar-fila").addEventListener("click", function() {
+                eliminarFila(newRow);
+            });
 
              // Recalcular el total después de añadir el nuevo producto
             calcularTotal();
@@ -387,6 +403,7 @@ $(document).ready(function() {
             // Limpiar los campos después de agregar el producto
             document.getElementById("producto").selectedIndex = 0;
             document.getElementById("cantidad").value = "";
+            document.getElementById("stock").value = "";
             document.getElementById("precio").value = "";
 
         });
@@ -404,6 +421,31 @@ $(document).ready(function() {
 
             // Actualizar el campo de total
             document.getElementById("total_input").value = totalAmount.toFixed(2);
+        }
+
+        // Función para eliminar una fila de la tabla
+        function eliminarFila(row) {
+            event.preventDefault();
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "Se eliminará este producto del detalle de venta.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Eliminar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    row.remove(); // Eliminar la fila
+                    calcularTotal(); // Recalcular el total
+                    Swal.fire({
+                        icon: "success",
+                        title: "Producto eliminado",
+                        text: "El producto fue eliminado correctamente.",
+                    });
+                }
+            });
         }
 
         // Calcular el vuelto automáticamente al ingresar el monto recibido
@@ -573,6 +615,149 @@ $(document).ready(function() {
 
 </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const tipoComprobanteSelect = document.getElementById("tipo_comprobante");
+        const serieSelect = document.getElementById("serie");
+
+        // Función para cargar las series
+        function cargarSeries(tipoComprobante) {
+            // Limpiar el select de series
+            serieSelect.innerHTML = '<option value="" disabled selected hidden>Seleccione</option>';
+
+            if (tipoComprobante) {
+                // Realizar la petición AJAX para obtener las series
+                $.ajax({
+                    type: "POST",
+                    url: "../../../backend/consultas/obtener_series.php", // Ruta del archivo backend
+                    data: { tipo_comprobante: tipoComprobante },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.status === "success") {
+                            // Cargar las opciones de series en el select
+                            data.series.forEach(function(serie) {
+                                const option = document.createElement("option");
+                                option.value = serie.id;
+                                option.textContent = serie.serie;
+                                serieSelect.appendChild(option);
+                            });
+                        } else {
+                            alert("No se encontraron series para este tipo de comprobante.");
+                        }
+                    },
+                    error: function() {
+                        alert("Error al cargar las series.");
+                    }
+                });
+            }
+        }
+
+        // Cargar las series automáticamente al cargar la página
+        cargarSeries(tipoComprobanteSelect.value);
+
+        // Evento cuando se cambia el tipo de comprobante
+        tipoComprobanteSelect.addEventListener("change", function() {
+            cargarSeries(this.value);
+        });
+
+        // Evento cuando se selecciona una serie
+        document.getElementById("serie").addEventListener("change", function() {
+            const serieId = this.value;
+
+            if (serieId) {
+                // Realizar la petición AJAX para obtener el correlativo de la serie seleccionada
+                $.ajax({
+                    type: "POST",
+                    url: "../../../backend/consultas/obtener_correlativo.php", // Ruta del archivo backend
+                    data: { serie_id: serieId },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.status === "success") {
+                            // Asignar el correlativo al campo correspondiente
+                            document.getElementById("correlativo").value = data.correlativo;
+                        } else {
+                            alert("No se pudo obtener el correlativo.");
+                        }
+                    },
+                    error: function() {
+                        alert("Error al conectar con el servidor.");
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const cantidadInput = document.getElementById("cantidad");
+        const stockInput = document.getElementById("stock");
+        const agregarProductoBtn = document.getElementById("registrar_producto");
+
+        
+
+        // Validación en tiempo real para la cantidad
+        cantidadInput.addEventListener("input", function() {
+            const stock = parseInt(stockInput.value);
+            const cantidad = parseInt(cantidadInput.value);
+
+            if (!isNaN(stock) && !isNaN(cantidad) && cantidad > stock) {
+                cantidadInput.value = stock; // Ajustar automáticamente al stock máximo
+                Swal.fire({
+                    icon: "warning",
+                    title: "Cantidad excedida",
+                    text: "La cantidad no puede superar el stock disponible.",
+                });
+            }
+        });
+
+        // Validación al hacer clic en "Agregar Producto"
+        agregarProductoBtn.addEventListener("click", function() {
+            const stock = parseInt(stockInput.value);
+            const cantidad = parseInt(cantidadInput.value);
+
+            if ( stock <= 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Sin stock",
+                    text: "No hay stock disponible para este producto.",
+                });
+                return;
+            }
+
+            if (cantidad <= 0) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Cantidad inválida",
+                    text: "Debe ingresar una cantidad válida.",
+                });
+                return;
+            }
+
+            if (cantidad > stock) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Stock insuficiente",
+                    text: "La cantidad ingresada supera el stock disponible.",
+                });
+                return;
+            }
+
+            // Si todo está correcto
+            Swal.fire({
+                icon: "success",
+                title: "Producto agregado",
+                text: "Producto agregado a la lista.",
+            });
+
+            // Aquí puedes continuar con la lógica para agregar el producto a la tabla de detalles
+        });
+
+        // Llamar a la función al cargar la página para verificar el estado inicial
+    });
+
+</script>
 <!-- CRUD VENTA JS -->
 <script src="../../js/admin/CRUD_venta.js"></script>
 </body>

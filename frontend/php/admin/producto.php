@@ -58,13 +58,13 @@
                             <div class="col-md-12">
                                 <div class="form-group ">
                                     <label for="nombre_producto" class="col-form-label">Nombre:</label>
-                                    <input type="text" class="form-control form-control-sm text-center" id="nombre_producto" name="nombre_producto" required>
+                                    <input type="text" class="form-control form-control-sm text-center border-dark-subtle" id="nombre_producto" name="nombre_producto" required>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="imagen_producto" class="col-form-label">Imagen:</label>
-                                    <input type="file" class="form-control form-control-sm text-center" id="imagen_producto" name="imagen_producto" >
+                                    <input type="file" class="form-control form-control-sm text-center border-dark-subtle" id="imagen_producto" name="imagen_producto" >
                                     <span class="form-control form-control-sm " id="imagen_subida"></span>
                                 </div>
                             </div>
@@ -73,43 +73,26 @@
 
 
                         <div class="row">
-                            <!-- <div class="col-md-3">
-                                <div class="form-group text-center">
-                                    <label for="codigo_producto" class="col-form-label ">Codigo:</label>
-
-                                    <?php
-                                    // include("../../../backend/config/conexion.php");
-                                    // $sql_ultimo_codigo = "SELECT MAX(id_producto) AS max_id FROM producto";
-                                    // $stmt = $conexion->query($sql_ultimo_codigo);
-                                    // if ($stmt->rowCount() > 0) {
-                                    //     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                                    //     $ultimo_id = $row["max_id"];
-                                    //     $siguiente_id = $ultimo_id + 1;
-                                    // }
-                                    ?>
-
-                                    <input type="text" class="form-control text-center" id="codigo_producto" value="<?php echo $siguiente_id ?>" readonly name="codigo_producto">
-                                </div>
-                            </div> -->
+                    
 
                             <div class="col-md-3">
                                 <div class="form-group text-center">
                                     <label for="stock" class="col-form-label ">Stock:</label>
-                                    <input type="number" class="form-control text-center input-number-hide-arrows" id="stock" name="stock" placeholder="0">
+                                    <input type="number" class="form-control text-center input-number-hide-arrows border-dark-subtle" id="stock" name="stock" placeholder="0">
                                 </div>
                             </div>
                             
                             <div class="col-md-4">
-                                <div class="form-group">
+                                <div class="form-group text-center">
                                     <label for="modelo" class="col-form-label">Modelo:</label>
-                                    <input type="text" class="form-control form-control-sm text-center" id="modelo" name="modelo" required>
+                                    <input type="text" class="form-control form-control-sm text-center border-dark-subtle" id="modelo" name="modelo" required>
                                 </div>
                             </div>
 
                             <div class="col-md-5">
                                 <div class="form-group text-center">
                                     <label for="categoria" class="col-form-label">Categoria:</label>
-                                    <select class="form-control text-center form-select" id="categoria" name="categoria" required>
+                                    <select class="form-control text-center form-select border-dark-subtle" id="categoria" name="categoria" required>
                                         <option value="" disabled selected hidden>-- Seleccione --</option>
                                         <?php
                                         $sql = "SELECT id_categoria_producto, nombre_categoria FROM categoria_producto";
@@ -135,7 +118,7 @@
                                     <label for="precio_unitario" class="col-form-label">Precio:</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">$</span>
-                                        <input type="number" class="form-control text-center input-number-hide-arrows" aria-label="Amount (to the nearest dollar)" id="precio_unitario" name="precio_unitario" required step="0.01">
+                                        <input type="number" class="form-control text-center input-number-hide-arrows border-dark-subtle" aria-label="Amount (to the nearest dollar)" id="precio_unitario" name="precio_unitario" required step="0.01">
                                         <span class="input-group-text">.00</span>
                                     </div>
                                 </div>
@@ -143,15 +126,15 @@
                             <div class="col-md-2">
                                 <div class="form-group justify-content-center text-center">
                                     <label for="status" class="col-form-label">Estado:</label>
-                                    <div class="form-check form-switch justify-content-center text-center box-estado">
-                                        <input class="form-check-input text-center" type="checkbox" role="switch" id="status" name="status">
+                                    <div class="form-check form-switch justify-content-center text-center box-estado ">
+                                        <input class="form-check-input text-center border-dark-subtle" type="checkbox" role="switch" id="status" name="status" checked>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="stock_minimo" class="col-form-label">Stock Minimo:</label>
-                                    <input type="number" class="form-control form-control-sm text-center input-number-hide-arrows" id="stock_minimo" name="stock_minimo" required>
+                                    <input type="number" class="form-control form-control-sm text-center input-number-hide-arrows border-dark-subtle" id="stock_minimo" name="stock_minimo" required>
                                 </div>
                             </div>
 
@@ -160,7 +143,7 @@
                         <div class="col-md-12">
                             <div class="input-group">
                                 <span class="input-group-text">Descripcion</span>
-                                <textarea class="form-control" aria-label="With textarea" rows="5" id="descripcion" name="descripcion"></textarea>
+                                <textarea class="form-control border-dark-subtle" aria-label="With textarea" rows="5" id="descripcion" name="descripcion"></textarea>
                             </div>
                         </div>
 

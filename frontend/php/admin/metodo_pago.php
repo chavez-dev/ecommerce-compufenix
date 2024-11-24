@@ -63,14 +63,14 @@
                                     }
                                 ?>
 
-                                <input type="text" class="form-control text-center" id="id_metodo_pago" value="<?php echo $siguiente_id ?>" readonly name="id_metodo_pago">
+                                <input type="text" class="form-control text-center border-dark-subtle" id="id_metodo_pago" value="<?php echo $siguiente_id ?>" readonly name="id_metodo_pago">
                             </div>
                         </div>
 
                         <div class="col-md-9">
-                            <div class="form-group ">
-                                <label for="nombre_metodo" class="col-form-label">Nombre de Categoria:</label>
-                                <input type="text" class="form-control form-control-sm text-center" id="nombre_metodo" name="nombre_metodo" required>
+                            <div class="form-group text-center">
+                                <label for="nombre_metodo" class="col-form-label">Nombre de Método de Pago:</label>
+                                <input type="text" class="form-control form-control-sm text-center border-dark-subtle" id="nombre_metodo" name="nombre_metodo" required>
                             </div>
                         </div>
                                     
@@ -78,7 +78,7 @@
                             <br>
                             <div class="input-group">
                                 <span class="input-group-text">Descripcion</span>
-                                <textarea class="form-control" aria-label="With textarea" rows="3" id="descripcion" name="descripcion"></textarea>
+                                <textarea class="form-control border-dark-subtle" aria-label="With textarea" rows="3" id="descripcion" name="descripcion"></textarea>
                             </div>
                         </div>
                         

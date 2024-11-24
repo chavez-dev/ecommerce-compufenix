@@ -53,48 +53,46 @@
                 <form method="post" action="" id="formulario-empleado">
                     <div class="row">
                         <h5> Datos Personales</h5>
-                        <div class="col-md-12 ">
+                        <div class="col-md-11 ">
                             <div class="form-group row">
                                 <label for="dni" class="col-sm-2 col-form-label">DNI:</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control form-control-sm text-center" id="dni" name="dni" required>
+                                    <input type="text" class="form-control form-control-sm text-center border-dark-subtle" id="dni" name="dni" required>
                                     <span class="alerta-documento" id="alertaClienteRegistrado" ></span>
                                 </div>
                                 <button type="button" class="col-sm-3 btn btn-info text-white" id="prueba">Buscar</button>
                             </div>
                         </div>
-                        <br>
-                        <br>
-                        <br>
+                
                     
-                        <div class="col-md-12">
+                        <div class="col-md-12 mt-2">
                             <div class="form-group row">
                                 <label for="nombre" class="col-form-label col-sm-2" style="margin-bottom: 2px;">Nombres:</label>
                                 <div class="col-sm-10">    
-                                    <input type="text" class="form-control form-control-sm text-center" id="nombre" name="nombre" required>
+                                    <input type="text" class="form-control form-control-sm text-center border-dark-subtle" id="nombre" name="nombre" required>
                                 </div>
                             </div>
                         </div>
 
-                        <br>
+
                         <div class="col-md-12">
                             <div class="form-group row">
                                 <label for="apellido" class="col-form-label col-sm-2" style="margin-bottom: 2px;">Apellidos:</label>
                                 <div class="col-sm-10">    
-                                    <input type="text" class="form-control form-control-sm text-center" id="apellido" name="apellido" required>
+                                    <input type="text" class="form-control form-control-sm text-center border-dark-subtle" id="apellido" name="apellido" required>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-6 ">
                                 <label for="fecha_nac" class="col-form-label text-center">Fecha de Nacimiento:</label>
-                                <input type="date" class="form-control form-control-sm text-center" id="fecha_nac" name="fecha_nac" required>
+                                <input type="date" class="form-control form-control-sm text-center border-dark-subtle" id="fecha_nac" name="fecha_nac" required>
                         </div>
                         
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="nacionalidad" class="col-form-label">Nacionalidad:</label>
-                                <select class="form-control text-center form-select" id="nacionalidad" name="nacionalidad" required>
+                                <select class="form-control text-center form-select border-dark-subtle" id="nacionalidad" name="nacionalidad" required>
                                     <option value="" disabled selected hidden>Seleccione un pais</option>
                                     <option value="PER">Perú</option>
                                     <option value="ARG">Argentina</option>
@@ -109,38 +107,32 @@
 
                     </div>
 
-                    <br>
-
-                    <div class="row">
+                    <div class="row mt-3">
                         <h5> Información de Contacto </h5>
                         <div class="col-md-12">
                             <div class="form-group row">
                                 <label for="direccion" class="col-form-label col-sm-2">Dirección:</label>
                                 <div class="col-sm-10"> 
-                                    <input type="text" class="form-control form-control-sm text-center" id="direccion" name="direccion" required>
+                                    <input type="text" class="form-control form-control-sm text-center border-dark-subtle" id="direccion" name="direccion" required>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label for="email" class="col-form-label">Email:</label>
-                                <input type="email" class="form-control form-control-sm text-center" id="email" name="email" required>
+                                <input type="email" class="form-control form-control-sm text-center border-dark-subtle" id="email" name="email" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="celular" class="col-form-label">Celular:</label>
-                                <input type="tel" class="form-control form-control-sm text-center" id="celular" name="celular" required>
+                                <input type="tel" class="form-control form-control-sm text-center border-dark-subtle" id="celular" name="celular" required>
                             </div>
                         </div>
                         
                     </div>
 
-
-
-                    <br>
-
-                    <div class="row">
+                    <div class="row mt-3">
                         <h5>Datos del Empleado</h5>
                         <div class="col-md-2">
                             <div class="form-group text-center">
@@ -157,13 +149,13 @@
                                     }
                                 ?>
 
-                                <input type="text" class="form-control text-center" id="codigo_empleado" value="<?php echo $siguiente_id ?>" readonly name="codigo_empleado">
+                                <input type="text" class="form-control text-center border-dark-subtle" id="codigo_empleado" value="<?php echo $siguiente_id ?>" readonly name="codigo_empleado">
                             </div>
                         </div>
                         <div class="col-md-4 ">
                             <div class="form-group text-center">
                                 <label for="area" class="col-form-label">Cargo:</label>
-                                <select class="form-control text-center form-select" id="area" name="area" required>
+                                <select class="form-control text-center form-select border-dark-subtle" id="area" name="area" required>
                                     <option value="" disabled selected hidden>Seleccione</option>
                                     <!-- <option value="Administrador">Administrador</option>
                                     <option value="Atencion al Cliente">Atencion al Cliente</option>
@@ -182,17 +174,7 @@
                             <div class="form-group justify-content-center text-center">
                                 <label for="estado" class="col-form-label">Estado:</label>
                                 <div class="form-check form-switch justify-content-center text-center">
-                                    <?php 
-                                        // include("../../../backend/config/conexion.php");
-                                        // $id_empleado = "<script>document.getElementById('dni').value;</script>";
-                                        // $sql_check = "SELECT status FROM empleado WHERE DNI = '71234276' ";
-                                        // $resultado1 = $conexion->query($sql_check);
-                                        // $estado_predeterminado = $resultado1->fetchColumn();
-                                        
-
-                                        // <?php if ($estado_predeterminado == 1 ) echo "checked"; 
-                                    ?>
-                                    <input class="form-check-input text-center" type="checkbox" role="switch" id="estado"  name="estado" >
+                                    <input class="form-check-input text-center border-dark-subtle" type="checkbox" role="switch" id="estado"  name="estado" checked>
                                 </div>
                             </div>
 
@@ -200,7 +182,7 @@
                         <div class="col-md-4">
                             <div class="form-group text-center">
                                 <label for="password" class="col-form-label">Password:</label>
-                                <input type="text" class="form-control form-control-sm text-center" placeholder="*********" id="password" name="password">
+                                <input type="text" class="form-control form-control-sm text-center border-dark-subtle" placeholder="*********" id="password" name="password">
                             </div>
                         </div>
                     </div>

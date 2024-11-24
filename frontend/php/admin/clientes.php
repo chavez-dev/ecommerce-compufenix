@@ -63,7 +63,7 @@
                         </div>
                         
                         <div class="col-md-7">
-                            <div class="form-group row">
+                            <div class="form-group row ">
                                 <label for="nro_documento" class="col-sm-12 col-form-label">Nro. Documento:</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control form-control-sm text-center border-dark-subtle" id="nro_documento" name="nro_documento" required>
@@ -74,14 +74,7 @@
                             </div>
                         </div>
 
-                        
-                        
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        
-                        <div class="col-md-12">
+                        <div class="col-md-12 mt-3">
                             <div class="form-group row">
                                 <label for="nombre" class="col-form-label col-sm-2" style="margin-bottom: 2px;">Nombre:</label>
                                 <div class="col-sm-10">    
@@ -89,8 +82,6 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        
                         
                         <div class="col-md-6">
                             <div class="form-group">
@@ -111,11 +102,11 @@
                         
                     </div>
 
-                    <br>
+              
 
                     
 
-                    <div class="row">
+                    <div class="row mt-3">
                         <h5> Información de Contacto </h5>
                         <div class="col-md-12">
                             <div class="form-group row">

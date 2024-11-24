@@ -63,14 +63,14 @@
                                     }
                                 ?>
 
-                                <input type="text" class="form-control text-center" id="id_categoria_producto" value="<?php echo $siguiente_id ?>" readonly name="id_categoria_producto">
+                                <input type="text" class="form-control text-center border-dark-subtle" id="id_categoria_producto" value="<?php echo $siguiente_id ?>" readonly name="id_categoria_producto">
                             </div>
                         </div>
 
                         <div class="col-md-9">
-                            <div class="form-group ">
+                            <div class="form-group text-center">
                                 <label for="nombre_categoria" class="col-form-label">Nombre de Categoria:</label>
-                                <input type="text" class="form-control form-control-sm text-center" id="nombre_categoria" name="nombre_categoria" required>
+                                <input type="text" class="form-control form-control-sm text-center border-dark-subtle" id="nombre_categoria" name="nombre_categoria" required>
                             </div>
                         </div>
                                     
@@ -78,7 +78,7 @@
                             <br>
                             <div class="input-group">
                                 <span class="input-group-text">Descripcion</span>
-                                <textarea class="form-control" aria-label="With textarea" rows="3" id="descripcion" name="descripcion"></textarea>
+                                <textarea class="form-control border-dark-subtle" aria-label="With textarea" rows="3" id="descripcion" name="descripcion"></textarea>
                             </div>
                         </div>
                         

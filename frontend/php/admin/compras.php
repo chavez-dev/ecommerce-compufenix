@@ -57,7 +57,7 @@
                     <div class="col-md-6 ">
                         <div class="form-group text-center">
                             <label for="proveedor" class="col-form-label">Proveedor:</label>
-                            <select class="form-control form-select" id="proveedor" name="proveedor" required onchange="cargarProductosPorProveedor(this.value)">
+                            <select class="form-control form-select border-dark-subtle" id="proveedor" name="proveedor" required onchange="cargarProductosPorProveedor(this.value)">
                                 <option value="" disabled selected hidden>Seleccione</option>
                                 <?php
                                 $sql = "SELECT id_proveedor, nombre FROM proveedor";
@@ -73,7 +73,7 @@
                     <div class="col-md-6 ">
                         <div class="form-group text-center">
                             <label for="producto" class="col-form-label">Producto:</label>
-                            <select class="form-control form-select" id="producto" name="producto" required>
+                            <select class="form-control form-select border-dark-subtle" id="producto" name="producto" required>
                                 <option value="" disabled selected hidden>Seleccione</option>
                                 <!-- Las opciones se llenarán dinámicamente mediante JavaScript -->
                             </select>
@@ -95,7 +95,7 @@
                     <div class="col-md-2">
                         <div class="form-group text-center">
                             <label for="cantidad_compra" class="col-form-label ">Cantidad:</label>
-                            <input type="number" class="form-control text-center input-number-hide-arrows" id="cantidad_compra" name="cantidad_compra">
+                            <input type="number" class="form-control text-center input-number-hide-arrows border-dark-subtle" id="cantidad_compra" name="cantidad_compra">
                         </div>
                     </div>
 
@@ -104,7 +104,7 @@
                             <label for="precio_unitario" class="col-form-label">Precio Und.:</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">$</span>
-                                <input type="number" class="form-control text-center input-number-hide-arrows" aria-label="Amount (to the nearest dollar)" id="precio_unitario" name="precio_unitario" required>
+                                <input type="number" class="form-control text-center input-number-hide-arrows border-dark-subtle" aria-label="Amount (to the nearest dollar)" id="precio_unitario" name="precio_unitario" required>
                                 <span class="input-group-text">.00</span>
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                             <label for="pago_total" class="col-form-label">Total:</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">$</span>
-                                <input type="number" class="form-control text-center input-number-hide-arrows" aria-label="Amount (to the nearest dollar)" id="pago_total" name="pago_total" required>
+                                <input type="number" class="form-control text-center input-number-hide-arrows border-dark-subtle" aria-label="Amount (to the nearest dollar)" id="pago_total" name="pago_total" required>
                                 <span class="input-group-text">.00</span>
                             </div>
                         </div>
@@ -124,7 +124,7 @@
                     <div class="col-md-3">
                         <div class="form-group text-center">
                             <label for="factura" class="col-form-label ">Nro Boleta:</label>
-                            <input type="number" class="form-control text-center input-number-hide-arrows" id="factura" name="factura">
+                            <input type="text" class="form-control text-center border-dark-subtle" id="factura" name="factura">
                         </div>
                     </div>
 
@@ -132,7 +132,7 @@
                     <div class="col-md-4 ">
                         <div class="form-group text-center">
                             <label for="metodo_pago" class="col-form-label">Metodo Pago:</label>
-                            <select class="form-control text-center form-select" id="metodo_pago" name="metodo_pago" required>
+                            <select class="form-control text-center form-select border-dark-subtle" id="metodo_pago" name="metodo_pago" required>
                                 <option value="" disabled selected hidden>Seleccione</option>
                                 <?php
                                 $sql = "SELECT id_metodo_pago, nombre_metodo FROM metodo_pago";
@@ -149,17 +149,17 @@
                         <div class="form-group justify-content-center text-center">
                             <label for="status" class="col-form-label">Estado:</label>
                             <div class="form-check form-switch justify-content-center text-center box-estado">
-                                <input class="form-check-input text-center" type="checkbox" role="switch" id="estado" name="estado">
+                                <input class="form-check-input text-center border-dark-subtle" type="checkbox" role="switch" id="estado" name="estado" checked>
                             </div>
                         </div>
                     </div>
 
                     
 
-                    <div class="col-md-12">
+                    <div class="col-md-12 mt-3">
                         <div class="input-group">
                             <span class="input-group-text">Descripcion</span>
-                            <textarea class="form-control" aria-label="With textarea" rows="3" id="descripcion" name="descripcion"></textarea>
+                            <textarea class="form-control border-dark-subtle" aria-label="With textarea" rows="3" id="descripcion" name="descripcion"></textarea>
                         </div>
                     </div>
 
