@@ -2,7 +2,7 @@
     
     
     <!-- BOOTSTRAP JS -->
-    <script src="../../../node_modules/bootstrap/dist/js/bootstrap.esm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- ALERTAS JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- JQUERY -->
