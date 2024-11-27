@@ -272,27 +272,44 @@ if ($_POST["operacion"] == "Crear") {
 // }
 
 
-// // !BORRAR: ELIMINACION DE LA BD
-// if (isset($_POST["id_usuario"]) && ($_POST["operacion"]) == 'borrar') {
+// !BORRAR: ELIMINACION DE LA BD
+if (isset($_POST["id_usuario"]) && ($_POST["operacion"]) == 'borrar') {
 
-//     // Cambiar el estado de los productos en inventario a "Anulado" solo si están en estado "Disponible" (1)
-//     $sql_anular_inventario = $conexion->prepare("UPDATE producto_item SET id_estado = 4 WHERE id_compra = :id_compra AND id_estado = 1");
-//     $sql_anular_inventario->bindParam(':id_compra', $_POST["id_usuario"], PDO::PARAM_INT);
-//     $resultado_inventario = $sql_anular_inventario->execute();
+    $id_venta = $_POST['id_usuario'];  // El ID de la venta a eliminar
 
-//     if ($resultado_inventario) {
-//         // Cambiar el estado de la compra a "Anulado" (estado = 0)
-//         $sql_anular_compra = $conexion->prepare("UPDATE compra SET estado = 0 WHERE id_compra = :id_compra");
-//         $sql_anular_compra->bindParam(':id_compra', $_POST["id_usuario"], PDO::PARAM_INT);
-//         $resultado_compra = $sql_anular_compra->execute();
+    // Iniciar transacción para asegurar que todos los pasos se realicen correctamente
+    $conexion->beginTransaction();
 
-//         if ($resultado_compra) {
-//             echo 'Compra y productos disponibles en inventario anulados correctamente.';
-//         } else {
-//             echo 'Error al anular la compra.';
-//         }
-//     } else {
-//         echo 'Error al actualizar el estado de los productos en el inventario.';
-//     }
+    try {
+        // Eliminar los registros de detalle_venta_has_producto_item (relación entre detalle_venta y producto_item)
+        $stmt = $conexion->prepare("DELETE FROM detalle_venta_has_producto_item WHERE id_detalle_venta IN (SELECT id_detalle_venta FROM detalle_venta WHERE id_venta = :id_venta)");
+        $stmt->execute(array(':id_venta' => $id_venta));
 
-// }
+        // Eliminar los registros de detalle_venta
+        $stmt = $conexion->prepare("DELETE FROM detalle_venta WHERE id_venta = :id_venta");
+        $stmt->execute(array(':id_venta' => $id_venta));
+
+        // Actualizar AUTO_INCREMENT de la tabla detalle_venta
+        $sql_increment_detalle_venta = $conexion->prepare( "ALTER TABLE detalle_venta AUTO_INCREMENT = 1"); 
+        $sql_increment_detalle_venta->execute();
+
+        // Eliminar el registro de la venta
+        $stmt = $conexion->prepare("DELETE FROM venta WHERE id_venta = :id_venta");
+        $stmt->execute(array(':id_venta' => $id_venta));
+
+        // Actualizar AUTO_INCREMENT de la tabla detalle_venta
+        $sql_increment_venta = $conexion->prepare( "ALTER TABLE venta AUTO_INCREMENT = 1"); 
+        $sql_increment_venta->execute();
+
+        // Confirmar la transacción
+        $conexion->commit();
+        
+        echo 'Venta eliminada exitosamente';
+    } catch (Exception $e) {
+        // Si ocurre algún error, revertir la transacción
+        $conexion->rollBack();
+        error_log("Error al eliminar la venta: " . $e->getMessage());
+        echo 'Error al eliminar la venta';
+    }
+
+}

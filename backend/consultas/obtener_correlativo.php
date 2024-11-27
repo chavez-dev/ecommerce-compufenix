@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['serie_id'])) {
     $serieId = $_POST['serie_id'];
 
     try {
-        $stmt = $conexion->prepare("SELECT correlativo FROM serie WHERE id = :id");
+        $stmt = $conexion->prepare("SELECT correlativo FROM serie WHERE serie = :id");
         $stmt->bindParam(':id', $serieId, PDO::PARAM_INT);
         $stmt->execute();
 

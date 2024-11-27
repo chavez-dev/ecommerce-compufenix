@@ -63,14 +63,14 @@
                                     }
                                 ?>
 
-                                <input type="text" class="form-control text-center" id="id_estado" value="<?php echo $siguiente_id ?>" readonly name="id_estado">
+                                <input type="text" class="form-control text-center border-dark-subtle" id="id_estado" value="<?php echo $siguiente_id ?>" readonly name="id_estado">
                             </div>
                         </div>
 
                         <div class="col-md-9">
                             <div class="form-group ">
                                 <label for="tipo_estado" class="col-form-label">Nombre de Estado:</label>
-                                <input type="text" class="form-control form-control-sm text-center" id="tipo_estado" name="tipo_estado" required>
+                                <input type="text" class="form-control form-control-sm text-center border-dark-subtle" id="tipo_estado" name="tipo_estado" required>
                             </div>
                         </div>
                                     
@@ -78,7 +78,7 @@
                             <br>
                             <div class="input-group">
                                 <span class="input-group-text">Descripcion:</span>
-                                <textarea class="form-control" aria-label="With textarea" rows="3" id="descripcion" name="descripcion"></textarea>
+                                <textarea class="form-control border-dark-subtle" aria-label="With textarea" rows="3" id="descripcion" name="descripcion"></textarea>
                             </div>
                         </div>
                         

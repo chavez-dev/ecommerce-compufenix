@@ -151,7 +151,7 @@ if ($venta) {
 
 
 
-   
+   // AQUI DEBERIA IR EL QR
 
     // Frase de agradecimiento centrada
     $pdf->Ln(10);

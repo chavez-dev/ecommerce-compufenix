@@ -33,45 +33,45 @@ if (!$tienda) {
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label for="razon_social">Razón Social:</label>
-                        <input type="text" class="form-control border-primary-subtle" id="razon_social" value="<?php echo $tienda['razon_social']; ?>" required>
+                        <input type="text" class="form-control border-dark-subtle" id="razon_social" value="<?php echo $tienda['razon_social']; ?>" required>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="ruc">RUC:</label>
-                        <input type="text" class="form-control border-primary-subtle" id="ruc" value="<?php echo $tienda['ruc']; ?>" required>
+                        <input type="text" class="form-control border-dark-subtle" id="ruc" value="<?php echo $tienda['ruc']; ?>" required>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-12">
                         <label for="direccion">Dirección:</label>
-                        <input class="form-control" id="direccion" value="<?php echo $tienda['direccion']; ?>" required>
+                        <input class="form-control border-dark-subtle" id="direccion" value="<?php echo $tienda['direccion']; ?>" required>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4">
                         <label for="correo">Correo:</label>
-                        <input type="email" class="form-control" id="correo" value="<?php echo $tienda['correo']; ?>" required>
+                        <input type="email" class="form-control border-dark-subtle" id="correo" value="<?php echo $tienda['correo']; ?>" required>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="telefono_1">Teléfono 1:</label>
-                        <input type="text" class="form-control" id="telefono_1" value="<?php echo $tienda['telefono_1']; ?>" required>
+                        <input type="text" class="form-control border-dark-subtle" id="telefono_1" value="<?php echo $tienda['telefono_1']; ?>" required>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="telefono_2">Teléfono 2:</label>
-                        <input type="text" class="form-control" id="telefono_2" value="<?php echo $tienda['telefono_2']; ?>">
+                        <input type="text" class="form-control border-dark-subtle" id="telefono_2" value="<?php echo $tienda['telefono_2']; ?>">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4">
                         <label for="departamento">Departamento:</label>
-                        <input type="text" class="form-control" id="departamento" value="<?php echo $tienda['departamento']; ?>">
+                        <input type="text" class="form-control border-dark-subtle" id="departamento" value="<?php echo $tienda['departamento']; ?>">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="provincia">Provincia:</label>
-                        <input type="text" class="form-control" id="provincia" value="<?php echo $tienda['provincia']; ?>">
+                        <input type="text" class="form-control border-dark-subtle" id="provincia" value="<?php echo $tienda['provincia']; ?>">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="distrito">Distrito:</label>
-                        <input type="text" class="form-control" id="distrito" value="<?php echo $tienda['distrito']; ?>">
+                        <input type="text" class="form-control border-dark-subtle" id="distrito" value="<?php echo $tienda['distrito']; ?>">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary mt-3">Guardar Cambios</button>

@@ -43,49 +43,128 @@
         <div class="modal-content">
             <div class="modal-header text-white" id="modal-form-header">
                 <i class="fa-solid fa-address-card icon" style="font-size: 25px; margin: 12px"></i>
-                <h1 class="modal-title fs-5" id="exampleModalLabel">REGISTRO DE ESTADO</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">INVENTARIO</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btnClose"></button>
             </div>
             <div class="modal-body">
                 <form method="post" action="" id="formulario-empleado">
-                    <div class="row">
-                        <h5> Datos Categoria</h5>
+                <div class="row">
+                    <h5> Datos Producto</h5>
 
-                        <div class="col-md-3">
-                            <div class="form-group text-center">
-                                <label for="id_estado" class="col-form-label ">Codigo:</label>
+                    <!-- Campo para el ID de Producto Item -->
+                    <div class="col-md-12 mt-2">
+                        <div class="form-group row">
+                            <label for="fecha_registro" class="col-form-label col-sm-4" >Fecha de Registro:</label>
+                            <div class="col-sm-6">    
+                                <input type="date" class="form-control form-control-sm text-center border-dark-subtle" id="fecha_registro" name="fecha_registro" required>
+                            </div>
+                        </div>
+                    </div>
 
-                                <?php
+                    <div class="col-md-4">
+                        <div class="form-group text-center">
+                            <label for="id_producto_item" class="col-form-label">ID Inventario:</label>
+                            <input type="text" class="form-control text-center border-dark-subtle" id="id_producto_item" name="id_producto_item" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Campo para el ID de Producto Item -->
+                    <div class="col-md-4">
+                        <div class="form-group text-center">
+                            <label for="id_producto" class="col-form-label">ID Producto:</label>
+                            <input type="text" class="form-control text-center border-dark-subtle" id="id_producto" name="id_producto" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Campo para el ID de Producto Item -->
+                    <div class="col-md-4">
+                        <div class="form-group text-center">
+                            <label for="id_compra" class="col-form-label">ID Compra:</label>
+                            <input type="text" class="form-control text-center border-dark-subtle" id="id_compra" name="id_compra" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Campo para el Nombre del Producto -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="nombre_producto" class="col-form-label">Nombre Producto:</label>
+                            <input type="text" class="form-control text-center border-dark-subtle" id="nombre_producto" name="nombre_producto" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Campo para la Serie del Producto -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="serie" class="col-form-label">Serie:</label>
+                            <input type="text" class="form-control text-center border-dark-subtle" id="serie" name="serie" >
+                        </div>
+                    </div>
+
+                    <!-- Campo para la Ubicación del Producto -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="ubicacion" class="col-form-label">Ubicación:</label>
+                            <input type="text" class="form-control text-center border-dark-subtle" id="ubicacion" name="ubicacion" >
+                        </div>
+                    </div>
+
+                    <!-- Campo para el Cliente (si está vendido) -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="estado" class="col-form-label">Estado:</label>
+                            <select class="form-control text-center form-select border-dark-subtle" id="estado" name="estado" >
+                                <option value="" disabled selected hidden>Seleccione</option>
+                                <?php 
+                                    // Consulta para obtener los estados de la tabla estado
                                     include("../../../backend/config/conexion.php");
-                                    $sql_ultimo_codigo = "SELECT MAX(id_estado) AS max_id FROM estado";
-                                    $stmt = $conexion->query($sql_ultimo_codigo);
-                                    if ($stmt->rowCount() > 0) {
-                                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                                        $ultimo_id = $row["max_id"];
-                                        $siguiente_id = $ultimo_id + 1;
+                                    $sql = "SELECT id_estado, tipo_estado FROM estado";
+                                    $stmt = $conexion->query($sql);
+                                    while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                        echo '<option value="' . $fila['id_estado'] . '">' . $fila['tipo_estado'] . '</option>';
                                     }
                                 ?>
-
-                                <input type="text" class="form-control text-center" id="id_estado" value="<?php echo $siguiente_id ?>" readonly name="id_estado">
-                            </div>
+                            </select>
                         </div>
-
-                        <div class="col-md-9">
-                            <div class="form-group ">
-                                <label for="tipo_estado" class="col-form-label">Nombre de Estado:</label>
-                                <input type="text" class="form-control form-control-sm text-center" id="tipo_estado" name="tipo_estado" required>
-                            </div>
-                        </div>
-                                    
-                        <div class="col-md-12">
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-text">Descripcion:</span>
-                                <textarea class="form-control" aria-label="With textarea" rows="3" id="descripcion" name="descripcion"></textarea>
-                            </div>
-                        </div>
-                        
                     </div>
+
+                    <!-- Campo para el Estado del Producto -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="garantia" class="col-form-label">Garantia:</label>
+                            <input type="date" class="form-control text-center border-dark-subtle" id="garantia" name="garantia" >
+                        </div>
+                    </div>
+                    
+
+
+                    <h5 class="mt-3">Datos de Venta</h5>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="id_venta" class="col-form-label">ID Venta:</label>
+                            <input type="text" class="form-control text-center border-dark-subtle" id="id_venta" name="id_venta" readonly>
+                        </div>
+                    </div>
+
+
+                    <!-- Campo para la Garantía del Producto -->
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="dni" class="col-form-label">Nro. Documento:</label>
+                            <input type="text" class="form-control text-center border-dark-subtle" id="dni" name="dni" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Campo para la Fecha de Registro -->
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="cliente" class="col-form-label">Nombre del Cliente:</label>
+                            <input type="text" class="form-control text-center border-dark-subtle" id="cliente" name="cliente" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Campo para el ID de Venta (si el producto fue vendido) -->
+                    
+                </div>
 
                     <div class="modal-footer justify-content-center">
                         <input  name="id_usuario" id="id_usuario" type="hidden">

@@ -665,10 +665,61 @@ DELIMITER ;
 
 
 -- ================================================================================================================================================================================
--- ERRORES
+
+CREATE VIEW vista_inventario AS
+SELECT 
+    pi.id_producto_item,
+    pi.id_producto,
+    pi.id_compra,
+	DATE(pi.fecha_registro) AS fecha_registro, 
+    prod.nombre_producto,
+    pi.serie,
+    pi.ubicacion,
+    pi.id_estado,
+    pi.garantia,
+    COALESCE(v.id_venta, '') AS id_venta,
+    COALESCE(c.nombre, 'No vendido') AS cliente,
+    COALESCE(c.nro_documento, '') AS dni
+FROM 
+    producto_item pi
+LEFT JOIN 
+    producto prod ON pi.id_producto = prod.id_producto
+LEFT JOIN 
+    detalle_venta_has_producto_item dvpi ON pi.id_producto_item = dvpi.id_producto_item
+LEFT JOIN 
+    detalle_venta dv ON dvpi.id_detalle_venta = dv.id_detalle_venta
+LEFT JOIN 
+    venta v ON dv.id_venta = v.id_venta
+LEFT JOIN 
+    cliente c ON v.id_cliente = c.id_cliente;
+    
+
+DELIMITER $$
+CREATE TRIGGER after_detalle_venta_delete
+AFTER DELETE ON detalle_venta
+FOR EACH ROW
+BEGIN
+    -- Aumentar el stock del producto en la tabla producto
+    UPDATE producto
+    SET stock = stock + OLD.cantidad_ordenada
+    WHERE id_producto = OLD.id_producto;
+
+END$$
+
+DELIMITER ;
 
 
--- 22/08
+DELIMITER $$
 
+CREATE TRIGGER after_detalle_venta_has_producto_item_delete
+AFTER DELETE ON detalle_venta_has_producto_item
+FOR EACH ROW
+BEGIN
+    -- Cambiar el estado de los producto_item relacionados de "Vendido" a "Disponible"
+    UPDATE producto_item
+    SET id_estado = 1  -- 1 es el estado "Disponible"
+    WHERE id_producto_item = OLD.id_producto_item;
+    
+END$$
 
 

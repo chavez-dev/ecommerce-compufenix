@@ -54,7 +54,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="tipo_serie" class="col-form-label">Tipo de Comprobante:</label>
-                                <select class="form-control text-center form-select" id="tipo_serie" name="tipo_serie" required>
+                                <select class="form-control text-center form-select border-dark-subtle" id="tipo_serie" name="tipo_serie" required>
                                     <option value="BOLETA">BOLETA</option>
                                     <option value="FACTURA">FACTURA</option>
                                 </select>
@@ -64,14 +64,14 @@
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label for="serie" class="col-form-label">Nombre de Serie:</label>
-                                <input type="text" class="form-control form-control-sm text-center" id="serie" name="serie" required>
+                                <input type="text" class="form-control form-control-sm text-center border-dark-subtle" id="serie" name="serie" required>
                             </div>
                         </div>
                                     
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label for="correlativo" class="col-form-label">Inicio de Correlativo:</label>
-                                <input type="text" class="form-control form-control-sm text-center" id="correlativo" name="correlativo" required>
+                                <input type="text" class="form-control form-control-sm text-center border-dark-subtle" id="correlativo" name="correlativo" required>
                             </div>
                         </div>
 
@@ -79,7 +79,7 @@
                             <div class="form-group justify-content-center text-center">
                                 <label for="estado" class="col-form-label">Estado:</label>
                                 <div class="form-check form-switch justify-content-center text-center">
-                                    <input class="form-check-input text-center" type="checkbox" role="switch" id="estado"  name="estado" checked >
+                                    <input class="form-check-input text-center border-dark-subtle" type="checkbox" role="switch" id="estado"  name="estado" checked >
                                 </div>
                             </div>
 

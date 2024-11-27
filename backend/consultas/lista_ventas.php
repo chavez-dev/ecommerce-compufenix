@@ -58,8 +58,7 @@ foreach($resultado as $fila){
     <i class="fa-solid fa-ticket" style="color: #ffffff;"></i>Comprobante</button>
     <button type="button" name="borrar" class="btn btn-danger btn-sm borrar" id="'.$fila["id_venta"].'" > 
         <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></button>
-    <button type="button" name="ver" class="btn btn-info btn-sm ver" id="'.$fila["id_venta"].'" > 
-        <i class="fa-solid fa-eye" style="color: #ffffff;"></i></button>';
+    ';
     $datos[] = $sub_array;
 }
 

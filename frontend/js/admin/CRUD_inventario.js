@@ -55,77 +55,88 @@ $(document).ready(function(){
         }
     });
 
-    // // !  AGREGAR ESTADO
-    // $(document).on('submit','#formulario-empleado',function(event){
-    //     event.preventDefault();
-    //     $.ajax({
-    //         url: "../../../backend/consultas/CRUD_inventario.php",
-    //         method: "POST",
-    //         data: new FormData(this), // Para la imagenes
-    //         contentType: false,
-    //         processData: false,
-    //         success:function(data){
-    //             $('#formulario-empleado')[0].reset();
-    //             btnReload.click(); // Para Cerrar el modal
-    //             if(tipoOperacion.value == "Crear"){
-    //                 Swal.fire({
-    //                     icon: "success",
-    //                     title: "Registro Exitoso!",
-    //                     text: "Se ha registrado correctamente!",
-    //                     timer: 1500,
-    //                 });
-    //             }
-    //             if(tipoOperacion.value == "Editar"){
-    //                 Swal.fire({
-    //                     icon: "success",
-    //                     title: "Cambios Guardados!",
-    //                     text: "Se guardaron los cambios correctamente!",
-    //                     timer: 1500,
-    //                 });
-    //             }
-    //             dataTable.ajax.reload(); // Recargar la tabla
+    // !  AGREGAR ESTADO
+    $(document).on('submit','#formulario-empleado',function(event){
+        event.preventDefault();
+        $.ajax({
+            url: "../../../backend/consultas/CRUD_inventario.php",
+            method: "POST",
+            data: new FormData(this), // Para la imagenes
+            contentType: false,
+            processData: false,
+            success:function(data){
+                $('#formulario-empleado')[0].reset();
+                btnReload.click(); // Para Cerrar el modal
+                if(tipoOperacion.value == "Crear"){
+                    Swal.fire({
+                        icon: "success",
+                        title: "Registro Exitoso!",
+                        text: "Se ha registrado correctamente!",
+                        timer: 1500,
+                    });
+                }
+                if(tipoOperacion.value == "Editar"){
+                    Swal.fire({
+                        icon: "success",
+                        title: "Cambios Guardados!",
+                        text: "Se guardaron los cambios correctamente!",
+                        timer: 1500,
+                    });
+                }
+                dataTable.ajax.reload(); // Recargar la tabla
 
-    //             // Ajustar la tabla al recargar
-    //             // var table = $('#miTabla').DataTable(); // Suponiendo que 'miTabla' es el ID de tu tabla DataTable
-    //             // table.ajax.reload(function(){
-    //             //     table.columns.adjust().draw();
-    //             // });
-    //         }
-    //     });
+                // Ajustar la tabla al recargar
+                // var table = $('#miTabla').DataTable(); // Suponiendo que 'miTabla' es el ID de tu tabla DataTable
+                // table.ajax.reload(function(){
+                //     table.columns.adjust().draw();
+                // });
+            }
+        });
         
-    // });
+    });
 
-    // // ! EDITAR: TRAER DATOS DE LA BD
-    // $(document).on('click', '.editar', function(){
-    //     modalHeader.classList.remove("modal-ver");
-    //     modalHeader.classList.add("modal-editar"); // Cambiamos el color del header del modal 
-    //     btnRegistrarEmpleado.innerText= "Editar"; // Cambiamos el texto del boton
-    //     btnRegistrarEmpleado.classList.add('btn-warning'); // Agregamos una clase para cambiar el color del boton
-    //     var id_usuario = $(this).attr("id"); // Obtenemos el id_empleado de la clase .editar
-    //     operacion= 'actualizar';
-    //     $('#id_usuario').val(id_usuario);
-    //     console.log(id_usuario);
-    //     $.ajax({
-    //         url: "../../../backend/consultas/CRUD_inventario.php",
-    //         method: "POST",
-    //         data:{id_usuario:id_usuario, operacion:operacion}, // Para la imagenes
-    //         dataType: "json",
-    //         success:function(data){
-    //             $('#exampleModal').modal('show');
-    //             desbloquearCamposYBotones();
-    //             $('#tipo_estado').val(data.tipo_estado);
-    //             $('#descripcion').val(data.descripcion);
-    //             $('.modal-title').text("EDITAR ESTADO");
-    //             $('#id_usuario').val(id_usuario);
-    //             $('#registrar-empleado').val("Editar");
-    //             $('#operacion').val("Editar");
+    // ! EDITAR: TRAER DATOS DE LA BD
+    $(document).on('click', '.editar', function(){
+        modalHeader.classList.remove("modal-ver");
+        modalHeader.classList.add("modal-editar"); // Cambiamos el color del header del modal 
+        btnRegistrarEmpleado.innerText= "Editar"; // Cambiamos el texto del boton
+        btnRegistrarEmpleado.classList.add('btn-warning'); // Agregamos una clase para cambiar el color del boton
+        var id_usuario = $(this).attr("id"); // Obtenemos el id_empleado de la clase .editar
+        operacion= 'actualizar';
+        $('#id_usuario').val(id_usuario);
+        console.log(id_usuario);
+        $.ajax({
+            url: "../../../backend/consultas/CRUD_inventario.php",
+            method: "POST",
+            data:{id_usuario:id_usuario, operacion:operacion}, // Para la imagenes
+            dataType: "json",
+            success:function(data){
+                $('#exampleModal').modal('show');
+                desbloquearCamposYBotones();
+                $('#fecha_registro').val(data.fecha_registro);
+                $('#id_producto_item').val(data.id_producto_item);
+                $('#id_producto').val(data.id_producto);
+                $('#id_compra').val(data.id_compra);
+                $('#nombre_producto').val(data.nombre_producto);
+                $('#serie').val(data.serie);
+                $('#ubicacion').val(data.ubicacion);
+                $('#estado').val(data.id_estado);
+                $('#garantia').val(data.garantia);
+                $('#id_venta').val(data.id_venta);
+                $('#dni').val(data.dni);
+                $('#cliente').val(data.cliente);
+                $('.modal-title').text("EDITAR PRODUCTO ITEM");
+                bloquearCamposNoEditables()
+                $('#id_usuario').val(id_usuario);
+                $('#registrar-empleado').val("Editar");
+                $('#operacion').val("Editar");
                 
-    //         },
-    //         error: function(jqXHR, textStatus, errorThrown){
-    //             console.log(textStatus, errorThrown);
-    //         }
-    //     });
-    // });
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log(textStatus, errorThrown);
+            }
+        });
+    });
 
     // // ! BORRAR: ELIMINA ESTADO
     // $(document).on('click', '.borrar', function(){
@@ -165,45 +176,60 @@ $(document).ready(function(){
     //     });
     // })
 
-    // // // ! VER: MUESTRA TODOS LOS DATOS DEL CLIENTE
-    //     $(document).on('click', '.ver', function(){
-    //         modalHeader.classList.add("modal-ver"); // Cambiamos el color del header del modal 
-    //         var id_usuario = $(this).attr("id"); // Obtenemos el id_empleado de la clase .editar
-    //         operacion= 'actualizar';
-    //         $('#id_usuario').val(id_usuario);
-    //         console.log(id_usuario);
-    //         $.ajax({
-    //             url: "../../../backend/consultas/CRUD_inventario.php",
-    //             method: "POST",
-    //             data:{id_usuario:id_usuario, operacion:operacion}, // Para la imagenes
-    //             dataType: "json",
-    //             success:function(data){
-    //                 $('#exampleModal').modal('show');
-    //                 $('#tipo_estado').val(data.tipo_estado);
-    //                 $('#descripcion').val(data.descripcion);
-    //                 $('.modal-title').text("VER ESTADO");
-    //                 $('#id_usuario').val(id_usuario);
+    // // ! VER: MUESTRA TODOS LOS DATOS DEL CLIENTE
+        $(document).on('click', '.ver', function(){
+            modalHeader.classList.add("modal-ver"); // Cambiamos el color del header del modal 
+            var id_usuario = $(this).attr("id"); // Obtenemos el id_empleado de la clase .editar
+            operacion= 'actualizar';
+            $('#id_usuario').val(id_usuario);
+            console.log(id_usuario);
+            $.ajax({
+                url: "../../../backend/consultas/CRUD_inventario.php",
+                method: "POST",
+                data:{id_usuario:id_usuario, operacion:operacion}, // Para la imagenes
+                dataType: "json",
+                success:function(data){
+                    $('#exampleModal').modal('show');
+                    $('#fecha_registro').val(data.fecha_registro);
+                    $('#id_producto_item').val(data.id_producto_item);
+                    $('#id_producto').val(data.id_producto);
+                    $('#id_compra').val(data.id_compra);
+                    $('#nombre_producto').val(data.nombre_producto);
+                    $('#serie').val(data.serie);
+                    $('#ubicacion').val(data.ubicacion);
+                    $('#estado').val(data.id_estado);
+                    $('#garantia').val(data.garantia);
+                    $('#id_venta').val(data.id_venta);
+                    $('#dni').val(data.dni);
+                    $('#cliente').val(data.cliente);
+                    $('.modal-title').text("VER PRODUCTO ITEM");
+                    $('#id_usuario').val(id_usuario);
 
-    //                 bloquearCamposYBotones();
-    //             },
-    //             error: function(jqXHR, textStatus, errorThrown){
-    //                 console.log(textStatus, errorThrown);
-    //             }
-    //         });
-    //     });
+                    bloquearCamposYBotones();
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        });
 
 });
 
 // Función para bloquear los campos y ocultar los botones
 function bloquearCamposYBotones() {
-    $('#tipo_estado, #descripcion, #id_estado')
+    $('#fecha_registro, #id_producto_item, #id_producto, #id_compra, #nombre_producto, #serie, #ubicacion, #estado, #garantia, #id_venta, #dni, #cliente')
         .prop('disabled', true);
     $('#registrar-empleado').hide();
 }
 
+function bloquearCamposNoEditables() {
+    $('#fecha_registro, #id_producto_item, #id_producto, #id_compra, #nombre_producto, #id_venta, #dni, #cliente')
+        .prop('disabled', true);
+}
+
 // Función para desbloquear los campos y mostrar los botones
 function desbloquearCamposYBotones() {
-    $('#tipo_estado, #descripcion, #id_estado')
+    $('#fecha_registro, #id_producto_item, #id_producto, #id_compra, #nombre_producto, #serie, #ubicacion, #estado, #garantia, #id_venta, #dni, #cliente')
         .prop('disabled', false);
     $('#registrar-empleado').show();
 }

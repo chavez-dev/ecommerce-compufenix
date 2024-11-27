@@ -75,7 +75,7 @@
                                         <div class="form-group text-center">
                                             <label for="serie" class="col-form-label">Serie:</label>
                                             <select class="form-control text-center form-select border-dark-subtle" id="serie" name="serie" required>
-                                                <option value="" disabled selected hidden>Seleccione</option>
+                                                <option value="" disabled selected >Seleccione</option>
                                             </select>
                                         </div>
                                     </div>
@@ -637,7 +637,7 @@ $(document).ready(function() {
                             // Cargar las opciones de series en el select
                             data.series.forEach(function(serie) {
                                 const option = document.createElement("option");
-                                option.value = serie.id;
+                                option.value = serie.serie;
                                 option.textContent = serie.serie;
                                 serieSelect.appendChild(option);
                             });

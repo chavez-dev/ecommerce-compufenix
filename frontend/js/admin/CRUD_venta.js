@@ -204,42 +204,42 @@ $(document).ready(function(){
     //     });
     // });
 
-    // // ! BORRAR: ELIMINA COMPRA
-    // $(document).on('click', '.borrar', function(){
-    //     // Extraemos el valor del id de la clase .borrar
-    //     var id_usuario = $(this).attr("id");
-    //     operacion= 'borrar';
-    //     Swal.fire({
-    //         title: "Borrar Registro?",
-    //         text: "Estas seguro de borrar este compra!",
-    //         icon: "warning",
-    //         showCancelButton: true,
-    //         confirmButtonColor: "#d33",
-    //         cancelButtonColor: "#bbb",
-    //         confirmButtonText: "Si, Borrar!"
-    //         }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             $.ajax({
-    //                 url: "../../../backend/consultas/CRUD_compra.php",
-    //                 method: "POST",
-    //                 data:{id_usuario:id_usuario,operacion: operacion},
-    //                 success:function(data){
-    //                     dataTable.ajax.reload();
-    //                     // Mensaje de eliminacion
-    //                     Swal.fire({
-    //                         title: "Eliminado!",
-    //                         text: "El registro fue eliminado.",
-    //                         icon: "success"
-    //                     });
-    //                 },
-    //                 error: function(xhr, status, error) {
-    //                     console.error("Error en la solicitud AJAX:", status, error);
-    //                 }
-    //             });
+    // ! BORRAR: ELIMINA VENTA
+    $(document).on('click', '.borrar', function(){
+        // Extraemos el valor del id de la clase .borrar
+        var id_usuario = $(this).attr("id");
+        operacion= 'borrar';
+        Swal.fire({
+            title: "Borrar Registro?",
+            text: "Estas seguro de borrar este compra!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#bbb",
+            confirmButtonText: "Si, Borrar!"
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "../../../backend/consultas/CRUD_venta.php",
+                    method: "POST",
+                    data:{id_usuario:id_usuario,operacion: operacion},
+                    success:function(data){
+                        dataTable.ajax.reload();
+                        // Mensaje de eliminacion
+                        Swal.fire({
+                            title: "Eliminado!",
+                            text: "El registro fue eliminado.",
+                            icon: "success"
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error en la solicitud AJAX:", status, error);
+                    }
+                });
                 
-    //         }
-    //     });
-    // })
+            }
+        });
+    })
 
 
     // // ! EDITAR : MUESTRA TODOS LOS DATOS DE LA COMPRA
