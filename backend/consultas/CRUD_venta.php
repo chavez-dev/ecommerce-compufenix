@@ -62,9 +62,44 @@ if ($_POST["operacion"] == "Crear") {
             // Cliente no existe, agregarlo
             error_log("El cliente no existe, creando uno nuevo");
 
+            error_log("Enviando datos para agregar cliente:");
+            error_log("Tipo de documento: $tipo_documento");
+            error_log("Número de documento: $nro_documento");
+            error_log("Nombre: $nombre");
+            error_log("Email: $email");
+            error_log("Celular: $celular");
+            error_log("Dirección: $direccion");
+            
+            // 2. Preparar y ejecutar la consulta para insertar al cliente
             $stmt = $conexion->prepare("CALL agregar_cliente(?, ?, ?, ?, ?, ?, 'PER')");
-            $stmt->execute([$tipo_documento, $nro_documento, $nombre, $email, $celular, $direccion]);
-            $id_cliente = $conexion->lastInsertId(); // Obtener el ID generado
+            if ($stmt === false) {
+                error_log("Error al preparar la consulta.");
+                exit; // Detener ejecución si hubo error al preparar
+            }
+            
+            $resultado = $stmt->execute([$tipo_documento, $nro_documento, $nombre, $email, $celular, $direccion]);
+            
+            // 3. Verificar si la ejecución fue exitosa
+            if ($resultado) {
+                error_log("Cliente insertado exitosamente.");
+            } else {
+                error_log("Error al insertar cliente.");
+                $errorInfo = $stmt->errorInfo(); // Obtener detalles del error
+                error_log("Detalles del error: " . print_r($errorInfo, true));
+            }
+            
+            $sqlNextId = $conexion->prepare("SELECT MAX(id_cliente) FROM cliente");
+            $sqlNextId->execute();
+            $id_cliente = $sqlNextId->fetchColumn();
+            error_log("ID del cliente insertado: $id_cliente");
+            
+            // 5. Verificar el ID del cliente
+            if (!$id_cliente) {
+                error_log("No se obtuvo el ID del cliente.");
+                exit; // Detener ejecución si no se pudo obtener el ID
+            } else {
+                error_log("Cliente creado con ID: $id_cliente");
+            }
         } else {
             $id_cliente = $cliente['id_cliente'];
             error_log("Cliente existente con ID: $id_cliente");
@@ -297,9 +332,16 @@ if (isset($_POST["id_usuario"]) && ($_POST["operacion"]) == 'borrar') {
         $stmt = $conexion->prepare("DELETE FROM venta WHERE id_venta = :id_venta");
         $stmt->execute(array(':id_venta' => $id_venta));
 
+        // Eliminar el registro de la venta
+        $stmt = $conexion->prepare("DELETE FROM comprobante WHERE id_venta = :id_venta");
+        $stmt->execute(array(':id_venta' => $id_venta));
+
         // Actualizar AUTO_INCREMENT de la tabla detalle_venta
         $sql_increment_venta = $conexion->prepare( "ALTER TABLE venta AUTO_INCREMENT = 1"); 
         $sql_increment_venta->execute();
+
+        $sql_increment_comprobante = $conexion->prepare( "ALTER TABLE comprobante AUTO_INCREMENT = 1"); 
+        $sql_increment_comprobante->execute();
 
         // Confirmar la transacción
         $conexion->commit();

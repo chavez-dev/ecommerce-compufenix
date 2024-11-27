@@ -12,7 +12,7 @@
             <button type="button" class="btn btn-danger empleado-boton-agregar" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat" id="agregarEmpleado">PDF</button>
         </div>
         
-        <div class="container-fluid" style="background-color:antiquewhite; margin-top:20px">
+        <div class="container-fluid">
             <div class="row ">
                 <div class="col-lg-12 ">
                     <table id="tablaUsuarios" class=" table table-striped table-bordered " style="width:100%;">
