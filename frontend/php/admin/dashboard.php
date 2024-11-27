@@ -75,7 +75,7 @@
     <!-- Sección de gráficos -->
     <div class="chart-section">
         <div class="sales-chart">
-            <h2>Ventas</h2>
+            <h2>chavez se la come doblada</h2>
             <canvas id="salesChart" width="400" height="200"></canvas>
         </div>
         <div class="traffic-chart">
