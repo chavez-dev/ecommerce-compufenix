@@ -115,6 +115,16 @@
     </section>
     <!-- SIDEBAR -->
 
+    <script>
+        const userRole = "<?php echo $_SESSION['cargo']; ?>";
+
+        // Si es Vendedor, ocultar secciones administrativas
+        if (userRole === "Vendedor") {
+            const adminLinks = document.querySelectorAll(' .btn_empleado, .btn_metodo_pago, .btn_configuracion');
+            adminLinks.forEach(link => link.style.display = 'none');
+        }
+    </script>
+
     <!-- NAVBAR -->
 	<section id="content">
 		<!-- NAVBAR -->

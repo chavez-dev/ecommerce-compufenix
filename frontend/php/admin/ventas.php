@@ -277,6 +277,22 @@
                     <div class="modal-footer justify-content-center">
                         <input name="id_usuario" id="id_usuario" type="hidden">
                         <input name="operacion" id="operacion" type="hidden">
+
+                        <?php  
+                            // * Mostrar ID del Empleado
+                            $usuario_login = $_SESSION['usuario']; 
+                            $consulta = "SELECT * FROM empleado WHERE DNI = :usuario_login";
+                            $stmt = $conexion->prepare($consulta);
+                            $stmt->bindParam(':usuario_login', $usuario_login, PDO::PARAM_STR); // Usamos bindParam para mayor seguridad
+                            $stmt->execute();
+
+                            if ($stmt->rowCount() > 0) {
+                                $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+                                $id_empleado = $fila['id_empleado'];  // Suponiendo que 'id' es el campo del ID en la tabla empleado
+                            }
+                        ?>
+
+                        <input name="empleado" id="empleado" type="hidden" value="<?php echo isset($id_empleado) ? $id_empleado : ''; ?>">
                         <button type="submit" class="btn btn-success" id="registrar_venta">Registrar</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnReload">Cerrar</button>
                     </div>

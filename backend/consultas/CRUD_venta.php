@@ -15,6 +15,9 @@ if ($_POST["operacion"] == "Crear") {
 
         error_log("Operación de crear venta iniciada");
 
+
+        $id_empleado = $_POST['empleado'];
+
         $fecha_emision = $_POST['fecha_emision'];
         $tipo_comprobante = $_POST['tipo_comprobante'];
         $serie = $_POST['serie'];
@@ -113,7 +116,7 @@ if ($_POST["operacion"] == "Crear") {
             VALUES (?, ?, ?, ?, ?)
             ");
         $stmt->execute([
-            1, // Suponiendo que el ID del empleado es 1 (cambiar según contexto)
+            $id_empleado, 
             $id_cliente,
             $metodo_pago,
             'Venta registrada desde el sistema', // Observaciones

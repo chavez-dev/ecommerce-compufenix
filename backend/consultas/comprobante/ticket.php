@@ -20,7 +20,7 @@ $tienda = $stmt_tienda->fetch(PDO::FETCH_ASSOC);
 error_log("Datos de la tienda: " . print_r($tienda, true));
 
 // Obtener los datos de la venta
-$stmt_venta = $conexion->prepare("SELECT v.*, c.nombre AS cliente_nombre, c.nro_documento, con.nro_celular AS telefono, e.nombre AS empleado_nombre, con.direccion AS direccion_cliente
+$stmt_venta = $conexion->prepare("SELECT v.*, c.nombre AS cliente_nombre, c.nro_documento, con.nro_celular AS telefono, CONCAT(e.nombre, ' (', e.id_empleado, ')') AS empleado_nombre , con.direccion AS direccion_cliente
                                    FROM venta v
                                    LEFT JOIN cliente c ON v.id_cliente = c.id_cliente
                                    LEFT JOIN contacto con ON c.id_contacto = con.id_contacto
