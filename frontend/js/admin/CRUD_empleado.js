@@ -25,7 +25,7 @@ $(document).ready(function(){
         "serverSide":true,
         "order":[],
         "ajax":{
-            url: '../../../backend/consultas/lista_empleados.php',
+            url: '../../../backend/consultas/listas/lista_empleados.php',
             type: 'POST',
         },
         "columnDefs":[{
@@ -65,7 +65,7 @@ $(document).ready(function(){
 
         if (nombre != '' && apellido != '' && dni != '') {
             $.ajax({
-                url: "../../../backend/consultas/CRUD_empleado.php",
+                url: "../../../backend/consultas/CRUDS/CRUD_empleado.php",
                 method: "POST",
                 data: new FormData(this), // Para la imagenes
                 contentType: false,
@@ -107,7 +107,7 @@ $(document).ready(function(){
         $('#id_usuario').val(id_usuario);
         console.log(id_usuario);
         $.ajax({
-            url: "../../../backend/consultas/CRUD_empleado.php",
+            url: "../../../backend/consultas/CRUDS/CRUD_empleado.php",
             method: "POST",
             data:{id_usuario:id_usuario, operacion:operacion}, // Para la imagenes
             dataType: "json",
@@ -158,7 +158,7 @@ $(document).ready(function(){
             }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "../../../backend/consultas/CRUD_empleado.php",
+                    url: "../../../backend/consultas/CRUDS/CRUD_empleado.php",
                     method: "POST",
                     data:{id_usuario:id_usuario,operacion: operacion},
                     success:function(data){
@@ -187,7 +187,7 @@ $(document).ready(function(){
         $('#id_usuario').val(id_usuario);
         console.log(id_usuario);
         $.ajax({
-            url: "../../../backend/consultas/CRUD_empleado.php",
+            url: "../../../backend/consultas/CRUDS/CRUD_empleado.php",
             method: "POST",
             data:{id_usuario:id_usuario, operacion:operacion}, // Para la imagenes
             dataType: "json",

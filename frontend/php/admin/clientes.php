@@ -112,7 +112,7 @@
                             <div class="form-group row">
                                 <label for="direccion" class="col-form-label col-sm-2">Dirección:</label>
                                 <div class="col-sm-10"> 
-                                    <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm text-center border-dark-subtle" id="direccion" name="direccion" required>
+                                    <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm text-center border-dark-subtle" id="direccion" name="direccion" >
                                 </div>
                             </div>
                         </div>

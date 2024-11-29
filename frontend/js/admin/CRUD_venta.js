@@ -39,7 +39,7 @@ $(document).ready(function(){
         "serverSide":true,
         "order":[],
         "ajax":{
-            url: '../../../backend/consultas/lista_ventas.php',
+            url: '../../../backend/consultas/listas/lista_ventas.php',
             type: 'POST',
         },
         "columnDefs":[{
@@ -109,7 +109,7 @@ $(document).ready(function(){
 
 
          $.ajax({
-            url: "../../../backend/consultas/CRUD_venta.php",
+            url: "../../../backend/consultas/CRUDS/CRUD_venta.php",
             method: "POST",
             data: formData,
             contentType: false,
@@ -220,7 +220,7 @@ $(document).ready(function(){
             }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "../../../backend/consultas/CRUD_venta.php",
+                    url: "../../../backend/consultas/CRUDS/CRUD_venta.php",
                     method: "POST",
                     data:{id_usuario:id_usuario,operacion: operacion},
                     success:function(data){
