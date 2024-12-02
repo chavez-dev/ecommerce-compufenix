@@ -15,24 +15,26 @@
     <div class="container-fluid" style=" margin-top:20px">
         <div class="row ">
             <div class="col-lg-12 ">
-                <table id="tablaUsuarios" class=" table table-striped table-bordered " style="width:100%;">
-                    <thead class="text-center">
-                        <!-- <tr> -->
-                        <th class="text-center bg-info-subtle">ID</th>
-                        <th class="text-center bg-info-subtle">imagen</th>
-                        <th class="text-center bg-info-subtle">Producto</th>
-                        <th class="text-center bg-info-subtle">Modelo</th>
-                        <th class="text-center bg-info-subtle">Categoria</th>
-                        <th class="text-center bg-info-subtle">Estado</th>
-                        <th class="text-center bg-info-subtle">Precio</th>
-                        <th class="text-center bg-info-subtle">Stock</th>
-                        <th class="text-center bg-info-subtle">Opciones</th>
-                        <!-- </tr> -->
-                    </thead>
-                    <tbody class="text-center">
-                        <!-- Contenido de la tabla -->
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="tablaUsuarios" class=" table table-striped table-bordered " style="width:100%;">
+                        <thead class="text-center">
+                            <!-- <tr> -->
+                            <th class="text-center bg-info-subtle">ID</th>
+                            <th class="text-center bg-info-subtle">imagen</th>
+                            <th class="text-center bg-info-subtle">Producto</th>
+                            <th class="text-center bg-info-subtle">Modelo</th>
+                            <th class="text-center bg-info-subtle">Categoria</th>
+                            <th class="text-center bg-info-subtle">Estado</th>
+                            <th class="text-center bg-info-subtle">Precio</th>
+                            <th class="text-center bg-info-subtle">Stock</th>
+                            <th class="text-center bg-info-subtle">Opciones</th>
+                            <!-- </tr> -->
+                        </thead>
+                        <tbody class="text-center">
+                            <!-- Contenido de la tabla -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

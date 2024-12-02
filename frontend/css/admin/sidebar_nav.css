@@ -42,8 +42,8 @@ body{
 	top: 0;
 	left: 0;
 	height: 100%;
-	overflow-y: auto;
-	scrollbar-width: none;
+	overflow-y:auto; /* Permitir scroll */
+	
 	transition: all .3s ease;
 	z-index: 200;
 }
@@ -53,9 +53,9 @@ body{
 #sidebar.hide:hover {
 	max-width: 260px;
 }
-#sidebar::-webkit-scrollbar {
-	display: none;
-}
+
+
+
 #sidebar .brand {
 	font-size: 24px;
 	display: flex;
@@ -349,4 +349,15 @@ body{
 		display: none;
 	} */
 }
+
+@media (max-width: 768px) {
+     #apellidoEmpleado {
+		display: none;
+    }
+	.main-principal{
+		padding: 10px 0px;
+	}
+}
+
+
 
