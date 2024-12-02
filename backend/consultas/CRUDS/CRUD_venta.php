@@ -2,7 +2,7 @@
 
 include("../../config/conexion.php");
 
-// ! AGREGAR: INSERTAMOS UNA NUEVA COMPRA
+// ! AGREGAR: INSERTAMOS UNA NUEVA VENTA
 if ($_POST["operacion"] == "Crear") {
 
     
