@@ -4,7 +4,7 @@ include("../../config/conexion.php");
 // Consulta SQL y ejecucion y guardado del resultado 
 $query_consulta = "";
 $salida = array();
-$query_consulta = "SELECT * FROM lista_compras";
+$query_consulta = "SELECT * FROM lista_compras_sidebar";
 
 // $resultado = mysqli_query($conexion, $consulta);
 // $total_rows = mysqli_num_rows($resultado);
