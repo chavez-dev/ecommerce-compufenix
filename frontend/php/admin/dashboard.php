@@ -195,95 +195,35 @@
 <!-- Llamada AJAX para actualizar estadísticas -->
 
 <script>
-    //Obterner total de usuarios
+    // Función genérica para obtener datos y actualizar elementos
+    function obtenerDatos(url, selector, campo) {
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta de la red');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data[campo] !== undefined) {
+                    document.querySelector(selector).innerText = data[campo];
+                } else {
+                    console.error("Error en los datos recibidos:", data);
+                }
+            })
+            .catch(error => console.error(`Error al obtener datos de ${campo}:`, error));
+    }
 
-document.addEventListener("DOMContentLoaded", function() {
-    fetch('../../consultas/obtener_cliente_d.php')
-    .then(response => {
-        console.log("Estado de la respuesta:", response.status);
-        if (!response.ok) {
-            throw new Error('Error en la respuesta de la red');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log("Datos recibidos:", data);
-        if (data.totalClientes !== undefined) {
-            document.querySelector("#total-clientes").innerText = data.totalClientes;
-        } else {
-            console.error("Error en los datos recibidos:", data);
-        }
-    })
-    .catch(error => console.error("Error al obtener el total de clientes:", error));
-});
-
-   // obtener ganancias totales
-   document.addEventListener("DOMContentLoaded", function() {
-    // Actualizar total de clientes
-    fetch('../../../backend/consultas/obtener_cliente_d.php')
-        .then(response => response.json())
-        .then(data => {
-            if (data.totalClientes !== undefined) {
-                document.querySelector("#total-clientes").innerText = data.totalClientes;
-            }
-        })
-        .catch(error => console.error("Error al obtener el total de clientes:", error));
-
-    // Actualizar total de ganancias
-    fetch('../../../backend/consultas/obtener_ganancias_d.php')
-        .then(response => response.json())
-        .then(data => {
-            if (data.totalGanancias !== undefined) {
-                document.querySelector("#total-ganancias").innerText = `$${data.totalGanancias}`;
-            }
-        })
-        .catch(error => console.error("Error al obtener el total de ganancias:", error));
-});
-
-// obtener productos
-
-document.addEventListener("DOMContentLoaded", function() {
-    // Llamada AJAX para obtener el total de productos
-    fetch('../../../backend/consultas/obtener_productos_d.php')
-    .then(response => {
-        console.log("Estado de la respuesta:", response.status);
-        if (!response.ok) {
-            throw new Error('Error en la respuesta de la red');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log("Datos recibidos:", data);
-        if (data.totalProductos !== undefined) {
-            document.querySelector("#total-productos").innerText = data.totalProductos;
-        } else {
-            console.error("Error en los datos recibidos:", data);
-        }
-    })
-    .catch(error => console.error("Error al obtener el total de productos:", error));
-});
-
-// obtener total de ventas
-document.addEventListener("DOMContentLoaded", function() {
-    // Llamada AJAX para obtener el total de ventas
-    fetch('../../../backend/consultas/obtener_vendidos_d.php')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error en la respuesta de la red');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.totalVentas !== undefined) {
-            // Actualiza el elemento con el total de ventas
-            document.querySelector("#total-ventas").innerText = data.totalVentas;
-        } else {
-            console.error("Error en los datos recibidos:", data);
-        }
-    })
-    .catch(error => console.error("Error al obtener el total de ventas:", error));
-});
+    // Ejecutar las llamadas al cargar la página
+    document.addEventListener("DOMContentLoaded", function() {
+        // Llamadas a la función con las URLs, selectores y campos necesarios
+        obtenerDatos('../../../backend/consultas/obtener_cliente_d.php', '#total-clientes', 'totalClientes');
+        obtenerDatos('../../../backend/consultas/obtener_ganancias_d.php', '#total-ganancias', 'totalGanancias');
+        obtenerDatos('../../../backend/consultas/obtener_productos_d.php', '#total-productos', 'totalProductos');
+        obtenerDatos('../../../backend/consultas/obtener_vendidos_d.php', '#total-ventas', 'totalVentas');
+    });
 </script>
+
 
 <!-- no mover desde aca-->
 
