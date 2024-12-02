@@ -723,7 +723,7 @@ BEGIN
 END$$
 
 -- fecha -- detalle - precio lista de compra
-DROP VIEW IF EXISTS lista_compras;
+DROP VIEW IF EXISTS lista_comprass;
 CREATE VIEW lista_compras AS
 SELECT 
     DATE_FORMAT(c.registro_compra, '%b %d, %Y, %H:%i') AS fecha_hora_registro, 
@@ -733,7 +733,7 @@ FROM compra c
 INNER JOIN producto p ON c.id_producto = p.id_producto
 ORDER BY c.registro_compra DESC;
 
-SELECT * FROM lista_compras;
+SELECT * FROM lista_comprass;
 
 -- lista de ventas
 CREATE VIEW lista_ventas AS

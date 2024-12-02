@@ -198,7 +198,7 @@
     //Obterner total de usuarios
 
 document.addEventListener("DOMContentLoaded", function() {
-    fetch('../../../consultas/obtener_cliente_d.php')
+    fetch('../../consultas/obtener_cliente_d.php')
     .then(response => {
         console.log("Estado de la respuesta:", response.status);
         if (!response.ok) {
