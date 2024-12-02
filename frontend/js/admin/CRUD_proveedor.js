@@ -97,6 +97,11 @@ $(document).ready(function(){
         }
     });
 
+    // ! Genera el Reporte de Venta
+    $(document).on('click', '#reporte_proveedor', function () {
+        window.open('../../../backend/consultas/reporte_proveedor.php', '_blank');
+    });
+
     // ! EDITAR: TRAER DATOS DE LA BD
     $(document).on('click', '.editar', function(){
         modalHeader.classList.remove("modal-ver");

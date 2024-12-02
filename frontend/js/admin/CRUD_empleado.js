@@ -97,6 +97,11 @@ $(document).ready(function(){
         }
     });
 
+    // ! Genera el Reporte de Empleado
+    $(document).on('click', '#reporte_empleado', function () {
+        window.open('../../../backend/consultas/reporte_empleado.php', '_blank');
+    });
+
     // ! EDITAR: TRAER DATOS DE LA BD
     $(document).on('click', '.editar', function(){
         modalHeader.classList.add("modal-editar"); // Cambiamos el color del header del modal 

@@ -103,6 +103,11 @@ $(document).ready(function(){
         }
     });
 
+    // ! Genera el Reporte de Venta
+    $(document).on('click', '#reporte_cliente', function () {
+        window.open('../../../backend/consultas/reporte_cliente.php', '_blank');
+    });
+
     // ! EDITAR: TRAER DATOS DE LA BD
     $(document).on('click', '.editar', function(){
         modalHeader.classList.remove("modal-ver");

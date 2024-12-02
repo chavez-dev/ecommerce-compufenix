@@ -156,53 +156,11 @@ $(document).ready(function(){
         window.open(`../../../backend/consultas/comprobante/ticket.php?id_venta=${idVenta}`, '_blank');
     });
 
-    // // ! EDITAR: TRAER DATOS DE LA BD
-    // $(document).on('click', '.editar', function(){
-    //     modalHeader.classList.remove("modal-ver");
-    //     modalHeader.classList.add("modal-editar"); // Cambiamos el color del header del modal 
-    //     btnRegistrarCompra.innerText= "Editar"; // Cambiamos el texto del boton
-    //     btnRegistrarCompra.classList.add('btn-warning'); // Agregamos una clase para cambiar el color del boton
-    //     var id_usuario = $(this).attr("id"); // Obtenemos el id_empleado de la clase .editar
-    //     operacion= 'actualizar';
-    //     $('#id_usuario').val(id_usuario);
-    //     console.log(id_usuario);
-    //     $.ajax({
-    //         url: "../../../backend/consultas/CRUD_compra.php",
-    //         method: "POST",
-    //         data:{id_usuario:id_usuario, operacion:operacion}, // Para la imagenes
-    //         dataType: "json",
-    //         success:function(data){
-    //             $('#exampleModal').modal('show');
-    //             desbloquearCamposYBotones();
-    //             $('#producto').val(data.id_producto);
-    //             $('#proveedor').val(data.id_proveedor);
-    //             $('#cantidad_compra').val(data.cantidad_compra);
-    //             $('#precio_unitario').val(data.precio_unitario);
-    //             $('#factura').val(data.factura);
-    //             $('#metodo_pago').val(data.metodo_pago);
-    //             $('#pago_total').val(data.pago_total);
-    //             $('#descripcion').val(data.descripcion);
-    //             $('.modal-title').text("EDITAR COMPRA");
-    //             $('#id_usuario').val(id_usuario);
-    //             $('#registrar-empleado').val("Editar");
-    //             $('#operacion').val("Editar");
-                
-    //             // Agregar los inputs de serie
-    //             agregarInputsSeries(data.series.length);
-
-    //             // Asignar los valores de los números de serie a los inputs correspondientes
-    //             data.series.forEach((serie, index) => {
-    //                 $('#serie' + (index + 1)).val(serie);
-    //             });
-    //             $('#inputSeries input').prop('disabled', true);
-
-
-    //         },
-    //         error: function(jqXHR, textStatus, errorThrown){
-    //             console.log(textStatus, errorThrown);
-    //         }
-    //     });
-    // });
+    // ! Genera el Reporte de Venta
+    $(document).on('click', '#reporte_venta', function () {
+        window.open('../../../backend/consultas/reporte_venta.php', '_blank');
+    });
+    
 
     // ! BORRAR: ELIMINA VENTA
     $(document).on('click', '.borrar', function(){
