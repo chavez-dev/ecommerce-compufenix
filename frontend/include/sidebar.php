@@ -115,6 +115,8 @@
     </section>
     <!-- SIDEBAR -->
 
+    
+
     <!-- NAVBAR -->
 	<section id="content">
 		<!-- NAVBAR -->
@@ -174,7 +176,7 @@
                                 
                                 var alertaHtml = `
                                     <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
-                                    <div class="toast-header">
+                                    <div class="toast-header bg-primary">
                                         <strong class="me-auto">Alerta de Stock</strong>
                                         <small>${alerta.registro_mensaje}</small>
                                         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -220,10 +222,7 @@
                 
             </script>
 
-			<a href="#" class="nav-link" id="notificaciones">
-                <i class="fa-solid fa-message icon"></i>
-				<span class="badge">8</span>
-			</a>
+			
 			<span class="divider"></span>
             <p class="text-center pt-3">
 
@@ -258,3 +257,13 @@
 			</div>
 		</nav>
 		<!-- NAVBAR -->
+
+        <script>
+        const userRole = "<?php echo $_SESSION['cargo']; ?>";
+
+        // Si es Vendedor, ocultar secciones administrativas
+        if (userRole === "Vendedor") {
+            const adminLinks = document.querySelectorAll(' .btn_empleado, .btn_metodo_pago, .btn_configuracion');
+            adminLinks.forEach(link => link.style.display = 'none');
+        }
+        </script>

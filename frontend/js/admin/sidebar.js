@@ -134,7 +134,12 @@ toggleSidebar.addEventListener('click', function () {
 })
 
 
-
+// Verificar el tamaño de la pantalla y hacer clic en el icono de hamburguesa si es un móvil
+window.addEventListener('load', function () {
+    if (window.innerWidth <= 768) {
+        toggleSidebar.click();  // Simula el clic en el icono de hamburguesa
+    }
+})
 
 sidebar.addEventListener('mouseleave', function () {
 	if(this.classList.contains('hide')) {

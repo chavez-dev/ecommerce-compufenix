@@ -10,28 +10,31 @@
 <main class="main-principal">
     <div class="container-fluid">
         <button type="button" class="btn btn-success empleado-boton-agregar" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat" id="agregarEmpleado"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Agregar Empleado</button>
+        <button type="button" class="btn btn-danger" id="reporte_empleado"><i class="fa-solid fa-file-pdf" style="color: #ffffff;"></i> Reporte</button>
     </div>
 
     <div class="container-fluid" style="margin-top:20px">
         <div class="row ">
             <div class="col-lg-12 ">
-                <table id="tablaUsuarios" class=" table table-striped table-bordered " style="width:100%;">
-                    <thead class="text-center">
-                        <!-- <tr> -->
-                            <th class="text-center bg-info-subtle">ID</th>
-                            <th class="text-center bg-info-subtle">DNI</th>
-                            <th class="text-center bg-info-subtle">Nombre Completo</th>
-                            <th class="text-center bg-info-subtle">Cargo</th>
-                            <th class="text-center bg-info-subtle">Estado</th>
-                            <th class="text-center bg-info-subtle">Celular</th>
-                            <th class="text-center bg-info-subtle">Email</th>
-                            <th class="text-center bg-info-subtle">Opciones</th>
-                        <!-- </tr> -->
-                    </thead>
-                    <tbody class="text-center">
-                        <!-- Contenido de la tabla -->
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="tablaUsuarios" class=" table table-striped table-bordered " style="width:100%;">
+                        <thead class="text-center">
+                            <!-- <tr> -->
+                                <th class="text-center bg-info-subtle">ID</th>
+                                <th class="text-center bg-info-subtle">DNI</th>
+                                <th class="text-center bg-info-subtle">Nombre Completo</th>
+                                <th class="text-center bg-info-subtle">Cargo</th>
+                                <th class="text-center bg-info-subtle">Estado</th>
+                                <th class="text-center bg-info-subtle">Celular</th>
+                                <th class="text-center bg-info-subtle">Email</th>
+                                <th class="text-center bg-info-subtle">Opciones</th>
+                            <!-- </tr> -->
+                        </thead>
+                        <tbody class="text-center">
+                            <!-- Contenido de la tabla -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

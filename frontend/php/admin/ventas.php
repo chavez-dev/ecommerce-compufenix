@@ -9,27 +9,30 @@
 <main class="main-principal">
     <div class="container-fluid">
         <button type="button" class="btn btn-success empleado-boton-agregar" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat" id="agregar_compra"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Agregar Venta</button>
+        <button type="button" class="btn btn-danger" id="reporte_venta"><i class="fa-solid fa-file-pdf" style="color: #ffffff;"></i> Reporte</button>
     </div>
 
     <div class="container-fluid" style=" margin-top:20px">
         <div class="row ">
             <div class="col-lg-12 ">
-                <table id="tablaUsuarios" class=" table table-striped table-bordered " style="width:100%;">
-                    <thead class="text-center" >
-                        <!-- <tr> -->
-                        <th class="text-center bg-info-subtle">ID</th>
-                        <th class="text-center bg-info-subtle">Fecha Registro</th>
-                        <th class="text-center bg-info-subtle">Documento Cliente</th>
-                        <th class="text-center bg-info-subtle">Nombre de Cliente</th>
-                        <th class="text-center bg-info-subtle">Nro Comprobante</th>
-                        <th class="text-center bg-info-subtle">Total</th>
-                        <th class="text-center bg-info-subtle">Opciones</th>
-                        <!-- </tr> -->
-                    </thead>
-                    <tbody class="text-center">
-                        <!-- Contenido de la tabla -->
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="tablaUsuarios" class=" table table-striped table-bordered " style="width:100%;">
+                        <thead class="text-center" >
+                            <!-- <tr> -->
+                            <th class="text-center bg-info-subtle">ID</th>
+                            <th class="text-center bg-info-subtle">Fecha Registro</th>
+                            <th class="text-center bg-info-subtle">Documento Cliente</th>
+                            <th class="text-center bg-info-subtle">Nombre de Cliente</th>
+                            <th class="text-center bg-info-subtle">Nro Comprobante</th>
+                            <th class="text-center bg-info-subtle">Total</th>
+                            <th class="text-center bg-info-subtle">Opciones</th>
+                            <!-- </tr> -->
+                        </thead>
+                        <tbody class="text-center">
+                            <!-- Contenido de la tabla -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -277,6 +280,22 @@
                     <div class="modal-footer justify-content-center">
                         <input name="id_usuario" id="id_usuario" type="hidden">
                         <input name="operacion" id="operacion" type="hidden">
+
+                        <?php  
+                            // * Mostrar ID del Empleado
+                            $usuario_login = $_SESSION['usuario']; 
+                            $consulta = "SELECT * FROM empleado WHERE DNI = :usuario_login";
+                            $stmt = $conexion->prepare($consulta);
+                            $stmt->bindParam(':usuario_login', $usuario_login, PDO::PARAM_STR); // Usamos bindParam para mayor seguridad
+                            $stmt->execute();
+
+                            if ($stmt->rowCount() > 0) {
+                                $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+                                $id_empleado = $fila['id_empleado'];  // Suponiendo que 'id' es el campo del ID en la tabla empleado
+                            }
+                        ?>
+
+                        <input name="empleado" id="empleado" type="hidden" value="<?php echo isset($id_empleado) ? $id_empleado : ''; ?>">
                         <button type="submit" class="btn btn-success" id="registrar_venta">Registrar</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnReload">Cerrar</button>
                     </div>

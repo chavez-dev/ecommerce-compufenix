@@ -27,7 +27,7 @@ $(document).ready(function(){
         "serverSide":true,
         "order":[],
         "ajax":{
-            url: '../../../backend/consultas/lista_clientes.php',
+            url: '../../../backend/consultas/listas/lista_clientes.php',
             type: 'POST',
         },
         "columnDefs":[{
@@ -65,7 +65,7 @@ $(document).ready(function(){
 
         if (nombre != '' && nro_documento != '') {
             $.ajax({
-                url: "../../../backend/consultas/CRUD_cliente.php",
+                url: "../../../backend/consultas/CRUDS/CRUD_cliente.php",
                 method: "POST",
                 data: new FormData(this), // Para la imagenes
                 contentType: false,
@@ -103,6 +103,11 @@ $(document).ready(function(){
         }
     });
 
+    // ! Genera el Reporte de Venta
+    $(document).on('click', '#reporte_cliente', function () {
+        window.open('../../../backend/consultas/reporte_cliente.php', '_blank');
+    });
+
     // ! EDITAR: TRAER DATOS DE LA BD
     $(document).on('click', '.editar', function(){
         modalHeader.classList.remove("modal-ver");
@@ -114,7 +119,7 @@ $(document).ready(function(){
         $('#id_usuario').val(id_usuario);
         console.log(id_usuario);
         $.ajax({
-            url: "../../../backend/consultas/CRUD_cliente.php",
+            url: "../../../backend/consultas/CRUDS/CRUD_cliente.php",
             method: "POST",
             data:{id_usuario:id_usuario, operacion:operacion}, // Para la imagenes
             dataType: "json",
@@ -157,7 +162,7 @@ $(document).ready(function(){
             }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "../../../backend/consultas/CRUD_cliente.php",
+                    url: "../../../backend/consultas/CRUDS/CRUD_cliente.php",
                     method: "POST",
                     data:{id_usuario:id_usuario,operacion: operacion},
                     success:function(data){
@@ -186,7 +191,7 @@ $(document).ready(function(){
         $('#id_usuario').val(id_usuario);
         console.log(id_usuario);
         $.ajax({
-            url: "../../../backend/consultas/CRUD_cliente.php",
+            url: "../../../backend/consultas/CRUDS/CRUD_cliente.php",
             method: "POST",
             data:{id_usuario:id_usuario, operacion:operacion}, // Para la imagenes
             dataType: "json",
