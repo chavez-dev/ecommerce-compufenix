@@ -722,4 +722,27 @@ BEGIN
     
 END$$
 
+-- fecha -- detalle - precio lista de compra
+DROP VIEW IF EXISTS lista_compras;
+CREATE VIEW lista_compras AS
+SELECT 
+    DATE_FORMAT(c.registro_compra, '%b %d, %Y, %H:%i') AS fecha_hora_registro, 
+    p.nombre_producto AS detalle_producto, 
+    c.pago_total AS precio_total
+FROM compra c
+INNER JOIN producto p ON c.id_producto = p.id_producto
+ORDER BY c.registro_compra DESC;
 
+SELECT * FROM lista_compras;
+
+-- lista de ventas
+CREATE VIEW lista_ventas AS
+SELECT 
+    DATE_FORMAT(v.fecha_venta, '%b %d, %Y, %H:%i') AS fecha_hora_venta, 
+    p.nombre_producto AS detalle_producto, 
+    v.pago_total AS precio_total
+FROM venta v
+INNER JOIN producto p ON v.id_producto = p.id_producto
+ORDER BY v.fecha_venta DESC;
+
+SELECT * FROM lista_ventas;

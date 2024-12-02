@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     new Chart(salesChart, {
         type: 'line',
         data: {
-            labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio"],
             datasets: [{
                 label: 'Orders',
                 data: [200, 300, 456, 400, 500, 600, 750],
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
     new Chart(trafficChart, {
         type: 'bar',
         data: {
-            labels: ["Linux", "Mac", "iOS", "Windows", "Android", "Other"],
+            labels: ["linux", "Mac", "iOS", "Windows", "Android", "Other"],
             datasets: [{
                 label: 'Users',
                 data: [5000, 8000, 6000, 10000, 7000, 3000],

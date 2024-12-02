@@ -72,62 +72,123 @@
         </div>
     </div>
 
-    <!-- Sección de gráficos -->
-    <div class="chart-section">
+   <!-- Sección de gráficos -->
+   <div class="chart-section">
         <div class="sales-chart">
-            <h2>chavez se la come doblada</h2>
+            <h2>Ventas</h2>
             <canvas id="salesChart" width="400" height="200"></canvas>
         </div>
         <div class="traffic-chart">
-            <h2>Traffic by Device</h2>
+            <h2>productos mas vendidos</h2>
             <canvas id="trafficChart" width="400" height="200"></canvas>
         </div>
     </div>
 
-    <!-- Tablas de ventas y compras recientes -->
-    <div class="tables-section">
-        <div class="recent-sales">
-            <h2>Ventas Recientes</h2>
-            <table>
+<br>
+<!-- Tablas de ventas y compras recientes -->
+
+
+<div class="tables-section">
+    <div class="recent-sales">
+        <h2>Ventas Recientes</h2>
+        <table id="ventas-table" class="display">
+            <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Detail</th>
-                    <th>Price</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Precio</th>
                 </tr>
-                <tr>
-                    <td>2018/10/02 10:57:46</td>
-                    <td>Producto A</td>
-                    <td>S/ 3500</td>
-                </tr>
-                <tr>
-                    <td>2018/10/10 10:57:46</td>
-                    <td>Producto C</td>
-                    <td>S/ 4000</td>
-                </tr>
-            </table>
-        </div>
-        <div class="recent-purchases">
-            <h2>Compras Recientes</h2>
-            <table>
-                <tr>
-                    <th>Date</th>
-                    <th>Detail</th>
-                    <th>Price</th>
-                </tr>
-                <tr>
-                    <td>2018/10/10 10:57:46</td>
-                    <td>Producto A</td>
-                    <td>S/ 200</td>
-                </tr>
-                <tr>
-                    <td>2018/10/23 10:57:46</td>
-                    <td>Producto D</td>
-                    <td>S/ 1500</td>
-                </tr>
-            </table>
-        </div>
+            </thead>
+            <tbody>
+                <?php
+                // Incluir la conexión
+                include("../../../backend/config/conexion.php");
+
+                try {
+                    // Configurar la conexión con atributos de error
+                    $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                    // Realizar la consulta
+                    $query = "SELECT fecha_hora_registro, cliente, pago_total FROM lista_ventas ORDER BY fecha_hora_registro DESC LIMIT 4";
+                    $stmt = $conexion->query($query);
+
+                    // Iterar sobre los resultados y generar las filas
+                    if ($stmt->rowCount() > 0) {
+                        while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($fila['fecha_hora_registro']) . "</td>";
+                            echo "<td>" . htmlspecialchars($fila['cliente']) . "</td>";
+                            echo "<td>$" . number_format($fila['pago_total'], 2) . "</td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        // Mostrar mensaje si no hay datos
+                        echo "<tr><td colspan='3'>No hay datos disponibles</td></tr>";
+                    }
+                } catch (PDOException $e) {
+                    // Manejo de errores
+                    echo "<tr><td colspan='3'>Error al obtener los datos: " . htmlspecialchars($e->getMessage()) . "</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
     </div>
+
+
+
+    <div class="recent-purchases">
+    <h2>Compras Recientes</h2>
+    <?php
+    include("../../../backend/config/conexion.php");
+
+    try {
+        // Configurar la conexión con atributos de error
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Realizar la consulta para las 3 últimas compras
+        $query = "SELECT fecha_hora_registro, detalle_producto, precio_total FROM lista_compras LIMIT 3";
+        $stmt = $conexion->query($query);
+
+        // Contar filas obtenidas
+        $totalFilas = $stmt->rowCount();
+
+    ?>
+    <table id="compras-table" class="display">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Detalle</th>
+                <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Iterar sobre los resultados y generar las filas
+            if ($totalFilas > 0) {
+                while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($fila['fecha_hora_registro']) . "</td>";
+                    echo "<td>" . htmlspecialchars($fila['detalle_producto']) . "</td>";
+                    echo "<td>$" . number_format($fila['precio_total'], 2) . "</td>";
+                    echo "</tr>";
+                }
+            } else {
+                // Mostrar mensaje si no hay datos
+                echo "<tr><td colspan='3'>No hay datos disponibles</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+    <?php
+    } catch (PDOException $e) {
+        // Manejo de errores
+        echo "<p>Error al obtener los datos: " . htmlspecialchars($e->getMessage()) . "</p>";
+    }
+    ?>
 </div>
+
+</div>
+
 </main>
 <!-- FIN DEL CONTENIDO PRINCIPAL -->
 
@@ -222,9 +283,15 @@ document.addEventListener("DOMContentLoaded", function() {
     })
     .catch(error => console.error("Error al obtener el total de ventas:", error));
 });
-
-
 </script>
+
+<!-- no mover desde aca-->
+
+
+
+
+
+
 
 <!-- Llamada AJAX para actualizar estadísticas -->
 
