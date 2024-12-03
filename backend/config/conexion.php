@@ -2,7 +2,7 @@
 
 // $servername = "localhost:3307";
 $username = "root";
-$password = "ppAANAZbDkcXyUwxckewSVVXTvfGpcYn";
+$password = "";
 //$namebd = "compufenix";
 
 // $conexion = mysqli_connect($servername, $username, $password, $namebd);
