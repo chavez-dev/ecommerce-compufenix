@@ -38,7 +38,7 @@
             <path d="M21 8h-18v14h18v-14zm-9 10h-6v-6h6v6zm2-6h6v6h-6v-6zm-5-8h4l1.2 4h-6.4l1.2-4zm8.56 1l-.56-1h-14l-.56 1h-3.44v2h22v-2h-3.44z"/>
         </svg>
     </div>
-    <h2>Total de ventas</h2>
+    <h2>Total de Productos</h2>
     <p id="total-productos"></p> <!-- Este valor se actualizará dinámicamente -->
     <span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="green" viewBox="0 0 24 24"><path d="M12 2l10 9h-7v11h-6v-11h-7z"/></svg> Up from yesterday</span>
 </div>
@@ -75,11 +75,11 @@
    <!-- Sección de gráficos -->
    <div class="chart-section">
         <div class="sales-chart">
-            <h2>Ventas</h2>
+            <h2><center>Ventas</h2>
             <canvas id="salesChart" width="400" height="200"></canvas>
         </div>
         <div class="traffic-chart">
-            <h2>productos mas vendidos</h2>
+            <h2><center></center>Productos mas vendidos</h2>
             <canvas id="trafficChart" width="400" height="200"></canvas>
         </div>
     </div>
@@ -109,7 +109,11 @@
                     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                     // Realizar la consulta
-                    $query = "SELECT fecha_hora_registro, cliente, pago_total FROM lista_ventas ORDER BY fecha_hora_registro DESC LIMIT 4";
+                    $query = "SELECT fecha_hora_registro, cliente, pago_total FROM lista_ventas ORDER BY fecha_hora_registro  LIMIT 4";
+
+
+
+
                     $stmt = $conexion->query($query);
 
                     // Iterar sobre los resultados y generar las filas
@@ -146,7 +150,10 @@
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Realizar la consulta para las 3 últimas compras
-        $query = "SELECT fecha_hora_registro, detalle_producto, precio_total FROM lista_compras LIMIT 3";
+        $query = "SELECT fecha_hora_registro, detalle_producto, precio_total 
+          FROM lista_compras 
+          ORDER BY fecha_hora_registro DESC 
+          LIMIT 4";
         $stmt = $conexion->query($query);
 
         // Contar filas obtenidas
